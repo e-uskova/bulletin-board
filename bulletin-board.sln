@@ -4,6 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bulletin-board", "bulletin-board.csproj", "{BD7C4369-3BCD-41C9-941A-7AB713926EEE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D2F3EBC-B835-4A4A-9C44-0A53D1CA410C} = {0D2F3EBC-B835-4A4A-9C44-0A53D1CA410C}
+		{5021BB5F-2B9C-43DD-9C7E-579813C15643} = {5021BB5F-2B9C-43DD-9C7E-579813C15643}
+		{7A77109D-EABF-49CA-8A7E-B001B0CA2D04} = {7A77109D-EABF-49CA-8A7E-B001B0CA2D04}
+		{9F9E8F3D-DF37-43F0-9190-8523D676207D} = {9F9E8F3D-DF37-43F0-9190-8523D676207D}
+		{C37645C0-4DA1-49B4-8801-0026E549AA68} = {C37645C0-4DA1-49B4-8801-0026E549AA68}
+		{C6D557F3-934E-4FE7-BFA6-E3CD59C1853A} = {C6D557F3-934E-4FE7-BFA6-E3CD59C1853A}
+		{D2C2DC69-ECA0-48B1-B257-B8A1787D3A41} = {D2C2DC69-ECA0-48B1-B257-B8A1787D3A41}
+		{F1B22B5E-9F35-4BD0-A3E8-B9C834E43145} = {F1B22B5E-9F35-4BD0-A3E8-B9C834E43145}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0B28DA06-5328-4E56-9A19-1ECC3A7C3B31}"
 EndProject
@@ -29,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Clients", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Application.AppServices", "src\BulletinBoard\Application\BulletinBoard.Application.AppServices\BulletinBoard.Application.AppServices.csproj", "{7A77109D-EABF-49CA-8A7E-B001B0CA2D04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletinBoard.Infrastructure", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure\BulletinBoard.Infrastructure.csproj", "{9F9E8F3D-DF37-43F0-9190-8523D676207D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Infrastructure", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure\BulletinBoard.Infrastructure.csproj", "{9F9E8F3D-DF37-43F0-9190-8523D676207D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletinBoard.Infrastructure.DataAccess", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure.DataAccess\BulletinBoard.Infrastructure.DataAccess.csproj", "{D2C2DC69-ECA0-48B1-B257-B8A1787D3A41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Infrastructure.DataAccess", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure.DataAccess\BulletinBoard.Infrastructure.DataAccess.csproj", "{D2C2DC69-ECA0-48B1-B257-B8A1787D3A41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletinBoard.Infrastructure.ComponentRegistrar", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure.ComponentRegistrar\BulletinBoard.Infrastructure.ComponentRegistrar.csproj", "{C6D557F3-934E-4FE7-BFA6-E3CD59C1853A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Infrastructure.ComponentRegistrar", "src\BulletinBoard\Infrastructure\BulletinBoard.Infrastructure.ComponentRegistrar\BulletinBoard.Infrastructure.ComponentRegistrar.csproj", "{C6D557F3-934E-4FE7-BFA6-E3CD59C1853A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletinBoard.Hosts.Api", "src\BulletinBoard\Hosts\BulletinBoard.Hosts.Api\BulletinBoard.Hosts.Api.csproj", "{5021BB5F-2B9C-43DD-9C7E-579813C15643}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletinBoard.Hosts.Api", "src\BulletinBoard\Hosts\BulletinBoard.Hosts.Api\BulletinBoard.Hosts.Api.csproj", "{5021BB5F-2B9C-43DD-9C7E-579813C15643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

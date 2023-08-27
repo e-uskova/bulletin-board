@@ -6,7 +6,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..</DockerfileContext>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>BulletinBoard.Hosts.Api.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="BulletinBoard.Hosts.Api.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="BulletinBoard.Hosts.Api.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
@@ -15,6 +27,12 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\BulletinBoard.Application.AppServices\BulletinBoard.Application.AppServices.csproj" />
+    <ProjectReference Include="..\..\Contracts\BulletinBoard.Contracts\BulletinBoard.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\BulletinBoard.Infrastructure.DataAccess\BulletinBoard.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

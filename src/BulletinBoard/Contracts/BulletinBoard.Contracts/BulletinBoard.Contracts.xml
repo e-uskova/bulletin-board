@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BulletinBoard.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:BulletinBoard.Contracts.Attachment.AttachmentDto">
+            <summary>
+            Прикрепленный файл.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Base.BaseDto">
+            <summary>
+            Базовый контракт.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Base.BaseDto.Id">
+            <summary>
+            Идентификатор сущности.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.PostDto">
+            <summary>
+            Объявление.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.Title">
+            <summary>
+            Заголовок.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.CategoryName">
+            <summary>
+            Название категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.TagNames">
+            <summary>
+            Названия тегов.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.Attachments">
+            <summary>
+            Изображения.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.PostDto.Price">
+            <summary>
+            Цена.
+            </summary>
+        </member>
+    </members>
+</doc>
