@@ -9,6 +9,26 @@
             Прикрепленный файл.
             </summary>
         </member>
+        <member name="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute">
+            <summary>
+            Валидирует количество тегов.
+            </summary>
+        </member>
+        <member name="M:BulletinBoard.Contracts.Attributes.TagsSizeAttribute.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Инициализация экземпляра <see cref="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute"/>
+            </summary>
+            <param name="maxSize">Максимальное количество тегов.</param>
+            <param name="minSize">Минимальное количество тегов.</param>
+        </member>
+        <member name="M:BulletinBoard.Contracts.Attributes.TagsSizeAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Валидация длины массива по максимальной и минимальной.
+            </summary>
+            <param name="value">Поле для валидации.</param>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Результат валидации.</returns>
+        </member>
         <member name="T:BulletinBoard.Contracts.Base.BaseDto">
             <summary>
             Базовый контракт.
@@ -19,37 +39,67 @@
             Идентификатор сущности.
             </summary>
         </member>
-        <member name="T:BulletinBoard.Contracts.PostDto">
+        <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">
             <summary>
-            Объявление.
+            
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.Title">
+        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Title">
             <summary>
             Заголовок.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.Description">
+        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Description">
             <summary>
             Описание.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.CategoryName">
+        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.CategoryId">
             <summary>
-            Название категории.
+            Идентификатор категории.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.TagNames">
+        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.TagNames">
             <summary>
             Названия тегов.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.Attachments">
+        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Price">
+            <summary>
+            Цена.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Post.PostDto">
+            <summary>
+            Объявление.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Title">
+            <summary>
+            Заголовок.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.CategoryName">
+            <summary>
+            Название категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.TagNames">
+            <summary>
+            Названия тегов.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Attachments">
             <summary>
             Изображения.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.PostDto.Price">
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Price">
             <summary>
             Цена.
             </summary>

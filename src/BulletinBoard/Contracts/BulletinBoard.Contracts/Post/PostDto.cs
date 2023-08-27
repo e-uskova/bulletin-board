@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Base;
 
-namespace BulletinBoard.Contracts
+namespace BulletinBoard.Contracts.Post
 {
     /// <summary>
     /// Объявление.

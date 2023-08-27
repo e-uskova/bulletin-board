@@ -1,6 +1,6 @@
 using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Post.Services;
-using BulletinBoard.Contracts;
+using BulletinBoard.Contracts.Post;
 using BulletinBoard.Hosts.Api.Controllers;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
 

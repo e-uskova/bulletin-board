@@ -25,7 +25,7 @@
             </remarks>
             <param name="id">Идентификатор объявления.</param>
             <param name="cancellation">Отмена операции.</param>
-            <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.PostDto"/></returns>
+            <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetAllAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
             <summary>
@@ -34,16 +34,17 @@
             <param name="cancellation">Отмена операции.</param>
             <param name="pageSize">Размер страницы.</param>
             <param name="pageIndex">Номер страницы.</param>
-            <returns>Коллекция объявлений <see cref="T:BulletinBoard.Contracts.PostDto"/></returns>
+            <returns>Коллекция объявлений <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreateAsync(BulletinBoard.Contracts.PostDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreateAsync(BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
             <summary>
             Создание объявления.
             </summary>
-            <param name="dto"></param>
+            <param name="dto">Модель для создания объявления.</param>
             <param name="cancellation">Отмена операции.</param>
+            <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.UpdateByIdAsync(BulletinBoard.Contracts.PostDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.UpdateByIdAsync(BulletinBoard.Contracts.Post.PostDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование объявления.
             </summary>

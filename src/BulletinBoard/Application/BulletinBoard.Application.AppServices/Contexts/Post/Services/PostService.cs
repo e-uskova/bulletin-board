@@ -1,5 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
-using BulletinBoard.Contracts;
+using BulletinBoard.Contracts.Post;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
 {
@@ -23,6 +23,20 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         public Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _postRepository.GetByIdAsync(id, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<Guid> CreateAsync(CreatePostDto model, CancellationToken cancellationToken)
+        {
+            var post = new Domain.Posts.Post()
+            {
+                Description = model.Description,
+                Price = model.Price,
+                Title = model.Title,
+                CategoryId = model.CategoryId,
+                TagNames = model.TagNames
+            };
+            return _postRepository.CreateAsync(post, cancellationToken);
         }
     }
 }

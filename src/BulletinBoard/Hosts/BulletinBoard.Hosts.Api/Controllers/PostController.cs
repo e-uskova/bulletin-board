@@ -1,5 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
-using BulletinBoard.Contracts;
+using BulletinBoard.Contracts.Post;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -59,12 +59,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Создание объявления.
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="dto">Модель для создания объявления.</param>
         /// <param name="cancellation">Отмена операции.</param>
+        /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(PostDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync(CreatePostDto dto, CancellationToken cancellationToken)
         {
-            return Created(string.Empty, null);
+            var modelId = await _postService.CreateAsync(dto, cancellationToken);
+            return Created(nameof(CreateAsync), modelId);
         }
 
         /// <summary>
