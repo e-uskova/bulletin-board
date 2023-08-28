@@ -30,11 +30,11 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         {
             var post = new Domain.Posts.Post()
             {
-                Description = model.Description,
-                Price = model.Price,
                 Title = model.Title,
+                Description = model.Description,
                 CategoryId = model.CategoryId,
-                TagNames = model.TagNames
+                TagNames = model.TagNames,
+                Price = model.Price,
             };
             return _postRepository.CreateAsync(post, cancellationToken);
         }

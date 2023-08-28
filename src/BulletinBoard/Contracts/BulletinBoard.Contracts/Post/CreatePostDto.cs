@@ -4,7 +4,7 @@ using BulletinBoard.Contracts.Attributes;
 namespace BulletinBoard.Contracts.Post
 {
     /// <summary>
-    /// 
+    /// Добавление объявления.
     /// </summary>
     public class CreatePostDto 
     {

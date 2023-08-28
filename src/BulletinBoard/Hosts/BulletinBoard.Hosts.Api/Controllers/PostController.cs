@@ -31,7 +31,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// curl -XGET http://host:port/post/get-by-id
         /// </remarks>
         /// <param name="id">Идентификатор объявления.</param>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Модель объявления <see cref="PostDto"/></returns>
         [HttpGet("get-by-id")]
         [ProducesResponseType(typeof(PostDto), (int)HttpStatusCode.OK)]
@@ -46,7 +46,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Получение объявлений постранично.
         /// </summary>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         /// <param name="pageSize">Размер страницы.</param>
         /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция объявлений <see cref="PostDto"/></returns>
@@ -60,7 +60,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// Создание объявления.
         /// </summary>
         /// <param name="dto">Модель для создания объявления.</param>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreatePostDto dto, CancellationToken cancellationToken)
@@ -72,8 +72,8 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Редактирование объявления.
         /// </summary>
-        /// <param name="dto"></param>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="dto">Модель для редактирования объявления.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         [HttpPut]
         public async Task<IActionResult> UpdateByIdAsync(PostDto dto, CancellationToken cancellationToken)
         {
@@ -84,7 +84,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// Удаление объявления по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор объявления.</param>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {

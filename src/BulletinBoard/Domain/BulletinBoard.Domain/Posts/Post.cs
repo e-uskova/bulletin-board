@@ -1,5 +1,5 @@
 ﻿using BulletinBoard.Domain.Base;
-using System;
+using BulletinBoard.Domain.Attachments;
 
 namespace BulletinBoard.Domain.Posts
 {
@@ -32,5 +32,15 @@ namespace BulletinBoard.Domain.Posts
         /// Цена.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Вложения.
+        /// </summary>
+        public IReadOnlyCollection<Attachment> Attachments { get; set; }
+
+        /// <summary>
+        /// Адрес сделки.
+        /// </summary>
+        public string Address { get; set; }
     }
 }

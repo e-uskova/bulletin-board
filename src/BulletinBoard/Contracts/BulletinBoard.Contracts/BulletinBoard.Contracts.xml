@@ -6,7 +6,32 @@
     <members>
         <member name="T:BulletinBoard.Contracts.Attachment.AttachmentDto">
             <summary>
-            Прикрепленный файл.
+            Вложение.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Title">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Data">
+            <summary>
+            Содержимое в двоичном виде.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Attachment.CreateAttachmentDto">
+            <summary>
+            Добавление вложения.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.Title">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.DataLink">
+            <summary>
+            Ссылка на вложение.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute">
@@ -41,7 +66,7 @@
         </member>
         <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">
             <summary>
-            
+            Добавление объявления.
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Title">

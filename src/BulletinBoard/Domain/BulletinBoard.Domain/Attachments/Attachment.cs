@@ -1,11 +1,11 @@
-﻿using BulletinBoard.Contracts.Base;
+﻿using BulletinBoard.Domain.Base;
 
-namespace BulletinBoard.Contracts.Attachment
+namespace BulletinBoard.Domain.Attachments
 {
     /// <summary>
-    /// Вложение.
+    /// Сущность вложения.
     /// </summary>
-    public class AttachmentDto : BaseDto
+    public class Attachment : BaseEntity
     {
         /// <summary>
         /// Название.

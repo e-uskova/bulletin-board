@@ -11,7 +11,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// Получение объявления по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор объявления.</param>
-        /// <param name="cancellation">Отмена операции.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Модель объявления <see cref="PostDto"/></returns>
         Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
