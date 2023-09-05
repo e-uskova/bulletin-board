@@ -14,6 +14,16 @@
 
 > docker stop my_appl
 
+---
+
+Запуск через docker-compose:
+
+> docker-compose up -d
+
+Остановка:
+
+> docker-compose down
+
 <!--## Описание
 
 Электронная доска объявлений предоставляет возможность:
