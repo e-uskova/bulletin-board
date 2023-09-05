@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "bulletin-board": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
