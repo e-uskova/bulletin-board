@@ -26,12 +26,6 @@ namespace BulletinBoard.Contracts.Post
         public Guid CategoryId { get; set; }
 
         /// <summary>
-        /// Названия тегов.
-        /// </summary>
-        [TagsSizeAttribute(3, ErrorMessage = "Неверное количество тегов")]
-        public string[] TagNames { get; set; }
-
-        /// <summary>
         /// Цена.
         /// </summary>
         [Range(0, 10_000, ErrorMessage = "Поле должно быть больше {1} и меньше {2}")]

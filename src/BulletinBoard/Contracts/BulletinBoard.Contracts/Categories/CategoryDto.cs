@@ -1,11 +1,9 @@
-﻿using BulletinBoard.Domain.Base;
-
-namespace BulletinBoard.Domain.Categories
+﻿namespace BulletinBoard.Contracts.Categories
 {
     /// <summary>
-    /// Сущность категории.
+    /// Категория объявлений.
     /// </summary>
-    public class Category : BaseEntity
+    public class CategoryDto
     {
         /// <summary>
         /// Название.
@@ -15,7 +13,7 @@ namespace BulletinBoard.Domain.Categories
         /// <summary>
         /// Идентификаторы дочерних категорий.
         /// </summary>
-        public ICollection<Guid> SubCategoriesId { get; set;}
+        public ICollection<Guid> SubCategoriesId { get; set; }
 
         /// <summary>
         /// Идентификатор родительской категории.

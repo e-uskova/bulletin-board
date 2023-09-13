@@ -1,12 +1,20 @@
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
+using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Post.Services;
+using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
+using BulletinBoard.Contracts.Users;
 using BulletinBoard.Hosts.Api.Controllers;
-using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -30,7 +38,13 @@ namespace BulletinBoard.Hosts.Api
                     typeof(PostController),
                     typeof(AttachmentDto),
                     typeof(CreateAttachmentDto),
-                    typeof(AttachmentController)
+                    typeof(AttachmentController),
+                    typeof(UserDto),
+                    typeof(CreateUserDto),
+                    typeof(UserController),
+                    typeof(CategoryDto),
+                    typeof(CreateCategoryDto),
+                    typeof(CategoryController)
                 };
 
                 foreach (var marker in includeDocsTypesMarkers)
@@ -47,6 +61,10 @@ namespace BulletinBoard.Hosts.Api
             builder.Services.AddTransient<IPostRepository, PostRepository>();
             builder.Services.AddTransient<IAttachmentService, AttachmentService>();
             builder.Services.AddTransient<IAttachmentRepository, AttachmentRepository>();
+            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<ICategoryService, CategoryService>();
+            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             var app = builder.Build();
 

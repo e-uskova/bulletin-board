@@ -25,11 +25,6 @@ namespace BulletinBoard.Domain.Posts
         public Category CategoryId { get; set; }
 
         /// <summary>
-        /// Названия тегов.
-        /// </summary>
-        public string[] TagNames { get; set; }
-
-        /// <summary>
         /// Цена.
         /// </summary>
         public decimal Price { get; set; }

@@ -17,7 +17,6 @@ namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories
                 Title = "Test title",
                 Description = "Opisanie",
                 CategoryName = "testtt",
-                TagNames = new []{ "first", "last" },
                 Price = 500.43M
             }, cancellationToken);
         }
