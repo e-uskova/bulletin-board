@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BulletinBoard.Domain.Base
 {
     /// <summary>
-    /// Базовый контракт.
+    /// Базовая сущность.
     /// </summary>
     public class BaseEntity
     {

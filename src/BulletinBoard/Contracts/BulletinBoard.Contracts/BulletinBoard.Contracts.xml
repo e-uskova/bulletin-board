@@ -6,7 +6,32 @@
     <members>
         <member name="T:BulletinBoard.Contracts.Attachment.AttachmentDto">
             <summary>
-            Прикрепленный файл.
+            Вложение.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Title">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Data">
+            <summary>
+            Содержимое в двоичном виде.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Attachment.CreateAttachmentDto">
+            <summary>
+            Добавление вложения.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.Title">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.DataLink">
+            <summary>
+            Ссылка на вложение.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute">
@@ -39,9 +64,44 @@
             Идентификатор сущности.
             </summary>
         </member>
+        <member name="T:BulletinBoard.Contracts.Categories.CategoryDto">
+            <summary>
+            Категория объявлений.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.CategoryName">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.SubCategoriesId">
+            <summary>
+            Идентификаторы дочерних категорий.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.ParentCategoryId">
+            <summary>
+            Идентификатор родительской категории.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Categories.CreateCategoryDto">
+            <summary>
+            Добавление категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.CategoryName">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.ParentCategoryName">
+            <summary>
+            Имя родительской категории.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">
             <summary>
-            
+            Добавление объявления.
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Title">
@@ -57,11 +117,6 @@
         <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.CategoryId">
             <summary>
             Идентификатор категории.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.TagNames">
-            <summary>
-            Названия тегов.
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Price">
@@ -89,11 +144,6 @@
             Название категории.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Post.PostDto.TagNames">
-            <summary>
-            Названия тегов.
-            </summary>
-        </member>
         <member name="P:BulletinBoard.Contracts.Post.PostDto.Attachments">
             <summary>
             Изображения.
@@ -102,6 +152,51 @@
         <member name="P:BulletinBoard.Contracts.Post.PostDto.Price">
             <summary>
             Цена.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Users.CreateUserDto">
+            <summary>
+            Создание пользователя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.UserName">
+            <summary>
+            Имя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.UserEmail">
+            <summary>
+            Электронная почта.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Users.UserDto">
+            <summary>
+            Пользователь
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.UserName">
+            <summary>
+            Имя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.UserEmail">
+            <summary>
+            Электронная почта.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.Posts">
+            <summary>
+            Объявления.
             </summary>
         </member>
     </members>

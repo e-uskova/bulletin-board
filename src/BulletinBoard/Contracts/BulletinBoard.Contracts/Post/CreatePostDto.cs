@@ -4,7 +4,7 @@ using BulletinBoard.Contracts.Attributes;
 namespace BulletinBoard.Contracts.Post
 {
     /// <summary>
-    /// 
+    /// Добавление объявления.
     /// </summary>
     public class CreatePostDto 
     {
@@ -24,12 +24,6 @@ namespace BulletinBoard.Contracts.Post
         /// Идентификатор категории.
         /// </summary>
         public Guid CategoryId { get; set; }
-
-        /// <summary>
-        /// Названия тегов.
-        /// </summary>
-        [TagsSizeAttribute(3, ErrorMessage = "Неверное количество тегов")]
-        public string[] TagNames { get; set; }
 
         /// <summary>
         /// Цена.

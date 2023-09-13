@@ -1,5 +1,6 @@
 ﻿using BulletinBoard.Domain.Base;
-using System;
+using BulletinBoard.Domain.Attachments;
+using BulletinBoard.Domain.Categories;
 
 namespace BulletinBoard.Domain.Posts
 {
@@ -19,18 +20,18 @@ namespace BulletinBoard.Domain.Posts
         public string Description { get; set; }
 
         /// <summary>
-        /// Идентификатор категории.
+        /// Категория.
         /// </summary>
-        public Guid CategoryId { get; set; }
-
-        /// <summary>
-        /// Названия тегов.
-        /// </summary>
-        public string[] TagNames { get; set; }
+        public Category CategoryId { get; set; }
 
         /// <summary>
         /// Цена.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Вложения.
+        /// </summary>
+        public IReadOnlyCollection<Attachment> Attachments { get; set; }
     }
 }

@@ -1,55 +1,55 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
-using BulletinBoard.Contracts.Post;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Services;
+using BulletinBoard.Contracts.Categories;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
     /// <summary>
-    /// Контроллер для работы с объявлением.
+    /// Контроллер для работы с категориями.
     /// </summary>
     [ApiController]
-    [Route("/post")]
-    public class PostController : ControllerBase
+    [Route("/category")]
+    public class CategoryController : ControllerBase
     {
-        private readonly IPostService _postService;
+        private readonly ICategoryService _categoryService;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="PostController"/>
         /// </summary>
-        /// <param name="postService">Сервис работы с объявлениями.</param>
-        public PostController(IPostService postService)
+        /// <param name="categoryService">Сервис работы с категориями.</param>
+        public CategoryController(ICategoryService categoryService)
         {
-            _postService = postService;
+            _categoryService = categoryService;
         }
 
         /// <summary>
-        /// Получение объявления по идентификатору.
+        /// Получение категории по идентификатору.
         /// </summary>
         /// <remarks>
         /// Пример:
         /// curl -XGET http://host:port/post/get-by-id
         /// </remarks>
-        /// <param name="id">Идентификатор объявления.</param>
+        /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель объявления <see cref="PostDto"/></returns>
+        /// <returns>Модель категории <see cref="CategoryDto"/></returns>
         [HttpGet("get-by-id")]
-        [ProducesResponseType(typeof(PostDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var result = await _postService.GetByIdAsync(id, cancellationToken);
+            var result = await _categoryService.GetByIdAsync(id, cancellationToken);
             return Ok(result);
         }
 
         /// <summary>
-        /// Получение объявлений постранично.
+        /// Получение категорий постранично.
         /// </summary>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <param name="pageSize">Размер страницы.</param>
         /// <param name="pageIndex">Номер страницы.</param>
-        /// <returns>Коллекция объявлений <see cref="PostDto"/></returns>
+        /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
         [HttpGet("get-all-paged")]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
         {
@@ -57,33 +57,33 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Создание объявления.
+        /// Создание категории.
         /// </summary>
-        /// <param name="dto">Модель для создания объявления.</param>
+        /// <param name="dto">Модель для создания категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreatePostDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync(CreateCategoryDto dto, CancellationToken cancellationToken)
         {
-            var modelId = await _postService.CreateAsync(dto, cancellationToken);
+            var modelId = await _categoryService.CreateAsync(dto, cancellationToken);
             return Created(nameof(CreateAsync), modelId);
         }
 
         /// <summary>
-        /// Редактирование объявления.
+        /// Редактирование категории.
         /// </summary>
-        /// <param name="dto">Модель для редактирования объявления.</param>
+        /// <param name="dto">Модель для редактирования категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(PostDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateByIdAsync(CategoryDto dto, CancellationToken cancellationToken)
         {
             return Ok();
         }
 
         /// <summary>
-        /// Удаление объявления по идентификатору.
+        /// Удаление категории по идентификатору.
         /// </summary>
-        /// <param name="id">Идентификатор объявления.</param>
+        /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)

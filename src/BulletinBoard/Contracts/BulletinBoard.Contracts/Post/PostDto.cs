@@ -24,11 +24,6 @@ namespace BulletinBoard.Contracts.Post
         public string CategoryName { get; set; }
 
         /// <summary>
-        /// Названия тегов.
-        /// </summary>
-        public string[] TagNames { get; set; }
-
-        /// <summary>
         /// Изображения.
         /// </summary>
         public IReadOnlyCollection<AttachmentDto> Attachments { get; set; }
