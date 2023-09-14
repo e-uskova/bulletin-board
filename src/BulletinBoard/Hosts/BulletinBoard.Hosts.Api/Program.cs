@@ -1,3 +1,4 @@
+using BulletinBoard.Application.AppServices.Abstractions.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
 using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
@@ -12,6 +13,7 @@ using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Hosts.Api.Controllers;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Contexts.Base;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories;
@@ -56,6 +58,9 @@ namespace BulletinBoard.Hosts.Api
                         s.IncludeXmlComments(xmlPath);
                 }
             });
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
+            builder.Services.AddScoped(typeof(IRepository<Domain.Users.User>), (x) => new InMemoryRepository<Domain.Users.User>(/*null*/));
 
             builder.Services.AddTransient<IPostService, PostService>();
             builder.Services.AddTransient<IPostRepository, PostRepository>();

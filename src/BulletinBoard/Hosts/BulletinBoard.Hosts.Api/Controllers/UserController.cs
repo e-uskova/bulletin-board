@@ -23,72 +23,53 @@ namespace BulletinBoard.Hosts.Api.Controllers
             _userService = userService;
         }
 
-        /// <summary>
-        /// Получение пользователя по идентификатору.
-        /// </summary>
-        /// <remarks>
-        /// Пример:
-        /// curl -XGET http://host:port/post/get-by-id
-        /// </remarks>
-        /// <param name="id">Идентификатор пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель пользователя <see cref="UserDto"/></returns>
-        [HttpGet("get-by-id")]
-        [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        [HttpGet]
+        public async Task<ActionResult<Domain.Users.User>> GetUsersAsync()
         {
-            var result = await _userService.GetByIdAsync(id, cancellationToken);
-            return Ok(result);
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
         }
 
-        /// <summary>
-        /// Получение пользователей постранично.
-        /// </summary>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <param name="pageSize">Размер страницы.</param>
-        /// <param name="pageIndex">Номер страницы.</param>
-        /// <returns>Коллекция пользователей <see cref="UserDto"/></returns>
-        [HttpGet("get-all-paged")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<Domain.Users.User>> GetUserAsync(Guid id)
         {
-            return Ok();
+            var users = await _userService.GetByIdAsync(id);
+            return Ok(users);
         }
 
-        /// <summary>
-        /// Создание пользователя.
-        /// </summary>
-        /// <param name="dto">Модель для создания пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateUserDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<Domain.Users.User>> CreateUserAsync(Domain.Users.User user)
         {
-            var modelId = await _userService.CreateAsync(dto, cancellationToken);
-            return Created(nameof(CreateAsync), modelId);
+            await _userService.AddAsync(user);
+            return CreatedAtAction(nameof(GetUserAsync), new { id = user.Id }, user.Id);
         }
 
-        /// <summary>
-        /// Редактирование пользователя.
-        /// </summary>
-        /// <param name="dto">Модель для редактирования пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(UserDto dto, CancellationToken cancellationToken)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<Domain.Users.User>> EditUserAsync(Guid id, Domain.Users.User user)
         {
-            return Ok();
+            var existedUser = await _userService.GetByIdAsync(id);
+            if (existedUser == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.UpdateAsync(user);
+
+            return NoContent();
         }
 
-        /// <summary>
-        /// Удаление пользователя по идентификатору.
-        /// </summary>
-        /// <param name="id">Идентификатор пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        [HttpPost("{id:guid}")]
+        public async Task<ActionResult<Domain.Users.User>> DeleteUserAsync(Guid id)
         {
-            return Ok();
+            var existedUser = await _userService.GetByIdAsync(id);
+            if (existedUser == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.DeleteAsync(existedUser);
+
+            return NoContent();
         }
     }
 }
