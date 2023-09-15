@@ -10,11 +10,14 @@ using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
+using BulletinBoard.Hosts.Api.Authentication;
 using BulletinBoard.Hosts.Api.Controllers;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -57,6 +60,35 @@ namespace BulletinBoard.Hosts.Api
                 }
             });
 
+            #region Authentication
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    options.SlidingExpiration = true;
+                    options.Events.OnSignedIn = context =>
+                    {
+                        return Task.CompletedTask;
+                    };
+                })
+                .AddScheme<AuthSchemeOptions, AuthSchemeHandler>("CustomScheme", options => { });
+
+            #endregion
+
+            #region Authorization
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CustomPolicy", policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("User", "User");
+                });
+            });
+
+            #endregion
+
             builder.Services.AddTransient<IPostService, PostService>();
             builder.Services.AddTransient<IPostRepository, PostRepository>();
             builder.Services.AddTransient<IAttachmentService, AttachmentService>();
@@ -77,6 +109,7 @@ namespace BulletinBoard.Hosts.Api
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

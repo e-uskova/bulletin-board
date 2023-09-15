@@ -1,6 +1,8 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Net;
 
 namespace BulletinBoard.Hosts.Api.Controllers
@@ -9,7 +11,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
     /// Контроллер для работы с пользователями.
     /// </summary>
     [ApiController]
-    [Route("/user")]
+    [Route("[controller]")]
     public class UserController : ControllerBase 
     {
         private readonly IUserService _userService;
@@ -22,6 +24,35 @@ namespace BulletinBoard.Hosts.Api.Controllers
         {
             _userService = userService;
         }
+
+        [AllowAnonymous]
+        [HttpPost("public")]
+        public JsonResult Public()
+        {
+            return new JsonResult("Success!");
+        }
+
+        [Authorize]
+        //[Authorize(Roles = "Role")]
+        //[Authorize(Policy = "Policy")]
+        [HttpPost("RequiringAuthorization")]
+        public JsonResult RequiringAuthorization() 
+        {
+            return new JsonResult("Success!");
+        }
+
+        [HttpPost("GetUserInfo")]
+        public UserDto GetUserInfo()
+        {
+            return new UserDto
+            {
+                Scheme = HttpContext.User.Identity.AuthenticationType,
+                IsAuthenticated = HttpContext.User.Identity.IsAuthenticated,
+                Claims = HttpContext.User.Claims.Select(claim => (object)new { claim.Type, claim.Value }).ToList(),
+            };
+        }
+
+
 
         /// <summary>
         /// Получение пользователя по идентификатору.
