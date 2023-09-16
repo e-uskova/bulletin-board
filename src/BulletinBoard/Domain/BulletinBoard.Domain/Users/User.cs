@@ -26,6 +26,6 @@ namespace BulletinBoard.Domain.Users
         /// <summary>
         /// Объявления.
         /// </summary>
-        public IReadOnlyCollection<Post> Posts { get; set; }
+        //public IReadOnlyCollection<Post> Posts { get; set; }
     }
 }

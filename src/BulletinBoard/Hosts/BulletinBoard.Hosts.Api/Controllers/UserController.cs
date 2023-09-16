@@ -58,7 +58,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return NoContent();
         }
 
-        [HttpPost("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Domain.Users.User>> DeleteUserAsync(Guid id)
         {
             var existedUser = await _userService.GetByIdAsync(id);

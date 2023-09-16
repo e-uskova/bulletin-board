@@ -17,6 +17,8 @@ using BulletinBoard.Infrastructure.DataAccess.Contexts.Base;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
 using BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -59,8 +61,17 @@ namespace BulletinBoard.Hosts.Api
                 }
             });
 
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
-            builder.Services.AddScoped(typeof(IRepository<Domain.Users.User>), (x) => new InMemoryRepository<Domain.Users.User>(/*null*/));
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            builder.Services.AddScoped<IDbInitializer, EFDbInitializer>();
+
+            builder.Services.AddDbContext<DataContext>(x =>
+            {
+                x.UseNpgsql(builder.Configuration.GetConnectionString("EFCoreDb"));
+                //x.UseLazyLoadingProxies();
+            });
+
+            //builder.Services.AddScoped(typeof(IRepository<Domain.Users.User>), (x) => new InMemoryRepository<Domain.Users.User>(FakeDataFactory.Data));
+
 
             builder.Services.AddTransient<IPostService, PostService>();
             builder.Services.AddTransient<IPostRepository, PostRepository>();
