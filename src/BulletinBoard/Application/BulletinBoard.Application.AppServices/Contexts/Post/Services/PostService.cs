@@ -28,11 +28,11 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// <inheritdoc/>
         public Task<Guid> CreateAsync(CreatePostDto model, CancellationToken cancellationToken)
         {
-            var post = new Domain.Posts.Post()
+            var post = new Domain.Post()
             {
                 Title = model.Title,
                 Description = model.Description,
-                CategoryId = new Domain.Categories.Category(),
+                CategoryId = new Domain.Category(),
                 Price = model.Price,
             };
             return _postRepository.CreateAsync(post, cancellationToken);

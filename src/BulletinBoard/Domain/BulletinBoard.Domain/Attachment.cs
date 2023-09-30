@@ -1,6 +1,4 @@
-﻿using BulletinBoard.Domain.Base;
-
-namespace BulletinBoard.Domain.Attachments
+﻿namespace BulletinBoard.Domain
 {
     /// <summary>
     /// Сущность вложения.

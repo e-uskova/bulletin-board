@@ -1,7 +1,4 @@
-﻿using BulletinBoard.Domain.Base;
-using BulletinBoard.Domain.Users;
-
-namespace BulletinBoard.Domain.PostComments
+﻿namespace BulletinBoard.Domain
 {
     /// <summary>
     /// Сущность комментария к объявлению.

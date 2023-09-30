@@ -21,6 +21,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// <param name="model">Модель объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Posts.Post model, CancellationToken cancellationToken);
+        Task<Guid> CreateAsync(Domain.Post model, CancellationToken cancellationToken);
     }
 }

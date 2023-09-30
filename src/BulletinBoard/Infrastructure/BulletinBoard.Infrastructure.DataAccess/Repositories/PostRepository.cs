@@ -1,12 +1,13 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Contracts.Post;
+using BulletinBoard.Domain;
 
-namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories
+namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class PostRepository : IPostRepository
     {
-        private readonly List<Domain.Posts.Post> _posts = new();
+        private readonly List<Post> _posts = new();
 
         /// <inheritdoc/>
         public Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -22,7 +23,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories
         }
 
         /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.Posts.Post model, CancellationToken cancellationToken)
+        public Task<Guid> CreateAsync(Post model, CancellationToken cancellationToken)
         {
             model.Id = Guid.NewGuid();  
             _posts.Add(model);

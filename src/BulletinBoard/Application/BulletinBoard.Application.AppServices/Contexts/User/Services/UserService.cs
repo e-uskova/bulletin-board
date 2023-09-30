@@ -26,7 +26,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
         /// <inheritdoc/>
         public Task<Guid> CreateAsync(CreateUserDto model, CancellationToken cancellationToken)
         {
-            var user = new Domain.Users.User()
+            var user = new Domain.User()
             {
                 UserName = model.UserName,
                 UserEmail = model.UserEmail,

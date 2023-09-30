@@ -1,7 +1,4 @@
-﻿using BulletinBoard.Domain.Base;
-using BulletinBoard.Domain.Posts;
-
-namespace BulletinBoard.Domain.Users
+﻿namespace BulletinBoard.Domain
 {
     /// <summary>
     /// Сущность пользователя.

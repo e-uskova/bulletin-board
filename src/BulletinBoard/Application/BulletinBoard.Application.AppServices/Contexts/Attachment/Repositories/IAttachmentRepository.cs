@@ -21,6 +21,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories
         /// <param name="model">Модель вложения.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Attachments.Attachment model, CancellationToken cancellationToken);
+        Task<Guid> CreateAsync(Domain.Attachment model, CancellationToken cancellationToken);
     }
 }

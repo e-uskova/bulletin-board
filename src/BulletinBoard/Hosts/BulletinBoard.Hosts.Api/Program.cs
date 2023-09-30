@@ -11,10 +11,7 @@ using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Hosts.Api.Controllers;
-using BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositories;
-using BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories;
-using BulletinBoard.Infrastructure.DataAccess.Contexts.Post.Repositories;
-using BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories;
+using BulletinBoard.Infrastructure.DataAccess.Repositories;
 
 namespace BulletinBoard.Hosts.Api
 {

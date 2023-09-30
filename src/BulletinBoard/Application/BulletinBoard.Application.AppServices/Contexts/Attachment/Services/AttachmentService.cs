@@ -26,7 +26,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         /// <inheritdoc/>
         public Task<Guid> CreateAsync(CreateAttachmentDto model, CancellationToken cancellationToken)
         {
-            var attachment = new Domain.Attachments.Attachment()
+            var attachment = new Domain.Attachment()
             {
                 Title = model.Title,
             };

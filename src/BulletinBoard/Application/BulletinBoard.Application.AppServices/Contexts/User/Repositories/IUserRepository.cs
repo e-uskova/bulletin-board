@@ -21,6 +21,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Repositories
         /// <param name="model">Модель пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Users.User model, CancellationToken cancellationToken);
+        Task<Guid> CreateAsync(Domain.User model, CancellationToken cancellationToken);
     }
 }

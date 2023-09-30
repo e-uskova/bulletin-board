@@ -1,15 +1,15 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Users;
 
-namespace BulletinBoard.Infrastructure.DataAccess.Contexts.User.Repositories
+namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class UserRepository : IUserRepository
     {
-        private readonly List<Domain.Users.User> _users = new();
+        private readonly List<Domain.User> _users = new();
 
         /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.Users.User model, CancellationToken cancellationToken)
+        public Task<Guid> CreateAsync(Domain.User model, CancellationToken cancellationToken)
         {
             model.Id = Guid.NewGuid();
             _users.Add(model);

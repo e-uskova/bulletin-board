@@ -21,6 +21,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Repositories
         /// <param name="model">Модель категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Categories.Category model, CancellationToken cancellationToken);
+        Task<Guid> CreateAsync(Domain.Category model, CancellationToken cancellationToken);
     }
 }

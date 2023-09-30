@@ -1,8 +1,4 @@
-﻿using BulletinBoard.Domain.Base;
-using BulletinBoard.Domain.Attachments;
-using BulletinBoard.Domain.Categories;
-
-namespace BulletinBoard.Domain.Posts
+﻿namespace BulletinBoard.Domain
 {
     /// <summary>
     /// Сущность объявления.

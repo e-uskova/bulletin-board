@@ -1,13 +1,14 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Domain;
 using System.Reflection;
 
-namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositories
+namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class AttachmentRepository : IAttachmentRepository
     {
-        private readonly List<Domain.Attachments.Attachment> _attachments = new();
+        private readonly List<Attachment> _attachments = new();
 
         /// <inheritdoc/>
         public Task<AttachmentDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -21,7 +22,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Attachment.Repositori
         }
 
         /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.Attachments.Attachment model, CancellationToken cancellationToken)
+        public Task<Guid> CreateAsync(Attachment model, CancellationToken cancellationToken)
         {
             model.Id = Guid.NewGuid();
             _attachments.Add(model);

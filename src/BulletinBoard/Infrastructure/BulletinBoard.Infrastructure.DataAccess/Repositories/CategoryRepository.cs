@@ -1,12 +1,12 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Contracts.Categories;
 
-namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories
+namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly List<Domain.Categories.Category> _categories = new();
+        private readonly List<Domain.Category> _categories = new();
 
         /// <inheritdoc/>
         public Task<CategoryDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -19,7 +19,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Contexts.Category.Repositories
         }
 
         /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.Categories.Category model, CancellationToken cancellationToken)
+        public Task<Guid> CreateAsync(Domain.Category model, CancellationToken cancellationToken)
         {
             model.Id = Guid.NewGuid();
             _categories.Add(model);

@@ -26,7 +26,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
         /// <inheritdoc/>
         public Task<Guid> CreateAsync(CreateCategoryDto model, CancellationToken cancellationToken)
         {
-            var category = new Domain.Categories.Category()
+            var category = new Domain.Category()
             {
                 CategoryName = model.CategoryName,
                 //ParentCategoryId = Guid.NewGuid(), //model.ParentCategoryName, // GetIdByName()

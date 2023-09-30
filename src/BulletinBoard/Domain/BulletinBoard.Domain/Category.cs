@@ -1,6 +1,4 @@
-﻿using BulletinBoard.Domain.Base;
-
-namespace BulletinBoard.Domain.Categories
+﻿namespace BulletinBoard.Domain
 {
     /// <summary>
     /// Сущность категории.
