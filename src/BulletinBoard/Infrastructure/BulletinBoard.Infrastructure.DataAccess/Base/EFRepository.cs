@@ -46,10 +46,11 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
             return entities;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<Guid> AddAsync(T entity)
         {
             await _dataContext.Set<T>().AddAsync(entity);
             await _dataContext.SaveChangesAsync();
+            return entity.Id;
         }
 
         public async Task UpdateAsync(T entity)

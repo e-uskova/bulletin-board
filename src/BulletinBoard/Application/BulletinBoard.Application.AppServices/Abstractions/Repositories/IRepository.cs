@@ -48,7 +48,7 @@ namespace BulletinBoard.Application.AppServices.Abstractions.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task AddAsync(T entity);
+        Task<Guid> AddAsync(T entity);
 
         /// <summary>
         /// Изменение элемента.

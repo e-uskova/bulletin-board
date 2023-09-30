@@ -59,10 +59,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="dto">Модель для создания пользователя.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUserAsync(User user)
+        public async Task<ActionResult<User>> CreateUserAsync(CreateUserDto user)
         {
-            await _userService.AddAsync(user);
-            return CreatedAtAction(nameof(GetUserAsync), new { id = user.Id }, user.Id);
+            var id = await _userService.AddAsync(user);
+            return CreatedAtAction(nameof(GetUserAsync), new { id = id }, id);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="dto">Модель для редактирования пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<User>> EditUserAsync(Guid id, User user)
+        public async Task<ActionResult<User>> EditUserAsync(Guid id, UserDto user)
         {
             var existedUser = await _userService.GetByIdAsync(id);
             if (existedUser == null)

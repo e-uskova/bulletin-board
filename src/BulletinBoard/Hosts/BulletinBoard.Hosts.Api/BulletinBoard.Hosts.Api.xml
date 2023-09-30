@@ -85,14 +85,14 @@
             <param name="id">Идентификатор пользователя.</param>
             <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Domain.User)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Contracts.Users.CreateUserDto)">
             <summary>
             Создание пользователя.
             </summary>
             <param name="dto">Модель для создания пользователя.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Domain.User)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.UserDto)">
             <summary>
             Редактирование пользователя.
             </summary>

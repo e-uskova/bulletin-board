@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using BulletinBoard.Contracts.Users;
+using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.User.Services
 {
@@ -10,56 +11,56 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
         /// <summary>
         /// Получение всех элементов. 
         /// </summary>
-        /// <returns>Коллекция элементов типа <see cref="Domain.Users.User"/></returns>
-        Task<IEnumerable<Domain.User>> GetAllAsync();
+        /// <returns>Коллекция элементов типа <see cref="UserDto"/></returns>
+        Task<IEnumerable<UserDto>> GetAllAsync();
 
         /// <summary>
         /// Получение элемента по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор элемента.</param>
-        /// <returns>Элемент типа <see cref="Domain.Users.User"/></returns>
-        Task<Domain.User> GetByIdAsync(Guid id);
+        /// <returns>Элемент типа <see cref="UserDto"/></returns>
+        Task<UserDto> GetByIdAsync(Guid id);
 
         /// <summary>
-        /// Получение элементов по списку идентоификаторов.
+        /// Получение элементов по списку идентификаторов.
         /// </summary>
         /// <param name="ids">Список идентификаторов.</param>
-        /// <returns>Коллекция элементов типа <see cref="T"/></returns>
-        Task<IEnumerable<Domain.User>> GetRangeByIDAsync(List<Guid> ids);
+        /// <returns>Коллекция элементов типа <see cref="UserDto"/></returns>
+        Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids);
 
         /// <summary>
         /// Получение первого элемента из удовлетворяющих условию.
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
-        /// <returns>Элемент типа <see cref="T"/></returns>
-        Task<Domain.User> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate);
+        /// <returns>Элемент типа <see cref="UserDto"/></returns>
+        Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate);
 
         /// <summary>
         /// Получение всех элементов, удовлетворяющих условию.
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
-        /// <returns>Коллекция элементов типа <see cref="T"/></returns>
-        Task<IEnumerable<Domain.User>> GetWhere(Expression<Func<Domain.User, bool>> predicate);
+        /// <returns>Коллекция элементов типа <see cref="UserDto"/></returns>
+        Task<IEnumerable<UserDto>> GetWhere(Expression<Func<Domain.User, bool>> predicate);
 
         /// <summary>
         /// Добавление элемента.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task AddAsync(Domain.User entity);
+        Task<Guid> AddAsync(CreateUserDto entity);
 
         /// <summary>
         /// Изменение элемента.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task UpdateAsync(Domain.User entity);
+        Task UpdateAsync(UserDto entity);
 
         /// <summary>
         /// Удаление элемента.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task DeleteAsync(Domain.User entity);
+        Task DeleteAsync(UserDto entity);
     }
 }
