@@ -18,7 +18,7 @@
         /// <summary>
         /// Категория.
         /// </summary>
-        public Category CategoryId { get; set; }
+        public Category Category { get; set; }
 
         /// <summary>
         /// Цена.

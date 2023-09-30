@@ -32,7 +32,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             {
                 Title = model.Title,
                 Description = model.Description,
-                CategoryId = new Domain.Category(),
+                /*Category = model.CategoryId,*/ // TODO GetCategoryById
                 Price = model.Price,
             };
             return _postRepository.CreateAsync(post, cancellationToken);

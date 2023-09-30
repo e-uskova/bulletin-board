@@ -5,15 +5,24 @@
     /// </summary>
     public class User : BaseEntity
     {
+        /*/// <summary>
+        /// Флаг, что пользователь аутентифицирован.
+        /// </summary>
+        public bool IsAuthenticated { get; set; }
+
+        public string Scheme { get; set; }
+
+        public List<object> Claims { get; set; } = new List<object>();*/
+
         /// <summary>
         /// Имя.
         /// </summary>
-        public string UserName { get; set; }
+        public string Name { get; set; }
         
         /// <summary>
         /// Электронная почта.
         /// </summary>
-        public string UserEmail { get; set; }
+        public string Email { get; set; }
         
         /// <summary>
         /// Пароль.

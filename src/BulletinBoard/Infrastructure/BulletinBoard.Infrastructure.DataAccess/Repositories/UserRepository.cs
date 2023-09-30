@@ -1,12 +1,14 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Users;
+using BulletinBoard.Infrastructure.DataAccess.Data;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class UserRepository : IUserRepository
     {
-        private readonly List<Domain.User> _users = new();
+        //private readonly List<Domain.User> _users = new();
+        private readonly List<Domain.User> _users = FakeDataFactory.Users;
 
         /// <inheritdoc/>
         public Task<Guid> CreateAsync(Domain.User model, CancellationToken cancellationToken)
@@ -19,12 +21,17 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         /// <inheritdoc/>
         public Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
+            var user = _users.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                user = _users[0];
+            }
             return Task.Run(() => new UserDto
             {
-                Id = Guid.NewGuid(),
-                UserName = "John Doe",
-                UserEmail = "jd@example.com",
-                Password = "1234"
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
             }, cancellationToken);
         }
     }

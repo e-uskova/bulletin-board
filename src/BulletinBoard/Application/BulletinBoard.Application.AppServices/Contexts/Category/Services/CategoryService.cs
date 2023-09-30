@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+﻿/*using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Contracts.Categories;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
@@ -37,3 +37,4 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
 
     }
 }
+*/

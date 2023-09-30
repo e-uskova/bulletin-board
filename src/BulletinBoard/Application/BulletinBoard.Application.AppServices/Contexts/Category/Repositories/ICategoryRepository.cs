@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Contracts.Categories;
+﻿/*using BulletinBoard.Contracts.Categories;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Category.Repositories
 {
@@ -24,3 +24,4 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Repositories
         Task<Guid> CreateAsync(Domain.Category model, CancellationToken cancellationToken);
     }
 }
+*/

@@ -4,108 +4,6 @@
         <name>BulletinBoard.Hosts.Api</name>
     </assembly>
     <members>
-        <member name="T:BulletinBoard.Hosts.Api.Controllers.AttachmentController">
-            <summary>
-            Контроллер для работы с вложениями.
-            </summary>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.#ctor(BulletinBoard.Application.AppServices.Contexts.Attachment.Services.IAttachmentService)">
-            <summary>
-            Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.AttachmentController"/>.
-            </summary>
-            <param name="attachmentService">Сервис работы с вложениями.</param>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.GetById(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Получение вложения по идентификатору.
-            </summary>
-            <param name="id">Идентификатор вложения.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Модель вложения <see cref="T:BulletinBoard.Contracts.Attachment.AttachmentDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.GetAllAsync(System.Threading.CancellationToken)">
-            <summary>
-            Получение всех вложений.
-            </summary>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Коллекция объявлений <see cref="T:BulletinBoard.Contracts.Attachment.AttachmentDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.CreateAsync(BulletinBoard.Contracts.Attachment.CreateAttachmentDto,System.Threading.CancellationToken)">
-            <summary>
-            Создание вложения.
-            </summary>
-            <param name="dto">Модель для создания вложения.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Идентификатор созданной сущности./></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.UpdateByIdAsync(BulletinBoard.Contracts.Attachment.AttachmentDto,System.Threading.CancellationToken)">
-            <summary>
-            Редактирование вложения.
-            </summary>
-            <param name="dto">Модель для редактирования вложения.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Удаление вложения по идентификатору.
-            </summary>
-            <param name="id">Идентификатор вложения.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-        </member>
-        <member name="T:BulletinBoard.Hosts.Api.Controllers.CategoryController">
-            <summary>
-            Контроллер для работы с категориями.
-            </summary>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.#ctor(BulletinBoard.Application.AppServices.Contexts.Category.Services.ICategoryService)">
-            <summary>
-            Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.PostController"/>
-            </summary>
-            <param name="categoryService">Сервис работы с категориями.</param>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Получение категории по идентификатору.
-            </summary>
-            <remarks>
-            Пример:
-            curl -XGET http://host:port/post/get-by-id
-            </remarks>
-            <param name="id">Идентификатор категории.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Модель категории <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetAllAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
-            <summary>
-            Получение категорий постранично.
-            </summary>
-            <param name="cancellationToken">Отмена операции.</param>
-            <param name="pageSize">Размер страницы.</param>
-            <param name="pageIndex">Номер страницы.</param>
-            <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
-            <summary>
-            Создание категории.
-            </summary>
-            <param name="dto">Модель для создания категории.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Идентификатор созданной сущности./></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.UpdateByIdAsync(BulletinBoard.Contracts.Categories.CategoryDto,System.Threading.CancellationToken)">
-            <summary>
-            Редактирование категории.
-            </summary>
-            <param name="dto">Модель для редактирования категории.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Удаление категории по идентификатору.
-            </summary>
-            <param name="id">Идентификатор категории.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-        </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.PostController">
             <summary>
             Контроллер для работы с объявлением.
@@ -171,19 +69,7 @@
             </summary>
             <param name="postService">Сервис работы с пользователями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Получение пользователя по идентификатору.
-            </summary>
-            <remarks>
-            Пример:
-            curl -XGET http://host:port/post/get-by-id
-            </remarks>
-            <param name="id">Идентификатор пользователя.</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetAllAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUsersAsync">
             <summary>
             Получение пользователей постранично.
             </summary>
@@ -192,22 +78,28 @@
             <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция пользователей <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateAsync(BulletinBoard.Contracts.Users.CreateUserDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUserAsync(System.Guid)">
+            <summary>
+            Получение пользователя по идентификатору.
+            </summary>
+            <param name="id">Идентификатор пользователя.</param>
+            <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Domain.User)">
             <summary>
             Создание пользователя.
             </summary>
             <param name="dto">Модель для создания пользователя.</param>
-            <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.UpdateByIdAsync(BulletinBoard.Contracts.Users.UserDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Domain.User)">
             <summary>
             Редактирование пользователя.
             </summary>
             <param name="dto">Модель для редактирования пользователя.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.DeleteUserAsync(System.Guid)">
             <summary>
             Удаление пользователя по идентификатору.
             </summary>

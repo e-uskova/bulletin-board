@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Category.Services;
+﻿/*using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Contracts.Categories;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -92,3 +92,4 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
     }
 }
+*/

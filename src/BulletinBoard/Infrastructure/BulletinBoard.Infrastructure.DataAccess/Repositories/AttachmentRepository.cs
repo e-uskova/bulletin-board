@@ -16,7 +16,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => new AttachmentDto
             {
                 Id = Guid.NewGuid(),
-                Title = "Test title",
+                Name = "Test title",
                 /*Data = */
             }, cancellationToken);        
         }

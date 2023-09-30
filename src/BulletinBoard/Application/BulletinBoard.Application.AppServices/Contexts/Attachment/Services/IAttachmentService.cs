@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Contracts.Attachment;
+﻿/*using BulletinBoard.Contracts.Attachment;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
 {
@@ -24,3 +24,4 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         Task<Guid> CreateAsync(CreateAttachmentDto model, CancellationToken cancellationToken);
     }
 }
+*/

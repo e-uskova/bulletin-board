@@ -8,12 +8,12 @@
         /// <summary>
         /// Имя.
         /// </summary>
-        public string UserName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Электронная почта.
         /// </summary>
-        public string UserEmail { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// Пароль.

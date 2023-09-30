@@ -8,12 +8,12 @@
         /// <summary>
         /// Название.
         /// </summary>
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Идентификаторы дочерних категорий.
         /// </summary>
-        public ICollection<Guid> SubCategoriesId { get; set;}
+        //public IReadOnlyCollection<Guid> SubсategoriesId { get; set;}
 
         /// <summary>
         /// Идентификатор родительской категории.

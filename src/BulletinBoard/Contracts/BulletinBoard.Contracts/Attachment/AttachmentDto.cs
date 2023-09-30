@@ -10,11 +10,11 @@ namespace BulletinBoard.Contracts.Attachment
         /// <summary>
         /// Название.
         /// </summary>
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Содержимое в двоичном виде.
+        /// Путь к файлу.
         /// </summary>
-        public byte[] Data { get; set; }
+        public string Path { get; set; }
     }
 }

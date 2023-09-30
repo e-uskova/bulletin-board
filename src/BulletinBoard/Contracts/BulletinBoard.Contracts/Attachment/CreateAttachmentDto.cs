@@ -1,4 +1,4 @@
-﻿namespace BulletinBoard.Contracts.Attachment
+﻿/*namespace BulletinBoard.Contracts.Attachment
 {
     /// <summary>
     /// Добавление вложения.
@@ -15,4 +15,4 @@
         /// </summary>
         public string DataLink { get; set; }
     }
-}
+}*/

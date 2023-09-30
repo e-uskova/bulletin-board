@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
+﻿/*using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Contracts.Attachment;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
@@ -34,3 +34,4 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
     }
 }
+*/

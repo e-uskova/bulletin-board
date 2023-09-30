@@ -1,5 +1,6 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Users;
+using BulletinBoard.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -24,49 +25,44 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Получение пользователя по идентификатору.
-        /// </summary>
-        /// <remarks>
-        /// Пример:
-        /// curl -XGET http://host:port/post/get-by-id
-        /// </remarks>
-        /// <param name="id">Идентификатор пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель пользователя <see cref="UserDto"/></returns>
-        [HttpGet("get-by-id")]
-        [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var result = await _userService.GetByIdAsync(id, cancellationToken);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// Получение пользователей постранично.
         /// </summary>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <param name="pageSize">Размер страницы.</param>
         /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция пользователей <see cref="UserDto"/></returns>
-        [HttpGet("get-all-paged")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
+        [HttpGet]
+        public async Task<ActionResult<User>> GetUsersAsync()
         {
-            return Ok();
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
+        }
+
+        /// <summary>
+        /// Получение пользователя по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <returns>Модель пользователя <see cref="UserDto"/></returns>
+        [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<User>> GetUserAsync(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return Ok(user);
         }
 
         /// <summary>
         /// Создание пользователя.
         /// </summary>
         /// <param name="dto">Модель для создания пользователя.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateUserDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<User>> CreateUserAsync(User user)
         {
-            var modelId = await _userService.CreateAsync(dto, cancellationToken);
-            return Created(nameof(CreateAsync), modelId);
+            await _userService.AddAsync(user);
+            return CreatedAtAction(nameof(GetUserAsync), new { id = user.Id }, user.Id);
         }
 
         /// <summary>
@@ -74,10 +70,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="dto">Модель для редактирования пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(UserDto dto, CancellationToken cancellationToken)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<User>> EditUserAsync(Guid id, User user)
         {
-            return Ok();
+            var existedUser = await _userService.GetByIdAsync(id);
+            if (existedUser == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.UpdateAsync(user);
+
+            return NoContent();
         }
 
         /// <summary>
@@ -85,10 +89,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<User>> DeleteUserAsync(Guid id)
         {
-            return Ok();
+            var existedUser = await _userService.GetByIdAsync(id);
+            if (existedUser == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.DeleteAsync(existedUser);
+
+            return NoContent();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Contracts.Categories;
+﻿/*using BulletinBoard.Contracts.Categories;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
 {
@@ -24,3 +24,4 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
         Task<Guid> CreateAsync(CreateCategoryDto model, CancellationToken cancellationToken);
     }
 }
+*/

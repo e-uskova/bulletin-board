@@ -9,29 +9,14 @@
             Вложение.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Title">
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Name">
             <summary>
             Название.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Data">
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Path">
             <summary>
-            Содержимое в двоичном виде.
-            </summary>
-        </member>
-        <member name="T:BulletinBoard.Contracts.Attachment.CreateAttachmentDto">
-            <summary>
-            Добавление вложения.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.Title">
-            <summary>
-            Название.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Attachment.CreateAttachmentDto.DataLink">
-            <summary>
-            Ссылка на вложение.
+            Путь к файлу.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute">
@@ -62,41 +47,6 @@
         <member name="P:BulletinBoard.Contracts.Base.BaseDto.Id">
             <summary>
             Идентификатор сущности.
-            </summary>
-        </member>
-        <member name="T:BulletinBoard.Contracts.Categories.CategoryDto">
-            <summary>
-            Категория объявлений.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.CategoryName">
-            <summary>
-            Название.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.SubCategoriesId">
-            <summary>
-            Идентификаторы дочерних категорий.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.ParentCategoryId">
-            <summary>
-            Идентификатор родительской категории.
-            </summary>
-        </member>
-        <member name="T:BulletinBoard.Contracts.Categories.CreateCategoryDto">
-            <summary>
-            Добавление категории.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.CategoryName">
-            <summary>
-            Название.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.ParentCategoryName">
-            <summary>
-            Имя родительской категории.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">
@@ -159,12 +109,12 @@
             Создание пользователя.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.UserName">
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Name">
             <summary>
             Имя.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.UserEmail">
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Email">
             <summary>
             Электронная почта.
             </summary>
@@ -179,12 +129,12 @@
             Пользователь
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.UserName">
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.Name">
             <summary>
             Имя.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.UserEmail">
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.Email">
             <summary>
             Электронная почта.
             </summary>
