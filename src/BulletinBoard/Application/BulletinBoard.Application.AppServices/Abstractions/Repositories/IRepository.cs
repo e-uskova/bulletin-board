@@ -20,7 +20,7 @@ namespace BulletinBoard.Application.AppServices.Abstractions.Repositories
         /// </summary>
         /// <param name="id">Идентификатор элемента.</param>
         /// <returns>Элемент типа <see cref="T"/></returns>
-        Task<T> GetByIdAsync(Guid id);
+        Task<T?> GetByIdAsync(Guid id);
 
         /// <summary>
         /// Получение элементов по списку идентоификаторов.

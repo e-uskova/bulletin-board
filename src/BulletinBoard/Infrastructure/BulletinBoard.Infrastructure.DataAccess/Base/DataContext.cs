@@ -16,8 +16,8 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                        .HasKey(u => u.Id);
+            modelBuilder.Entity<User>();
+                        //.HasKey(u => u.Id);
                         
 
             base.OnModelCreating(modelBuilder);

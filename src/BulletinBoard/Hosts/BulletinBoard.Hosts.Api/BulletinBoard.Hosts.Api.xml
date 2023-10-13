@@ -89,14 +89,14 @@
             <summary>
             Создание пользователя.
             </summary>
-            <param name="dto">Модель для создания пользователя.</param>
+            <param name="user">Модель для создания пользователя.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.UserDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.CreateUserDto)">
             <summary>
             Редактирование пользователя.
             </summary>
-            <param name="dto">Модель для редактирования пользователя.</param>
+            <param name="user">Модель для редактирования пользователя.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.DeleteUserAsync(System.Guid)">

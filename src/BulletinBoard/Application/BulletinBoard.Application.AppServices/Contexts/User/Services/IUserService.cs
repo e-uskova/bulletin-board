@@ -19,7 +19,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
         /// </summary>
         /// <param name="id">Идентификатор элемента.</param>
         /// <returns>Элемент типа <see cref="UserDto"/></returns>
-        Task<UserDto> GetByIdAsync(Guid id);
+        Task<UserDto?/*Domain.User*/> GetByIdAsync(Guid id);
 
         /// <summary>
         /// Получение элементов по списку идентификаторов.
@@ -54,13 +54,13 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task UpdateAsync(UserDto entity);
+        Task<bool> UpdateAsync(Guid id, CreateUserDto entity);
 
         /// <summary>
         /// Удаление элемента.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="id">Идентификатор пользователя.</param>
         /// <returns></returns>
-        Task DeleteAsync(UserDto entity);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

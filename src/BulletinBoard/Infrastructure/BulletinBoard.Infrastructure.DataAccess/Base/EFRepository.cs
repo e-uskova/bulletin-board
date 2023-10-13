@@ -21,7 +21,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
             return entities;
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             var entity = await _dataContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
             return entity;
@@ -55,11 +55,13 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
 
         public async Task UpdateAsync(T entity)
         {
+            _dataContext.Update(entity);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
+            _dataContext.Entry(entity).State = EntityState.Detached;
             _dataContext.Set<T>().Remove(entity);
             await _dataContext.SaveChangesAsync();
         }

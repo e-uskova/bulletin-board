@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using System.Linq.Expressions;
@@ -27,39 +28,25 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             IEnumerable<UserDto> result = new List<UserDto>();
             foreach (var user in users)
             {
-                result = result.Append(new UserDto()
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Password = user.Password,
-                });
+                result = result.Append(Mapper.ToUserDto(user));
             }
             return Task.Run(() => result);
         }
 
-        public Task<UserDto> GetByIdAsync(Guid id)
+        public Task<UserDto?> GetByIdAsync(Guid id)
         {
             var user = _userRepository.GetByIdAsync(id).Result;
-            return Task.Run(() => new UserDto
+            if (user == null)
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-            });
+                return Task.FromResult<UserDto?>(null);
+            }
+            return Task.Run(() => Mapper.ToUserDto(user));
         }
 
         public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate)
         {
             var user = _userRepository.GetFirstWhere(predicate).Result;
-            return Task.Run(() => new UserDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-            });
+            return Task.Run(() => Mapper.ToUserDto(user));
         }
 
         public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids)
@@ -68,13 +55,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             IEnumerable<UserDto> result = new List<UserDto>();
             foreach (var user in users)
             {
-                result = result.Append(new UserDto
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Password = user.Password,
-                });
+                result = result.Append(Mapper.ToUserDto(user));
             }
             return Task.Run(() => result);
         }
@@ -85,13 +66,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             IEnumerable<UserDto> result = new List<UserDto>();
             foreach (var user in users)
             {
-                result = result.Append(new UserDto
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Password = user.Password,
-                });
+                result = result.Append(Mapper.ToUserDto(user));
             }
             return Task.Run(() => result);
         }
@@ -103,33 +78,48 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
                 Id = Guid.NewGuid(),
                 Name = user.Name,
                 Email = user.Email,
-                Password = user.Password,
+                Password = user.Password
             };
             return _userRepository.AddAsync(entity);
         }
 
-        public Task UpdateAsync(UserDto user)
+        public Task<bool> UpdateAsync(Guid id, CreateUserDto user)
         {
-            Domain.User entity = new()
+            //Domain.User entity = _userRepository.GetByIdAsync(user.Id).Result;
+
+            var existedUser = _userRepository.GetByIdAsync(id);
+            if (existedUser == null)
             {
-                Id = user.Id,
+                return Task.Run(() => true);
+            }
+
+            Domain.User entity = existedUser.Result;
+            entity.Name = user.Name;
+            entity.Email = user.Email;  
+            entity.Password = user.Password;
+
+
+            /*Domain.User entity = new()
+            {
+                //Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-            };
-            return _userRepository.UpdateAsync(entity);
+            };*/
+            _userRepository.UpdateAsync(entity);
+            return Task.Run(() => false);
         }
 
-        public Task DeleteAsync(UserDto user)
+        public Task<bool> DeleteAsync(Guid id)
         {
-            Domain.User entity = new()
+            var existedUser = _userRepository.GetByIdAsync(id);
+            if (existedUser == null)
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-            };
-            return _userRepository.DeleteAsync(entity);
+                return Task.Run(() => true);
+            }
+
+            _userRepository.DeleteAsync(existedUser.Result);
+            return Task.Run(() => false);
         }
     }
 }

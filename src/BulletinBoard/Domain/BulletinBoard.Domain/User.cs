@@ -33,5 +33,10 @@
         /// Объявления.
         /// </summary>
         public IReadOnlyCollection<Post> Posts { get; set; }
+
+        /// <summary>
+        /// Номер телефона.
+        /// </summary>
+        public int Telephone { get; set; }
     }
 }
