@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
+using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
@@ -38,9 +39,19 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Description = post.Description,
                 CategoryName = post.Category.Name,
                 Price = post.Price,
+                // TODO Attachments
             };
         }
 
-
+        public static CategoryDto ToCategoryDto(Category category)
+        {
+            return new CategoryDto()
+            {
+                Id = category.Id,
+                Name = category.Name,
+                ParentCategoryId = category.ParentCategory?.Id,
+                SubcategoriesId = category.Subcategories?.Select(c => c.Id).ToList(),
+            };
+        }
     }
 }

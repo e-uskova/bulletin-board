@@ -13,11 +13,11 @@
         /// <summary>
         /// Идентификаторы дочерних категорий.
         /// </summary>
-        //public IReadOnlyCollection<Guid> SubсategoriesId { get; set;}
+        public IReadOnlyCollection<Category> Subcategories { get; set;}
 
         /// <summary>
         /// Идентификатор родительской категории.
         /// </summary>
-        public Guid? ParentCategoryId { get; set; }
+        public Category? ParentCategory { get; set; }
     }
 }

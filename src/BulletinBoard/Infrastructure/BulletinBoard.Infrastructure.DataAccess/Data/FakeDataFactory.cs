@@ -97,7 +97,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Data
                     new Category()
                     {
                         Name = "Hobby",
-                        ParentCategoryId = null,
+                        ParentCategory = null,
                         Id = Guid.Parse("bcd5dbf2-89be-402e-9534-25cdf9fa3719"),
                     },
                 };

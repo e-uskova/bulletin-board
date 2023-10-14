@@ -1,5 +1,6 @@
-﻿/*using BulletinBoard.Application.AppServices.Contexts.Category.Services;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Contracts.Categories;
+using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -33,14 +34,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Модель категории <see cref="CategoryDto"/></returns>
-        [HttpGet("get-by-id")]
         [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id)
         {
-            var result = await _categoryService.GetByIdAsync(id, cancellationToken);
-            return Ok(result);
+            var category = await _categoryService.GetByIdAsync(id);
+            if (category == null)
+            {
+                return BadRequest();
+            }
+            return Ok(category);
         }
 
         /// <summary>
@@ -50,10 +55,11 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="pageSize">Размер страницы.</param>
         /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
-        [HttpGet("get-all-paged")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
+        [HttpGet]
+        public async Task<ActionResult<CategoryDto>> GetCategoriessAsync()
         {
-            return Ok();
+            var categories = await _categoryService.GetAllAsync();
+            return Ok(categories);
         }
 
         /// <summary>
@@ -63,10 +69,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateCategoryDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> CreateUserAsync(CreateCategoryDto category)
         {
-            var modelId = await _categoryService.CreateAsync(dto, cancellationToken);
-            return Created(nameof(CreateAsync), modelId);
+            var id = await _categoryService.AddAsync(category);
+            return CreatedAtAction(nameof(GetCategoryAsync), new { id }, id);
         }
 
         /// <summary>
@@ -74,10 +80,11 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="dto">Модель для редактирования категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(CategoryDto dto, CancellationToken cancellationToken)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<CategoryDto>> EditUserAsync(Guid id, CreateCategoryDto category)
         {
-            return Ok();
+            await _categoryService.UpdateAsync(id, category);
+            return NoContent();
         }
 
         /// <summary>
@@ -85,11 +92,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<CategoryDto>> DeleteUserAsync(Guid id)
         {
-            return Ok();
+            var result = await _categoryService.DeleteAsync(id);
+            if (result)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }
-*/

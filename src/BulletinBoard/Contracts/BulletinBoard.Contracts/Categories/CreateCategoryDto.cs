@@ -1,4 +1,4 @@
-﻿/*namespace BulletinBoard.Contracts.Categories
+﻿namespace BulletinBoard.Contracts.Categories
 {
     /// <summary>
     /// Добавление категории.
@@ -11,9 +11,8 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Имя родительской категории.
+        /// Идентификатор родительской категории.
         /// </summary>
-        public String ParentCategoryName { get; set; }
+        public Guid? ParentCategoryId { get; set; }
     }
 }
-*/

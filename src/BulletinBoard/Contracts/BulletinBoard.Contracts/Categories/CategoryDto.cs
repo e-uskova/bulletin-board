@@ -1,9 +1,11 @@
-﻿/*namespace BulletinBoard.Contracts.Categories
+﻿using BulletinBoard.Contracts.Base;
+
+namespace BulletinBoard.Contracts.Categories
 {
     /// <summary>
     /// Категория объявлений.
     /// </summary>
-    public class CategoryDto
+    public class CategoryDto : BaseDto
     {
         /// <summary>
         /// Название.
@@ -21,4 +23,3 @@
         public Guid? ParentCategoryId { get; set; }
     }
 }
-*/
