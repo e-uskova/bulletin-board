@@ -24,7 +24,8 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                Posts = posts
+                Posts = posts,
+                Telephone = user.Telephone,
             };
         }
 

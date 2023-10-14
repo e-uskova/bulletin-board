@@ -27,5 +27,10 @@ namespace BulletinBoard.Contracts.Users
         /// Объявления.
         /// </summary>
         public IReadOnlyCollection<PostDto> Posts { get; set; }
+
+        /// <summary>
+        /// Номер телефона.
+        /// </summary>
+        public string Telephone { get; set; }
     }
 }

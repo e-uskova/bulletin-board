@@ -1,4 +1,8 @@
-﻿namespace BulletinBoard.Contracts.Users
+﻿using BulletinBoard.Contracts.Attributes;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace BulletinBoard.Contracts.Users
 {
     /// <summary>
     /// Создание пользователя.
@@ -8,16 +12,35 @@
         /// <summary>
         /// Имя.
         /// </summary>
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string Name { get; set; }
 
         /// <summary>
         /// Электронная почта.
         /// </summary>
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
         /// Пароль.
         /// </summary>
+        [Required]
+        [PasswordAttribute(20, 8, true, true, true, true)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Подтверждение пароля.
+        /// </summary>
+        [Required]
+        [Compare("Password")]
+        public string PasswordConfirm { get; set; }
+
+        /// <summary>
+        /// Номер телефона.
+        /// </summary>
+        [Phone]
+        public string Telephone { get; set; }
     }
 }

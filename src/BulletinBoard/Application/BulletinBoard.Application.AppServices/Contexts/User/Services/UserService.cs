@@ -78,7 +78,8 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
                 Id = Guid.NewGuid(),
                 Name = user.Name,
                 Email = user.Email,
-                Password = user.Password
+                Password = user.Password,
+                Telephone = user.Telephone,
             };
             return _userRepository.AddAsync(entity);
         }
@@ -97,6 +98,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             entity.Name = user.Name;
             entity.Email = user.Email;  
             entity.Password = user.Password;
+            entity.Telephone = user.Telephone;
 
 
             /*Domain.User entity = new()

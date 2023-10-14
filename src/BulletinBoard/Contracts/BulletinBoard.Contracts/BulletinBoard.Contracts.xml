@@ -19,19 +19,23 @@
             Путь к файлу.
             </summary>
         </member>
-        <member name="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute">
+        <member name="T:BulletinBoard.Contracts.Attributes.PasswordAttribute">
             <summary>
-            Валидирует количество тегов.
+            Валидирует пароль.
             </summary>
         </member>
-        <member name="M:BulletinBoard.Contracts.Attributes.TagsSizeAttribute.#ctor(System.Int32,System.Int32)">
+        <member name="M:BulletinBoard.Contracts.Attributes.PasswordAttribute.#ctor(System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Инициализация экземпляра <see cref="T:BulletinBoard.Contracts.Attributes.TagsSizeAttribute"/>
+            Инициализация экземпляра <see cref="T:BulletinBoard.Contracts.Attributes.PasswordAttribute"/>
             </summary>
-            <param name="maxSize">Максимальное количество тегов.</param>
-            <param name="minSize">Минимальное количество тегов.</param>
+            <param name="maxLength">Максимальная длина.</param>
+            <param name="minLength">Минимальная длина.</param>
+            <param name="requireDigit">Должны быть цифры.</param>
+            <param name="requireDownCaseLetter">Должны быть буквы.</param>
+            <param name="requireUpperCaseLetter">Должны быть буквы верхнего и нижнего регистра.</param>
+            <param name="requireSpecialSymbols">Должны быть спецсимволы.</param>
         </member>
-        <member name="M:BulletinBoard.Contracts.Attributes.TagsSizeAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+        <member name="M:BulletinBoard.Contracts.Attributes.PasswordAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
             <summary>
             Валидация длины массива по максимальной и минимальной.
             </summary>
@@ -124,6 +128,16 @@
             Пароль.
             </summary>
         </member>
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.PasswordConfirm">
+            <summary>
+            Подтверждение пароля.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Telephone">
+            <summary>
+            Номер телефона.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Users.UserDto">
             <summary>
             Пользователь
@@ -147,6 +161,11 @@
         <member name="P:BulletinBoard.Contracts.Users.UserDto.Posts">
             <summary>
             Объявления.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Users.UserDto.Telephone">
+            <summary>
+            Номер телефона.
             </summary>
         </member>
     </members>
