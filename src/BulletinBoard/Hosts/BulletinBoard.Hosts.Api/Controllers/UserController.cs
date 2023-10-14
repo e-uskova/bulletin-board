@@ -78,14 +78,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, CreateUserDto user)
         {
-            /*var existedUser = await _userService.GetByIdAsync(id);
-            if (existedUser == null)
-            {
-                return NotFound();
-            }*/
-
             await _userService.UpdateAsync(id, user);
-
             return NoContent();
         }
 

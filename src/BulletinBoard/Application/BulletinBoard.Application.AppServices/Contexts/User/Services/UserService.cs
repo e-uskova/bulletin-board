@@ -86,8 +86,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
 
         public Task<bool> UpdateAsync(Guid id, CreateUserDto user)
         {
-            //Domain.User entity = _userRepository.GetByIdAsync(user.Id).Result;
-
             var existedUser = _userRepository.GetByIdAsync(id);
             if (existedUser == null)
             {
@@ -100,14 +98,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             entity.Password = user.Password;
             entity.Telephone = user.Telephone;
 
-
-            /*Domain.User entity = new()
-            {
-                //Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-            };*/
             _userRepository.UpdateAsync(entity);
             return Task.Run(() => false);
         }

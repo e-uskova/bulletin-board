@@ -1,5 +1,6 @@
 using BulletinBoard.Application.AppServices.Abstractions.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 //using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
 //using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 //using BulletinBoard.Application.AppServices.Contexts.Category.Services;
@@ -60,12 +61,12 @@ namespace BulletinBoard.Hosts.Api
             });
 
             builder.Services.AddTransient<IPostService, PostService>();
-            builder.Services.AddTransient<IPostRepository, PostRepository>();
+            //builder.Services.AddTransient<IPostRepository, PostRepository>();
             //builder.Services.AddTransient<IAttachmentService, AttachmentService>();
-            builder.Services.AddTransient<IAttachmentRepository, AttachmentRepository>();
+            //builder.Services.AddTransient<IAttachmentRepository, AttachmentRepository>();
             builder.Services.AddTransient<IUserService, UserService>();
-            builder.Services.AddTransient<IUserRepository, UserRepository>();
-            //builder.Services.AddTransient<ICategoryService, CategoryService>();
+            //builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<ICategoryService, CategoryService>();
             //builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             #region DB

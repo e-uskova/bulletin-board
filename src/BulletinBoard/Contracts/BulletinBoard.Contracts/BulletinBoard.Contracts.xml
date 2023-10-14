@@ -31,13 +31,13 @@
             <param name="maxLength">Максимальная длина.</param>
             <param name="minLength">Минимальная длина.</param>
             <param name="requireDigit">Должны быть цифры.</param>
-            <param name="requireDownCaseLetter">Должны быть буквы.</param>
-            <param name="requireUpperCaseLetter">Должны быть буквы верхнего и нижнего регистра.</param>
+            <param name="requireDownCaseLetter">Должны быть буквы нижнего регистра.</param>
+            <param name="requireUpperCaseLetter">Должны быть буквы верхнего регистра.</param>
             <param name="requireSpecialSymbols">Должны быть спецсимволы.</param>
         </member>
         <member name="M:BulletinBoard.Contracts.Attributes.PasswordAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
             <summary>
-            Валидация длины массива по максимальной и минимальной.
+            Валидация пароля.
             </summary>
             <param name="value">Поле для валидации.</param>
             <param name="validationContext">Контекст валидации.</param>
@@ -51,6 +51,41 @@
         <member name="P:BulletinBoard.Contracts.Base.BaseDto.Id">
             <summary>
             Идентификатор сущности.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Categories.CategoryDto">
+            <summary>
+            Категория объявлений.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.Name">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.SubcategoriesId">
+            <summary>
+            Идентификаторы дочерних категорий.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.ParentCategoryId">
+            <summary>
+            Идентификатор родительской категории.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Categories.CreateCategoryDto">
+            <summary>
+            Добавление категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.Name">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.CreateCategoryDto.ParentCategoryId">
+            <summary>
+            Идентификатор родительской категории.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">

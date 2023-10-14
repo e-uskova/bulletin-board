@@ -27,7 +27,7 @@ namespace BulletinBoard.Contracts.Users
         /// Пароль.
         /// </summary>
         [Required]
-        [PasswordAttribute(20, 8, true, true, true, true)]
+        [PasswordAttribute(20, 3)]
         public string Password { get; set; }
 
         /// <summary>
