@@ -33,14 +33,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="id">Идентификатор объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Модель объявления <see cref="PostDto"/></returns>
-        [HttpGet("get-by-id")]
         [ProducesResponseType(typeof(PostDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<PostDto>> GetPostAsync(Guid id)
         {
-            var result = await _postService.GetByIdAsync(id, cancellationToken);
-            return Ok(result);
+            var post = await _postService.GetByIdAsync(id);
+            if (post == null)
+            {
+                return BadRequest();
+            }
+            return Ok(post);
         }
 
         /// <summary>
@@ -50,10 +54,11 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="pageSize">Размер страницы.</param>
         /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция объявлений <see cref="PostDto"/></returns>
-        [HttpGet("get-all-paged")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
+        [HttpGet]
+        public async Task<ActionResult<PostDto>> GetPostsAsync()
         {
-            return Ok();
+            var posts = await _postService.GetAllAsync();
+            return Ok(posts);
         }
 
         /// <summary>
@@ -63,10 +68,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreatePostDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post)
         {
-            var modelId = await _postService.CreateAsync(dto, cancellationToken);
-            return Created(nameof(CreateAsync), modelId);
+            var id = await _postService.AddAsync(post);
+            return CreatedAtAction(nameof(GetPostAsync), new { id }, id);
         }
 
         /// <summary>
@@ -74,10 +79,11 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="dto">Модель для редактирования объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(PostDto dto, CancellationToken cancellationToken)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, CreatePostDto post)
         {
-            return Ok();
+            await _postService.UpdateAsync(id, post);
+            return NoContent();
         }
 
         /// <summary>
@@ -85,10 +91,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id)
         {
-            return Ok();
+            var result = await _postService.DeleteAsync(id);
+            if (result)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }
