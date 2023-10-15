@@ -14,9 +14,14 @@
             Название.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Path">
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Content">
             <summary>
             Путь к файлу.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.ContentType">
+            <summary>
+            Тип контента.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.PasswordAttribute">

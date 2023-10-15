@@ -56,12 +56,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Data
                             new Attachment()
                             {
                                 Name = "books1",
-                                Path = "img/books1.jpg",
+                                //Path = "img/books1.jpg",
                             },
                             new Attachment()
                             {
                                 Name = "books2",
-                                Path = "img/books2.jpg",
+                                //Path = "img/books2.jpg",
                             }
                         },
                         Category = Categories[0],
@@ -77,7 +77,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Data
                             new Attachment()
                             {
                                 Name = "chess",
-                                Path = "img/chess.jpg",
+                                //Path = "img/chess.jpg",
                             }
                         },
                         Category = Categories[0],

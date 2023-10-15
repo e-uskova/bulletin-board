@@ -1,6 +1,7 @@
-﻿/*using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
+﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
 using BulletinBoard.Contracts.Attachment;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -8,7 +9,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
     /// Контроллер для работы с вложениями.
     /// </summary>
     [ApiController]
-    [Route("post/attachment")]
+    [Route("[controller]")]
     public class AttachmentController : ControllerBase
     {
         private readonly IAttachmentService _attachmentService;
@@ -23,63 +24,48 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Получение вложения по идентификатору.
+        /// Загрузка файла в систему.
         /// </summary>
-        /// <param name="id">Идентификатор вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель вложения <see cref="AttachmentDto"/></returns>
-        [HttpGet("get-by-id")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
-        {
-            var result = await _attachmentService.GetByIdAsync(id, cancellationToken);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// Получение всех вложений.
-        /// </summary>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Коллекция объявлений <see cref="AttachmentDto"/></returns>
-        [HttpGet("get-all")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return Ok();
-        }
-
-        /// <summary>
-        /// Создание вложения.
-        /// </summary>
-        /// <param name="dto">Модель для создания вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Идентификатор созданной сущности./></returns>
+        /// <param name="file">Файл.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateAttachmentDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
         {
-            var modelId = await _attachmentService.CreateAsync(dto, cancellationToken);
-            return Created(nameof(CreateAsync), modelId);
+            var bytes = await GetBytesAsync(file, cancellationToken);
+            var fileDto = new AttachmentDto
+            {
+                Content = bytes,
+                ContentType = file.ContentType,
+                Name = file.FileName,
+            };
+
+            var result = await _attachmentService.UploadAsync(fileDto, cancellationToken);
+            return StatusCode((int)HttpStatusCode.Created, (result));
         }
 
         /// <summary>
-        /// Редактирование вложения.
+        /// Скачивание файла.
         /// </summary>
-        /// <param name="dto">Модель для редактирования вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpPut]
-        public async Task<IActionResult> UpdateByIdAsync(AttachmentDto dto, CancellationToken cancellationToken)
+        /// <param name="id">Ижентификатор файла.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Download(Guid id, CancellationToken cancellationToken)
         {
-            return Ok();
+            var result = await _attachmentService.DownloadAsync(id, cancellationToken);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            Response.ContentLength = result.Content.Length;
+            return File(result.Content, result.ContentType, result.Name);
         }
 
-        /// <summary>
-        /// Удаление вложения по идентификатору.
-        /// </summary>
-        /// <param name="id">Идентификатор вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        private async Task<byte[]> GetBytesAsync(IFormFile file, CancellationToken cancellationToken)
         {
-            return Ok();
+            var ms = new MemoryStream();
+            await file.CopyToAsync(ms, cancellationToken);
+            return ms.ToArray();
         }
     }
 }
-*/

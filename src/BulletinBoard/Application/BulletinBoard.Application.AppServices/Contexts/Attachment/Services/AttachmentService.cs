@@ -1,4 +1,4 @@
-﻿/*using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Contracts.Attachment;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
@@ -18,20 +18,24 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
 
         /// <inheritdoc/>
-        public Task<AttachmentDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public Task<Guid> UploadAsync(AttachmentDto attachment, CancellationToken cancellationToken)
         {
-            return _attachmentRepository.GetByIdAsync(id, cancellationToken);
+            var entity = new Domain.Attachment
+            {
+                Name = attachment.Name,
+                Content = attachment.Content,
+                ContentType = attachment.ContentType,
+                Created = DateTime.UtcNow,
+                Length = attachment.Content.Length,
+            };
+
+            return _attachmentRepository.UploadAsync(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public Task<Guid> CreateAsync(CreateAttachmentDto model, CancellationToken cancellationToken)
+        public Task<AttachmentDto> DownloadAsync(Guid id, CancellationToken cancellationToken)
         {
-            var attachment = new Domain.Attachment()
-            {
-                Title = model.Title,
-            };
-            return _attachmentRepository.CreateAsync(attachment, cancellationToken);
+            return _attachmentRepository.DownloadAsync(id, cancellationToken);
         }
     }
 }
-*/

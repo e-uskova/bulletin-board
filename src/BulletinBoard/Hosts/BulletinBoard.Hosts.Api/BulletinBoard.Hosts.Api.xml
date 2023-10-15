@@ -4,6 +4,31 @@
         <name>BulletinBoard.Hosts.Api</name>
     </assembly>
     <members>
+        <member name="T:BulletinBoard.Hosts.Api.Controllers.AttachmentController">
+            <summary>
+            Контроллер для работы с вложениями.
+            </summary>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.#ctor(BulletinBoard.Application.AppServices.Contexts.Attachment.Services.IAttachmentService)">
+            <summary>
+            Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.AttachmentController"/>.
+            </summary>
+            <param name="attachmentService">Сервис работы с вложениями.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Upload(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Загрузка файла в систему.
+            </summary>
+            <param name="file">Файл.</param>
+            <param name="cancellationToken">Токен отмены.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Download(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Скачивание файла.
+            </summary>
+            <param name="id">Ижентификатор файла.</param>
+            <param name="cancellationToken">Токен отмены.</param>
+        </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.CategoryController">
             <summary>
             Контроллер для работы с категориями.

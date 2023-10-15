@@ -1,4 +1,4 @@
-﻿/*using BulletinBoard.Contracts.Attachment;
+﻿using BulletinBoard.Contracts.Attachment;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
 {
@@ -8,20 +8,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
     public interface IAttachmentService
     {
         /// <summary>
-        /// Получение вложения по идентификатору.
+        /// Загрузка файла.
         /// </summary>
-        /// <param name="id">Идентификатор вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель объявления <see cref="PostDto"/></returns>
-        Task<AttachmentDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        /// <param name="attachment">Файл.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Идентификатор файла.</returns>
+        Task<Guid> UploadAsync(AttachmentDto attachment, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Создание вложения по модели.
+        /// Скачивание файла.
         /// </summary>
-        /// <param name="model">Модель вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(CreateAttachmentDto model, CancellationToken cancellationToken);
+        /// <param name="id">Идентификатор файла.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Файл.</returns>
+        Task<AttachmentDto> DownloadAsync(Guid id, CancellationToken cancellationToken);
     }
 }
-*/

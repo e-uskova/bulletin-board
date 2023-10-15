@@ -8,19 +8,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories
     public interface IAttachmentRepository
     {
         /// <summary>
-        /// Получение вложения по идентификатору.
+        /// Загрузка файла.
         /// </summary>
-        /// <param name="id">Идентификатор вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель вложения <see cref="PostDto"/></returns>
-        Task<AttachmentDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        /// <param name="attachment">Файл.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Идентификатор файла.</returns>
+        Task<Guid> UploadAsync(Domain.Attachment attachment, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Создание вложения по модели.
+        /// Скачивание файла.
         /// </summary>
-        /// <param name="model">Модель вложения.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Attachment model, CancellationToken cancellationToken);
+        /// <param name="id">Идентификатор файла.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Файл.</returns>
+        Task<AttachmentDto> DownloadAsync(Guid id, CancellationToken cancellationToken);
     }
 }

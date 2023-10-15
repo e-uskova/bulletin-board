@@ -15,6 +15,11 @@ namespace BulletinBoard.Contracts.Attachment
         /// <summary>
         /// Путь к файлу.
         /// </summary>
-        public string Path { get; set; }
+        public byte[] Content { get; set; }
+
+        /// <summary>
+        /// Тип контента.
+        /// </summary>
+        public string ContentType { get; set; }
     }
 }

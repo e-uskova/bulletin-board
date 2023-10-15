@@ -13,6 +13,21 @@
         /// <summary>
         /// Путь к файлу.
         /// </summary>
-        public string Path { get; set; }
+        public byte[] Content { get; set; }
+
+        /// <summary>
+        /// Тип контента.
+        /// </summary>
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// Размер файла.
+        /// </summary>
+        public int Length { get; set; }
+
+        /// <summary>
+        /// Время создания.
+        /// </summary>
+        public DateTime Created { get; set; }
     }
 }
