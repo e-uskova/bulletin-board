@@ -138,6 +138,11 @@
             Цена.
             </summary>
         </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Author">
+            <summary>
+            Автор объявления.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Users.CreateUserDto">
             <summary>
             Создание пользователя.

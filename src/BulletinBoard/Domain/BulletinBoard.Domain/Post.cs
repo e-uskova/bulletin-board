@@ -29,5 +29,10 @@
         /// Вложения.
         /// </summary>
         public IReadOnlyCollection<Attachment> Attachments { get; set; }
+
+        /// <summary>
+        /// Автор объявления.
+        /// </summary>
+        public User Author { get; set; }
     }
 }

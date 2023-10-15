@@ -36,6 +36,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType(typeof(PostDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ActionName(nameof(GetPostAsync))]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<PostDto>> GetPostAsync(Guid id)
         {

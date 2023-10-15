@@ -32,15 +32,22 @@ namespace BulletinBoard.Application.AppServices.Mapping
 
         public static PostDto ToPostDto(Post post)
         {
-            return new PostDto()
+            var result = new PostDto()
             {
                 Id = post.Id,
                 Title = post.Title,
                 Description = post.Description,
-                CategoryName = post.Category.Name,
+                CategoryName = post.Category?.Name,
                 Price = post.Price,
+                
                 // TODO Attachments
             };
+            if (post.Author != null)
+            {
+                result.Author = ToUserDto(post.Author);
+
+            }
+            return result;
         }
 
         public static CategoryDto ToCategoryDto(Category category)

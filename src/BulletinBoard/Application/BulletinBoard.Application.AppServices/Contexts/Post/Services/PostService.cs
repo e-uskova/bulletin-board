@@ -10,15 +10,20 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
     {
         private readonly IRepository<Domain.Post> _postRepository;
         private readonly IRepository<Domain.Category> _categoryRepository;
+        private readonly IRepository<Domain.User> _userRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="PostService"/>
         /// </summary>
         /// <param name="postRepository">Репозиторий для работы с объявлениями.</param>
-        public PostService(IRepository<Domain.Post> postRepository, IRepository<Domain.Category> categoryRepository)
+        public PostService(
+            IRepository<Domain.Post> postRepository, 
+            IRepository<Domain.Category> categoryRepository, 
+            IRepository<Domain.User> userRepository)
         {
             _postRepository = postRepository;
-            _categoryRepository = categoryRepository;   
+            _categoryRepository = categoryRepository; 
+            _userRepository = userRepository;
         }
 
         public Task<IEnumerable<PostDto>> GetAllAsync()
@@ -78,8 +83,21 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
                 Title = post.Title,
                 Description = post.Description,
                 Price = post.Price,
-                // TODO Category = _categoryRepository.GetByIdAsync(post.CategoryId)
+                Category = _categoryRepository.GetByIdAsync(post.CategoryId).Result
             };
+            var currentUser = _userRepository.GetByIdAsync(Guid.Parse("9f3c1162-8a98-4e80-9277-e6f56bbc5161")).Result; // TODO получать id текущего пользователя
+            if (currentUser != null)
+            {
+                if (currentUser.Posts == null)
+                {
+                    currentUser.Posts = new List<Domain.Post> { entity };
+                }
+                else
+                {
+                    currentUser.Posts = (IReadOnlyCollection<Domain.Post>)currentUser.Posts.Append(entity);
+                }
+                //_userRepository.UpdateAsync(currentUser);
+            }
             return _postRepository.AddAsync(entity);
         }
 

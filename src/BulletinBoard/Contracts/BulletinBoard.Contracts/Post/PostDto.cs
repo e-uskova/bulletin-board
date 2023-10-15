@@ -1,5 +1,6 @@
 ﻿using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Base;
+using BulletinBoard.Contracts.Users;
 
 namespace BulletinBoard.Contracts.Post
 {
@@ -32,6 +33,11 @@ namespace BulletinBoard.Contracts.Post
         /// Цена.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Автор объявления.
+        /// </summary>
+        public UserDto Author { get; set; }
 
     }
 }
