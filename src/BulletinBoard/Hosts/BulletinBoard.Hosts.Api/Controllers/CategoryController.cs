@@ -1,6 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Contracts.Categories;
-using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -37,6 +36,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ActionName(nameof(GetCategoryAsync))]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id)
         {
@@ -65,11 +65,11 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Создание категории.
         /// </summary>
-        /// <param name="dto">Модель для создания категории.</param>
+        /// <param name="category">Модель для создания категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
         [HttpPost]
-        public async Task<ActionResult<CategoryDto>> CreateUserAsync(CreateCategoryDto category)
+        public async Task<ActionResult<CategoryDto>> CreateCategoryAsync(CreateCategoryDto category)
         {
             var id = await _categoryService.AddAsync(category);
             return CreatedAtAction(nameof(GetCategoryAsync), new { id }, id);
@@ -78,10 +78,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Редактирование категории.
         /// </summary>
-        /// <param name="dto">Модель для редактирования категории.</param>
+        /// <param name="category">Модель для редактирования категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> EditUserAsync(Guid id, CreateCategoryDto category)
+        public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, CreateCategoryDto category)
         {
             await _categoryService.UpdateAsync(id, category);
             return NoContent();
@@ -93,7 +93,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> DeleteUserAsync(Guid id)
+        public async Task<ActionResult<CategoryDto>> DeleteCategoryAsync(Guid id)
         {
             var result = await _categoryService.DeleteAsync(id);
             if (result)

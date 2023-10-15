@@ -50,7 +50,6 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Id = category.Id,
                 Name = category.Name,
                 ParentCategoryId = category.ParentCategory?.Id,
-                SubcategoriesId = category.Subcategories?.Select(c => c.Id).ToList(),
             };
         }
     }

@@ -36,22 +36,22 @@
             <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateUserAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto)">
             <summary>
             Создание категории.
             </summary>
-            <param name="dto">Модель для создания категории.</param>
+            <param name="category">Модель для создания категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Categories.CreateCategoryDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.CreateCategoryDto)">
             <summary>
             Редактирование категории.
             </summary>
-            <param name="dto">Модель для редактирования категории.</param>
+            <param name="category">Модель для редактирования категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.DeleteUserAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.DeleteCategoryAsync(System.Guid)">
             <summary>
             Удаление категории по идентификатору.
             </summary>

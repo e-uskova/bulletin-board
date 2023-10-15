@@ -1,4 +1,6 @@
-﻿namespace BulletinBoard.Contracts.Categories
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BulletinBoard.Contracts.Categories
 {
     /// <summary>
     /// Добавление категории.
@@ -8,6 +10,8 @@
         /// <summary>
         /// Название.
         /// </summary>
+        [Required]
+        [StringLength(25, MinimumLength = 6)]
         public string Name { get; set; }
 
         /// <summary>

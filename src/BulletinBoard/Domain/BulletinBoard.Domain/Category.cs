@@ -11,11 +11,6 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Идентификаторы дочерних категорий.
-        /// </summary>
-        public IReadOnlyCollection<Category> Subcategories { get; set;}
-
-        /// <summary>
         /// Идентификатор родительской категории.
         /// </summary>
         public Category? ParentCategory { get; set; }

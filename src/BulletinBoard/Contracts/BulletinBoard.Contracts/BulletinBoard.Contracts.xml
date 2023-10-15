@@ -63,11 +63,6 @@
             Название.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.SubcategoriesId">
-            <summary>
-            Идентификаторы дочерних категорий.
-            </summary>
-        </member>
         <member name="P:BulletinBoard.Contracts.Categories.CategoryDto.ParentCategoryId">
             <summary>
             Идентификатор родительской категории.
