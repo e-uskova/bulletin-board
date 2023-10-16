@@ -1,8 +1,10 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
 //using BulletinBoard.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -99,6 +101,31 @@ namespace BulletinBoard.Hosts.Api.Controllers
             {
                 return NoContent();
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("public")]
+        public JsonResult Public()
+        {
+            return new JsonResult("Public");
+        }
+
+        [Authorize]
+        [HttpPost("requiring-auth")]
+        //[Authorize(Roles = "Role")]
+        [Authorize(Policy = "CustomPolicy")]
+        public JsonResult requiringAuth()
+        {
+            return new JsonResult("Success!");
+        }
+
+        [HttpPost("get-user-info")]
+        public UserDto GetUserInfo()
+        {
+            return new UserDto() 
+            { 
+                Email = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.ToString(),
+            };
         }
     }
 }

@@ -18,6 +18,9 @@ using BulletinBoard.Infrastructure.DataAccess.Data;
 using BulletinBoard.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -81,6 +84,38 @@ namespace BulletinBoard.Hosts.Api
 
             #endregion
 
+            #region Authentication
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                    };
+                });
+
+            #endregion
+
+            #region Authorization
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CustomPolicy", policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("User", "User");
+                });
+            });
+
+            #endregion
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -92,6 +127,7 @@ namespace BulletinBoard.Hosts.Api
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
