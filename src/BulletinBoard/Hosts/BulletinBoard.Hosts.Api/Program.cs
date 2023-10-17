@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -35,8 +36,11 @@ namespace BulletinBoard.Hosts.Api
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(s =>
+
+            builder.Services.AddSwaggerGen(options =>
             {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "BulletinBoard", Version = "v1" });
+
                 var includeDocsTypesMarkers = new[]
                 {
                     typeof(PostDto),
@@ -59,8 +63,37 @@ namespace BulletinBoard.Hosts.Api
                     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlName);
 
                     if (File.Exists(xmlPath))
-                        s.IncludeXmlComments(xmlPath);
+                        options.IncludeXmlComments(xmlPath);
                 }
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme.
+                                    Enter 'Bearer' [space] and then your token in the text input below.
+                                    Example: 'Bearer secretKey'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }                    
+                });
             });
 
             builder.Services.AddTransient<IPostService, PostService>();
@@ -93,10 +126,13 @@ namespace BulletinBoard.Hosts.Api
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        //ValidAudience = builder.Configuration["Jwt:Audience"],
+                        //ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                     };
                 });
@@ -105,14 +141,16 @@ namespace BulletinBoard.Hosts.Api
 
             #region Authorization
 
-            builder.Services.AddAuthorization(options =>
+            /*builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("CustomPolicy", policy =>
                 {
                     policy.RequireRole("Admin");
                     policy.RequireClaim("User", "User");
                 });
-            });
+            });*/
+
+            builder.Services.AddAuthorization();
 
             #endregion
 

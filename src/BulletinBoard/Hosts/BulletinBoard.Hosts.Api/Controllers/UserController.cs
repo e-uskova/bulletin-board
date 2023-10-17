@@ -113,7 +113,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [Authorize]
         [HttpPost("requiring-auth")]
         //[Authorize(Roles = "Role")]
-        [Authorize(Policy = "CustomPolicy")]
+        //[Authorize(Policy = "CustomPolicy")]
         public JsonResult requiringAuth()
         {
             return new JsonResult("Success!");
