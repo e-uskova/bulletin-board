@@ -1,30 +1,20 @@
-﻿/*using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Contracts.Categories;
+using BulletinBoard.Domain;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly List<Domain.Category> _categories = new();
+        private readonly IRepository<Category> _categoryRepository;
 
-        /// <inheritdoc/>
-        public Task<CategoryDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public CategoryRepository(IRepository<Category> categoryRepository)
         {
-            return Task.Run(() => new CategoryDto
-            {
-                CategoryName = "Books",
-                //ParentCategoryId = Guid.NewGuid(),
-            }, cancellationToken);
+            _categoryRepository = categoryRepository;
         }
 
-        /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.Category model, CancellationToken cancellationToken)
-        {
-            model.Id = Guid.NewGuid();
-            _categories.Add(model);
-            return Task.Run(() => model.Id);
-        }
+        
     }
 }
-*/

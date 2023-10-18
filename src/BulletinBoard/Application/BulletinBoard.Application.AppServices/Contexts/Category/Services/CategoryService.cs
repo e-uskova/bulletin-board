@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Categories;
 using System.Linq.Expressions;
@@ -8,13 +8,13 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
     /// <inheritdoc/>
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository<Domain.Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="UserService"/>
         /// </summary>
         /// <param name="categoryRepository">Репозиторий для работы с пользователями.</param>
-        public CategoryService(IRepository<Domain.Category> categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

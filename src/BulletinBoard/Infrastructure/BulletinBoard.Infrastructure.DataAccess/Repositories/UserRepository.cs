@@ -1,38 +1,20 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
+﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Users;
-using BulletinBoard.Infrastructure.DataAccess.Data;
+using BulletinBoard.Domain;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
     /// <inheritdoc/>
     public class UserRepository : IUserRepository
     {
-        //private readonly List<Domain.User> _users = new();
-        private readonly List<Domain.User> _users = FakeDataFactory.Users;
+        private readonly IRepository<User> _userRepository;
 
-        /// <inheritdoc/>
-        public Task<Guid> CreateAsync(Domain.User model, CancellationToken cancellationToken)
+        public UserRepository(IRepository<User> userRepository)
         {
-            model.Id = Guid.NewGuid();
-            _users.Add(model);
-            return Task.Run(() => model.Id);
+            _userRepository = userRepository;
         }
 
-        /// <inheritdoc/>
-        public Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var user = _users.FirstOrDefault(x => x.Id == id);
-            if (user == null)
-            {
-                user = _users[0];
-            }
-            return Task.Run(() => new UserDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-            }, cancellationToken);
-        }
+        
     }
 }

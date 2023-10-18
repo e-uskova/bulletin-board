@@ -2,7 +2,6 @@
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Domain;
-using System.Reflection;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {

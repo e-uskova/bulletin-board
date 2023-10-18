@@ -1,4 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
@@ -9,13 +9,13 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
     public class UserService : IUserService
     {
         // private readonly IUserRepository _userRepository;
-        private readonly IRepository<Domain.User> _userRepository;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="UserService"/>
         /// </summary>
         /// <param name="userRepository">Репозиторий для работы с пользователями.</param>
-        public UserService(IRepository<Domain.User> userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

@@ -1,4 +1,6 @@
-﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Post;
 using System.Linq.Expressions;
@@ -8,18 +10,18 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
     /// <inheritdoc/>
     public class PostService : IPostService
     {
-        private readonly IRepository<Domain.Post> _postRepository;
-        private readonly IRepository<Domain.Category> _categoryRepository;
-        private readonly IRepository<Domain.User> _userRepository;
+        private readonly IPostRepository _postRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="PostService"/>
         /// </summary>
         /// <param name="postRepository">Репозиторий для работы с объявлениями.</param>
         public PostService(
-            IRepository<Domain.Post> postRepository, 
-            IRepository<Domain.Category> categoryRepository, 
-            IRepository<Domain.User> userRepository)
+            IPostRepository postRepository,
+            ICategoryRepository categoryRepository,
+            IUserRepository userRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository; 

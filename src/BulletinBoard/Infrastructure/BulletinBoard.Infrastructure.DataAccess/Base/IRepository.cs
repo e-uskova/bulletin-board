@@ -13,7 +13,7 @@ namespace BulletinBoard.Application.AppServices.Abstractions.Repositories
         /// Получение всех элементов. 
         /// </summary>
         /// <returns>Коллекция элементов типа <see cref="T"/></returns>
-        Task<IEnumerable<T>> GetAllAsync();
+        IQueryable<T> GetAllAsync();
 
         /// <summary>
         /// Получение элемента по идентификатору.
@@ -23,7 +23,7 @@ namespace BulletinBoard.Application.AppServices.Abstractions.Repositories
         Task<T?> GetByIdAsync(Guid id);
 
         /// <summary>
-        /// Получение элементов по списку идентоификаторов.
+        /// Получение элементов по списку идентификаторов.
         /// </summary>
         /// <param name="ids">Список идентификаторов.</param>
         /// <returns>Коллекция элементов типа <see cref="T"/></returns>
@@ -41,7 +41,7 @@ namespace BulletinBoard.Application.AppServices.Abstractions.Repositories
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
         /// <returns>Коллекция элементов типа <see cref="T"/></returns>
-        Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate);
+        IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Добавление элемента.
