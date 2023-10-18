@@ -1,14 +1,13 @@
 using BulletinBoard.Application.AppServices.Abstractions.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
-using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
+using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 //using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 //using BulletinBoard.Application.AppServices.Contexts.Category.Services;
-using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Post.Services;
-using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Contracts.Auth;
 //using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
@@ -16,12 +15,11 @@ using BulletinBoard.Hosts.Api.Controllers;
 using BulletinBoard.Infrastructure.DataAccess.Base;
 using BulletinBoard.Infrastructure.DataAccess.Data;
 using BulletinBoard.Infrastructure.DataAccess.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace BulletinBoard.Hosts.Api
 {
@@ -54,7 +52,10 @@ namespace BulletinBoard.Hosts.Api
                     typeof(UserController),
                     //typeof(CategoryDto),
                     //typeof(CreateCategoryDto),
-                    //typeof(CategoryController)
+                    //typeof(CategoryController),
+                    typeof(TokenDto),
+                    typeof(AuthDto),
+                    typeof(TokenController)
                 };
 
                 foreach (var marker in includeDocsTypesMarkers)

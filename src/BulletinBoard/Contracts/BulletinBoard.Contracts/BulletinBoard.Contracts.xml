@@ -48,6 +48,31 @@
             <param name="validationContext">Контекст валидации.</param>
             <returns>Результат валидации.</returns>
         </member>
+        <member name="T:BulletinBoard.Contracts.Auth.AuthDto">
+            <summary>
+            Данные для аутентификации.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Auth.AuthDto.Login">
+            <summary>
+            Логин (email).
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Auth.AuthDto.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Auth.TokenDto">
+            <summary>
+            Токен вутентификации.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Auth.TokenDto.Token">
+            <summary>
+            Токен.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Base.BaseDto">
             <summary>
             Базовый контракт.

@@ -1,9 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Users;
-using BulletinBoard.Domain;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.User.Services
 {
@@ -46,6 +44,10 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
         public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate)
         {
             var user = _userRepository.GetFirstWhere(predicate).Result;
+            if (user == null)
+            {
+                return Task.FromResult<UserDto?>(null);
+            }
             return Task.Run(() => Mapper.ToUserDto(user));
         }
 

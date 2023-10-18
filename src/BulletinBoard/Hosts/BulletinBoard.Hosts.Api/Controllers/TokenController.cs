@@ -1,5 +1,5 @@
-﻿using BulletinBoard.Contracts.User;
-using Microsoft.AspNetCore.Authentication;
+﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
+using BulletinBoard.Contracts.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,26 +9,43 @@ using System.Text;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
+    /// <summary>
+    /// Контроллер для аутентификации.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     [AllowAnonymous]
     public class TokenController : ControllerBase
     {
         public readonly IConfiguration _configuration;
+        public readonly IUserService _userService;
 
-        public TokenController(IConfiguration configuration)
+        public TokenController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
+            _userService = userService;
         }
 
+        /// <summary>
+        /// Вход в систему.
+        /// </summary>
+        /// <param name="dto">Модель данных для аутентификации/></param>
+        /// <returns>Токен.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(AuthDto dto)
+        public async Task<IActionResult> Login(AuthDto dto)
         {
-            // TODO Check user credentials id DB
+            // Check user credentials id DB
+            var user = await _userService.GetFirstWhere(u => u.Email == dto.Login && u.Password == dto.Password);
+            if (user == null)
+            {
+                return BadRequest("Неверное имя пользователя или пароль");
+            }
 
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Role, dto.Login));
-            claims.Add(new Claim("User", "User"));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.Email, dto.Login),
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

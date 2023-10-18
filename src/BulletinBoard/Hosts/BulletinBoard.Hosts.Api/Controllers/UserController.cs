@@ -1,7 +1,6 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
-//using BulletinBoard.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
@@ -112,20 +111,33 @@ namespace BulletinBoard.Hosts.Api.Controllers
 
         [Authorize]
         [HttpPost("requiring-auth")]
-        //[Authorize(Roles = "Role")]
+        //[Authorize(Roles = "User")]
         //[Authorize(Policy = "CustomPolicy")]
         public JsonResult requiringAuth()
         {
             return new JsonResult("Success!");
         }
 
-        [HttpPost("get-user-info")]
-        public UserDto GetUserInfo()
+        [Authorize]
+        [HttpPost("requiring-auth-admin")]
+        [Authorize(Roles = "Admin")]
+        //[Authorize(Policy = "CustomPolicy")]
+        public JsonResult requiringAuthAdmin()
         {
-            return new UserDto() 
-            { 
-                Email = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.ToString(),
-            };
+            return new JsonResult("Success!");
+        }
+
+        [Authorize]
+        [HttpPost("get-user-info")]
+        public async Task<UserDto> GetCurrentUserInfo()
+        {
+            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            if (emailFromClaims == null)
+            {
+                return new UserDto();
+            }
+
+            return await _userService.GetFirstWhere(u => u.Email == emailFromClaims);
         }
     }
 }
