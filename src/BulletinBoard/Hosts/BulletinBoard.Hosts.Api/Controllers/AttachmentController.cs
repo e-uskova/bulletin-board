@@ -26,20 +26,20 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Загрузка файла в систему.
         /// </summary>
-        /// <param name="file">Файл.</param>
+        /// <param name="attachment">Файл.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
+        public async Task<IActionResult> Upload(IFormFile attachment, CancellationToken cancellationToken)
         {
-            var bytes = await GetBytesAsync(file, cancellationToken);
-            var fileDto = new AttachmentDto
+            var bytes = await GetBytesAsync(attachment, cancellationToken);
+            var attachmentDto = new AttachmentDto
             {
                 Content = bytes,
-                ContentType = file.ContentType,
-                Name = file.FileName,
+                ContentType = attachment.ContentType,
+                Name = attachment.FileName,
             };
 
-            var result = await _attachmentService.UploadAsync(fileDto, cancellationToken);
+            var result = await _attachmentService.UploadAsync(attachmentDto, cancellationToken);
             return StatusCode((int)HttpStatusCode.Created, (result));
         }
 
@@ -61,10 +61,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return File(result.Content, result.ContentType, result.Name);
         }
 
-        private async Task<byte[]> GetBytesAsync(IFormFile file, CancellationToken cancellationToken)
+        private async Task<byte[]> GetBytesAsync(IFormFile attachment, CancellationToken cancellationToken)
         {
             var ms = new MemoryStream();
-            await file.CopyToAsync(ms, cancellationToken);
+            await attachment.CopyToAsync(ms, cancellationToken);
             return ms.ToArray();
         }
     }

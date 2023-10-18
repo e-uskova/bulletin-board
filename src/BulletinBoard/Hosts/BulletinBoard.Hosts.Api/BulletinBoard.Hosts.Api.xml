@@ -19,7 +19,7 @@
             <summary>
             Загрузка файла в систему.
             </summary>
-            <param name="file">Файл.</param>
+            <param name="attachment">Файл.</param>
             <param name="cancellationToken">Токен отмены.</param>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Download(System.Guid,System.Threading.CancellationToken)">
