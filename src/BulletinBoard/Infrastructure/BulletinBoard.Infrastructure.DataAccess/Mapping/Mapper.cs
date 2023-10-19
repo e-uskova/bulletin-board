@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
+using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
@@ -57,6 +58,17 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Id = category.Id,
                 Name = category.Name,
                 ParentCategoryId = category.ParentCategory?.Id,
+            };
+        }
+
+        public static AttachmentDto ToAttachmentDto(Attachment attachment)
+        {
+            return new AttachmentDto()
+            {
+                Id = attachment.Id,
+                Name = attachment.Name,
+                Content = attachment.Content,
+                ContentType = attachment.ContentType,
             };
         }
     }

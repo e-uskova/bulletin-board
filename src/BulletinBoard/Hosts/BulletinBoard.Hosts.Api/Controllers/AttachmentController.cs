@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
+using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Attachment;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -21,6 +22,30 @@ namespace BulletinBoard.Hosts.Api.Controllers
         public AttachmentController(IAttachmentService attachmentService)
         {
             _attachmentService = attachmentService;
+        }
+
+        /*[HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var result = _attachmentService.GetAllAsync(cancellationToken);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            File[] files = File[];
+            foreach (var attachment in result)
+            {
+                files.Add(File(attachment.Content, attachment.ContentType, attachment.Name));
+            }
+            return Ok();
+        }*/
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllInfo(CancellationToken cancellationToken)
+        {
+            var result = await _attachmentService.GetAllInfoAsync(cancellationToken);
+            return Ok(result);
         }
 
         /// <summary>

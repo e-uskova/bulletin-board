@@ -18,6 +18,30 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
 
         /// <inheritdoc/>
+        public Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return _attachmentRepository.GetInfoByIdAsync(id, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<IEnumerable<AttachmentDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return _attachmentRepository.GetAllAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
+        {
+            return _attachmentRepository.GetAllInfoAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return _attachmentRepository.DeleteAsync(id, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public Task<Guid> UploadAsync(AttachmentDto attachment, CancellationToken cancellationToken)
         {
             var entity = new Domain.Attachment
@@ -33,7 +57,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
 
         /// <inheritdoc/>
-        public Task<AttachmentDto> DownloadAsync(Guid id, CancellationToken cancellationToken)
+        public Task<AttachmentDto?> DownloadAsync(Guid id, CancellationToken cancellationToken)
         {
             return _attachmentRepository.DownloadAsync(id, cancellationToken);
         }

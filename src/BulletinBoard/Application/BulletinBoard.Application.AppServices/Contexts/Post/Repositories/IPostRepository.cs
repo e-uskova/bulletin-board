@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Contracts.Post;
+using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
 {
@@ -8,19 +9,58 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
     public interface IPostRepository
     {
         /// <summary>
-        /// Получение объявления по идентификатору.
+        /// Получение всех элементов. 
         /// </summary>
-        /// <param name="id">Идентификатор объявления.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель объявления <see cref="PostDto"/></returns>
-        Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
+        Task<IEnumerable<PostDto>> GetAllAsync();
 
         /// <summary>
-        /// Создание объявления по модели.
+        /// Получение элемента по идентификатору.
         /// </summary>
-        /// <param name="model">Модель объявления.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Идентификатор созданой сущности.</returns>
-        Task<Guid> CreateAsync(Domain.Post model, CancellationToken cancellationToken);
+        /// <param name="id">Идентификатор элемента.</param>
+        /// <returns>Элемент типа <see cref="PostDto"/></returns>
+        Task<PostDto?/*Domain.Post*/> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Получение элементов по списку идентификаторов.
+        /// </summary>
+        /// <param name="ids">Список идентификаторов.</param>
+        /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
+        Task<IEnumerable<PostDto>> GetRangeByIDAsync(List<Guid> ids);
+
+        /// <summary>
+        /// Получение первого элемента из удовлетворяющих условию.
+        /// </summary>
+        /// <param name="predicate">Условие отбора.</param>
+        /// <returns>Элемент типа <see cref="PostDto"/></returns>
+        Task<PostDto> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate);
+
+        /// <summary>
+        /// Получение всех элементов, удовлетворяющих условию.
+        /// </summary>
+        /// <param name="predicate">Условие отбора.</param>
+        /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
+        Task<IEnumerable<PostDto>> GetWhere(Expression<Func<Domain.Post, bool>> predicate);
+
+        /// <summary>
+        /// Добавление элемента.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<Guid> AddAsync(CreatePostDto entity);
+
+        /// <summary>
+        /// Изменение элемента.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<bool> UpdateAsync(Guid id, CreatePostDto entity);
+
+        /// <summary>
+        /// Удаление элемента.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <returns></returns>
+        Task<bool> DeleteAsync(Guid id);
     }
 }

@@ -13,7 +13,7 @@ namespace BulletinBoard.Contracts.Attachment
         public string Name { get; set; }
 
         /// <summary>
-        /// Путь к файлу.
+        /// Контент.
         /// </summary>
         public byte[] Content { get; set; }
 

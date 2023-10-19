@@ -16,12 +16,37 @@
         </member>
         <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.Content">
             <summary>
-            Путь к файлу.
+            Контент.
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.ContentType">
             <summary>
             Тип контента.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Attachment.AttachmentInfoDto">
+            <summary>
+            Информация о вложении без данных.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.Name">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.ContentType">
+            <summary>
+            Тип контента.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.Length">
+            <summary>
+            Размер файла.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.Created">
+            <summary>
+            Время создания.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.PasswordAttribute">

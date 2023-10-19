@@ -6,7 +6,36 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
     /// Версив работы с вложениями.
     /// </summary>
     public interface IAttachmentService
-    {
+    {       
+        /// <summary>
+        /// Получение информации о вложении без контента по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор вложения</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>Информация о файле.</returns>
+        Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение всех вложений.
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>Массив файлов.</returns>
+        Task<IEnumerable<AttachmentDto>> GetAllAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение информации о всех вложениях.
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>Массив информации о файлах.</returns>
+        Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Удаление вложения по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор вложения</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
         /// <summary>
         /// Загрузка файла.
         /// </summary>
@@ -21,6 +50,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         /// <param name="id">Идентификатор файла.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Файл.</returns>
-        Task<AttachmentDto> DownloadAsync(Guid id, CancellationToken cancellationToken);
+        Task<AttachmentDto?> DownloadAsync(Guid id, CancellationToken cancellationToken);
     }
 }
