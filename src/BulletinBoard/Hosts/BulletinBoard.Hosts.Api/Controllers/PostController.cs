@@ -1,7 +1,10 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
+using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Post;
+using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -13,14 +16,17 @@ namespace BulletinBoard.Hosts.Api.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="PostController"/>
         /// </summary>
         /// <param name="postService">Сервис работы с объявлениями.</param>
-        public PostController(IPostService postService)
+        /// <param name="userService">Сервис работы с пользователями.</param>
+        public PostController(IPostService postService, IUserService userService)
         {
             _postService = postService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -71,7 +77,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post)
         {
-            var id = await _postService.AddAsync(post);
+            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            if (emailFromClaims == null)
+            {
+                return Unauthorized();
+            }
+            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims);
+
+            var id = await _postService.AddAsync(post, curUser);
             return CreatedAtAction(nameof(GetPostAsync), new { id }, id);
         }
 

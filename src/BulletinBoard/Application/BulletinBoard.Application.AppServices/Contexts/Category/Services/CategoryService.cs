@@ -28,6 +28,11 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
             return _categoryRepository.GetByIdAsync(id);
         }
 
+        public Task<IEnumerable<CategoryDto?>> GetWithChildrenByIdAsync(Guid id)
+        {
+            return _categoryRepository.GetWithChildrenByIdAsync(id);
+        }
+
         public Task<CategoryDto> GetFirstWhere(Expression<Func<Domain.Category, bool>> predicate)
         {
             return _categoryRepository.GetFirstWhere(predicate);

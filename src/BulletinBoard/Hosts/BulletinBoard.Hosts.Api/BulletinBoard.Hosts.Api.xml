@@ -88,11 +88,12 @@
             Контроллер для работы с объявлением.
             </summary>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.#ctor(BulletinBoard.Application.AppServices.Contexts.Post.Services.IPostService)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.#ctor(BulletinBoard.Application.AppServices.Contexts.Post.Services.IPostService,BulletinBoard.Application.AppServices.Contexts.User.Services.IUserService)">
             <summary>
             Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.PostController"/>
             </summary>
             <param name="postService">Сервис работы с объявлениями.</param>
+            <param name="userService">Сервис работы с пользователями.</param>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostAsync(System.Guid)">
             <summary>

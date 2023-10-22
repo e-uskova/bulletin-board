@@ -1,6 +1,6 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
-using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Contracts.Post;
+using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
@@ -9,18 +9,14 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly ICategoryRepository _categoryRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="PostService"/>
         /// </summary>
         /// <param name="postRepository">Репозиторий для работы с объявлениями.</param>
-        public PostService(
-            IPostRepository postRepository,
-            ICategoryRepository categoryRepository)
+        public PostService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _categoryRepository = categoryRepository; 
         }
 
         public Task<IEnumerable<PostDto>> GetAllAsync()
@@ -48,9 +44,9 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.GetWhere(predicate);
         }
 
-        public Task<Guid> AddAsync(CreatePostDto post)
+        public Task<Guid> AddAsync(CreatePostDto post, UserDto curUser)
         {
-            return _postRepository.AddAsync(post);
+            return _postRepository.AddAsync(post, curUser);
         }
 
         public Task<bool> UpdateAsync(Guid id, CreatePostDto post)

@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Attachment;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
@@ -7,26 +8,22 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
     public class AttachmentService : IAttachmentService
     {
         private readonly IAttachmentRepository _attachmentRepository;
+        //private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="AttachmentService"/>
         /// </summary>
         /// <param name="attachmentRepository">Репозиторий для работы с вложениями.</param>
-        public AttachmentService(IAttachmentRepository attachmentRepository)
+        public AttachmentService(IAttachmentRepository attachmentRepository/*, IUserRepository userRepository*/)
         {
             _attachmentRepository = attachmentRepository;
+            //_userRepository = userRepository;
         }
 
         /// <inheritdoc/>
         public Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _attachmentRepository.GetInfoByIdAsync(id, cancellationToken);
-        }
-
-        /// <inheritdoc/>
-        public Task<IEnumerable<AttachmentDto>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return _attachmentRepository.GetAllAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -44,6 +41,12 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         /// <inheritdoc/>
         public Task<Guid> UploadAsync(AttachmentDto attachment, CancellationToken cancellationToken)
         {
+            /*var curUser = _userRepository.GetCurrentUserAsync().Result;
+            if (curUser == null)
+            {
+                return Task.FromResult(Guid.Empty);
+            }*/
+
             var entity = new Domain.Attachment
             {
                 Name = attachment.Name,
@@ -51,6 +54,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
                 ContentType = attachment.ContentType,
                 Created = DateTime.UtcNow,
                 Length = attachment.Content.Length,
+                //Author = curUser,
             };
 
             return _attachmentRepository.UploadAsync(entity, cancellationToken);

@@ -21,6 +21,12 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Repositories
         /// <returns>Элемент типа <see cref="UserDto"/></returns>
         Task<UserDto?/*Domain.User*/> GetByIdAsync(Guid id);
 
+        /*/// <summary>
+        /// Получение текущего пользователя.
+        /// </summary>
+        /// <returns>Сущность пользователя.</returns>
+        public Task<Domain.User?> GetCurrentUserAsync();*/
+
         /// <summary>
         /// Получение элементов по списку идентификаторов.
         /// </summary>

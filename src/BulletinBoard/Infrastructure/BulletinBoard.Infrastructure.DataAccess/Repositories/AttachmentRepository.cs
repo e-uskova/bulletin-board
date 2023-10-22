@@ -31,19 +31,6 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         }
 
         ///<inheritdoc/>
-        public Task<IEnumerable<AttachmentDto>?> GetAllAsync(CancellationToken cancellationToken)
-        {
-            var attachments = _attachmentRepository.GetAllAsync().ToListAsync(cancellationToken: cancellationToken).Result;
-            if (attachments == null) 
-            { 
-                return Task.FromResult<IEnumerable<AttachmentDto>?>(null);
-            }
-            var result = (from attachment in attachments
-                          select Mapper.ToAttachmentDto(attachment)).AsEnumerable();
-            return Task.Run(() => result);
-        }
-
-        ///<inheritdoc/>
         public Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
         {
             return Task.Run(() => _attachmentRepository.GetAllAsync().Select(a => new AttachmentInfoDto

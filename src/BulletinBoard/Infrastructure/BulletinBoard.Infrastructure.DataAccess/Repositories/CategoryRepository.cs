@@ -40,7 +40,44 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => Mapper.ToCategoryDto(category));
         }
 
-        public Task<CategoryDto> GetFirstWhere(Expression<Func<Domain.Category, bool>> predicate)
+        public Task<IEnumerable<CategoryDto>> GetWithChildrenByIdAsync(Guid id)
+        {
+            var ids = new List<Guid>() { id };
+            ids.AddRange(GetAllChildrenId(id));
+
+            var categories = _categoryRepository.GetRangeByIDAsync(ids).Result;
+            var result = new List<CategoryDto>();
+            foreach (var category in categories)
+            {
+                result.Add(Mapper.ToCategoryDto(category));
+            }
+            return Task.Run(() => result.AsEnumerable());
+        }
+
+        private List<Guid> GetAllChildrenId(Guid parentId)
+        {
+            var children = GetChildrenId(parentId);
+            if (children.Count == 0)
+            {
+                return new List<Guid>();
+            }
+            var result = new List<Guid>(children);
+
+            foreach (var child in children)
+            {
+                result.AddRange(GetAllChildrenId(child));
+            }
+
+            return result;
+        }
+
+        private List<Guid> GetChildrenId(Guid parentGuid)
+        {
+            var ids = _categoryRepository.GetAllAsync().Where(c => c.ParentCategory != null && c.ParentCategory.Id == parentGuid).Select(c => c.Id).ToList();
+            return ids;
+        }
+
+        public Task<CategoryDto> GetFirstWhere(Expression<Func<Category, bool>> predicate)
         {
             var category = _categoryRepository.GetFirstWhere(predicate).Result;
             if (category == null)
@@ -61,7 +98,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => result);
         }
 
-        public Task<IEnumerable<CategoryDto>> GetWhere(Expression<Func<Domain.Category, bool>> predicate)
+        public Task<IEnumerable<CategoryDto>> GetWhere(Expression<Func<Category, bool>> predicate)
         {
             var categorys = _categoryRepository.GetWhere(predicate).AsEnumerable();
             IEnumerable<CategoryDto> result = new List<CategoryDto>();
@@ -74,14 +111,15 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         public Task<Guid> AddAsync(CreateCategoryDto category)
         {
-            Domain.Category entity = new()
+            Category entity = new()
             {
                 Id = Guid.NewGuid(),
-                /*Name = category.Name,
-                Email = category.Email,
-                Password = category.Password,
-                Telephone = category.Telephone,*/
+                Name = category.Name,
             };
+            if (category.ParentCategoryId != null) 
+            {
+                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId).Result;
+            }
             return _categoryRepository.AddAsync(entity);
         }
 
@@ -93,11 +131,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 return Task.Run(() => true);
             }
 
-            Domain.Category entity = existedCategory.Result;
-            /*entity.Name = category.Name;
-            entity.Email = category.Email;
-            entity.Password = category.Password;
-            entity.Telephone = category.Telephone;*/
+            Category entity = existedCategory.Result;
+            entity.Name = category.Name;
+            if (category.ParentCategoryId != null)
+            {
+                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId).Result;
+            }
 
             _categoryRepository.UpdateAsync(entity);
             return Task.Run(() => false);

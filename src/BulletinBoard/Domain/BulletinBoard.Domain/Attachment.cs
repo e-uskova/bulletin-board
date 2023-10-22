@@ -29,5 +29,10 @@
         /// Время создания.
         /// </summary>
         public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Автор.
+        /// </summary>
+        public User Author { get; set; }
     }
 }

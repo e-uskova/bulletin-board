@@ -21,6 +21,8 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Repositories
         /// <returns>Элемент типа <see cref="CategoryDto"/></returns>
         Task<CategoryDto?/*Domain.Category*/> GetByIdAsync(Guid id);
 
+        Task<IEnumerable<CategoryDto?>> GetWithChildrenByIdAsync(Guid id);
+
         /// <summary>
         /// Получение элементов по списку идентификаторов.
         /// </summary>

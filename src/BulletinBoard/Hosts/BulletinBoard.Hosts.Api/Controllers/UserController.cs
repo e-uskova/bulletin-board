@@ -121,7 +121,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [Authorize]
         [HttpPost("requiring-auth-admin")]
         [Authorize(Roles = "Admin")]
-        //[Authorize(Policy = "CustomPolicy")]
         public JsonResult requiringAuthAdmin()
         {
             return new JsonResult("Success!");

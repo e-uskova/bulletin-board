@@ -48,6 +48,13 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return Ok(category);
         }
 
+        [HttpGet("get-with-children")]
+        public async Task<ActionResult<ICollection<CategoryDto>>> GetWithChildrenByIdAsync(Guid id)
+        {
+            var categories = await _categoryService.GetWithChildrenByIdAsync(id);
+            return Ok(categories);
+        }
+
         /// <summary>
         /// Получение категорий постранично.
         /// </summary>

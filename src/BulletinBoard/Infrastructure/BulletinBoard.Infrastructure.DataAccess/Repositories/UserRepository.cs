@@ -5,6 +5,7 @@ using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
@@ -39,6 +40,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             }
             return Task.Run(() => Mapper.ToUserDto(user));
         }
+
+        /*public Task<User?> GetCurrentUserAsync()
+        {
+            var curUser = _userRepository.GetAllAsync().Where(u => u.Email == ClaimTypes.Email?.Value).FirstOrDefault();
+            return Task.Run(() => curUser);
+        }*/
 
         public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate)
         {

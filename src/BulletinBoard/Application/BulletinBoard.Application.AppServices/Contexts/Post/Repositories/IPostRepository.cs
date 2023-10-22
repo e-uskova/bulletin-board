@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Contracts.Post;
+using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
@@ -47,7 +48,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<Guid> AddAsync(CreatePostDto entity);
+        Task<Guid> AddAsync(CreatePostDto entity, UserDto curUser);
 
         /// <summary>
         /// Изменение элемента.
