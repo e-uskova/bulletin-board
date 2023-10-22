@@ -15,10 +15,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
             _dataContext = dataContext;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            var entities = await _dataContext.Set<T>().ToListAsync();
-            return entities;
+        public IQueryable<T> GetAllAsync()
+        {            
+            return _dataContext.Set<T>();
         }
 
         public async Task<T?> GetByIdAsync(Guid id)
@@ -40,14 +39,21 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
         {
-            var entities = await _dataContext.Set<T>().Where(predicate).ToListAsync();
-            return entities;
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+            return _dataContext.Set<T>().Where(predicate);
         }
 
         public async Task<Guid> AddAsync(T entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             await _dataContext.Set<T>().AddAsync(entity);
             await _dataContext.SaveChangesAsync();
             return entity.Id;
@@ -55,13 +61,21 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
 
         public async Task UpdateAsync(T entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             _dataContext.Update(entity);
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
-            _dataContext.Entry(entity).State = EntityState.Detached;
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            //_dataContext.Entry(entity).State = EntityState.Detached;
             _dataContext.Set<T>().Remove(entity);
             await _dataContext.SaveChangesAsync();
         }

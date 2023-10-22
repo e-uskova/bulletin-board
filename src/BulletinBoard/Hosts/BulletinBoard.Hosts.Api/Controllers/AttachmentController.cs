@@ -1,7 +1,10 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
+using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -23,6 +26,13 @@ namespace BulletinBoard.Hosts.Api.Controllers
             _attachmentService = attachmentService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllInfo(CancellationToken cancellationToken)
+        {
+            var result = await _attachmentService.GetAllInfoAsync(cancellationToken);
+            return Ok(result);
+        }
+
         /// <summary>
         /// Загрузка файла в систему.
         /// </summary>
@@ -31,6 +41,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile attachment, CancellationToken cancellationToken)
         {
+            /*var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            if (emailFromClaims == null)
+            {
+                return StatusCode(401);
+            }
+
+            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims);*/
+
             var bytes = await GetBytesAsync(attachment, cancellationToken);
             var attachmentDto = new AttachmentDto
             {
@@ -40,6 +58,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             };
 
             var result = await _attachmentService.UploadAsync(attachmentDto, cancellationToken);
+
             return StatusCode((int)HttpStatusCode.Created, (result));
         }
 
