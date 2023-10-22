@@ -198,6 +198,21 @@
             Автор объявления.
             </summary>
         </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Created">
+            <summary>
+            Время создания.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.Modified">
+            <summary>
+            Время последнего изменения.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.IsActive">
+            <summary>
+            Флаг активности объявления.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Users.CreateUserDto">
             <summary>
             Создание пользователя.

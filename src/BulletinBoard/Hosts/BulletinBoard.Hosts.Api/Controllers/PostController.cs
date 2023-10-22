@@ -100,6 +100,20 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return NoContent();
         }
 
+        [HttpPut("close/{id:guid}")]
+        public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id)
+        {
+            await _postService.CloseAsync(id);
+            return NoContent();
+        }
+
+        [HttpPut("reopen/{id:guid}")]
+        public async Task<ActionResult<PostDto>> ReOpenAsync(Guid id)
+        {
+            await _postService.ReOpenAsync(id);
+            return NoContent();
+        }
+
         /// <summary>
         /// Удаление объявления по идентификатору.
         /// </summary>

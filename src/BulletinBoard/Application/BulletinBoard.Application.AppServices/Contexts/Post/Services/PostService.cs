@@ -1,6 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
+using BulletinBoard.Domain;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
@@ -52,6 +53,16 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         public Task<bool> UpdateAsync(Guid id, CreatePostDto post)
         {
             return _postRepository.UpdateAsync(id, post);
+        }
+
+        public Task CloseAsync(Guid id)
+        {
+            return _postRepository.CloseAsync(id);
+        }
+
+        public Task ReOpenAsync(Guid id)
+        {
+            return _postRepository.ReOpenAsync(id);
         }
 
         public Task<bool> DeleteAsync(Guid id)

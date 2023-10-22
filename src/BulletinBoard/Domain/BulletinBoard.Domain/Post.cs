@@ -34,5 +34,20 @@
         /// Автор объявления.
         /// </summary>
         public User Author { get; set; }
+
+        /// <summary>
+        /// Время создания.
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Время последнего изменения.
+        /// </summary>
+        public DateTime Modified { get; set; }
+
+        /// <summary>
+        /// Флаг активности объявления.
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

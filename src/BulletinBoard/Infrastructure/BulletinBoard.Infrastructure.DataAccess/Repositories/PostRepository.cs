@@ -87,9 +87,16 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 Title = post.Title,
                 Description = post.Description,
                 Price = post.Price,
-                Category = _categoryRepository.GetByIdAsync(post.CategoryId).Result,
-                Author = _userRepository.GetByIdAsync(curUser.Id).Result
+                Author = _userRepository.GetByIdAsync(curUser.Id).Result,
+                Created = DateTime.UtcNow,
+                Modified = DateTime.UtcNow,
+                IsActive = true,
             };
+            var category = _categoryRepository.GetByIdAsync(post.CategoryId).Result;
+            if (category != null)
+            {
+                entity.Category = category;
+            }
 
             return _postRepository.AddAsync(entity);
         }
@@ -107,6 +114,37 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             entity.Description = post.Description;
             entity.Price = post.Price;
             entity.Category = _categoryRepository.GetByIdAsync(post.CategoryId).Result;
+            entity.Modified = DateTime.UtcNow;
+
+            _postRepository.UpdateAsync(entity);
+            return Task.Run(() => false);
+        }
+
+        public Task CloseAsync(Guid id)
+        {
+            var existedPost = _postRepository.GetByIdAsync(id);
+            if (existedPost == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            Post entity = existedPost.Result;
+            entity.IsActive = false;
+
+            _postRepository.UpdateAsync(entity);
+            return Task.Run(() => false);        
+        }
+
+        public Task ReOpenAsync(Guid id)
+        {
+            var existedPost = _postRepository.GetByIdAsync(id);
+            if (existedPost == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            Post entity = existedPost.Result;
+            entity.IsActive = true;
 
             _postRepository.UpdateAsync(entity);
             return Task.Run(() => false);

@@ -5,15 +5,6 @@
     /// </summary>
     public class User : BaseEntity
     {
-        /*/// <summary>
-        /// Флаг, что пользователь аутентифицирован.
-        /// </summary>
-        public bool IsAuthenticated { get; set; }
-
-        public string Scheme { get; set; }
-
-        public List<object> Claims { get; set; } = new List<object>();*/
-
         /// <summary>
         /// Имя.
         /// </summary>

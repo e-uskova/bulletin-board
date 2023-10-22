@@ -58,6 +58,10 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// <returns></returns>
         Task<bool> UpdateAsync(Guid id, CreatePostDto entity);
 
+        public Task CloseAsync(Guid id);
+
+        public Task ReOpenAsync(Guid id);
+
         /// <summary>
         /// Удаление элемента.
         /// </summary>

@@ -40,7 +40,9 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Description = post.Description,
                 CategoryName = post.Category?.Name,
                 Price = post.Price,
-                
+                Created = post.Created,
+                Modified = post.Modified,
+                IsActive = post.IsActive,
                 // TODO Attachments
             };
             if (post.Author != null)
