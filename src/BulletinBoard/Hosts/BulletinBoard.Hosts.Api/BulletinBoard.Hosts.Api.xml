@@ -107,7 +107,7 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostsAsync">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostsAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
             <summary>
             Получение объявлений постранично.
             </summary>

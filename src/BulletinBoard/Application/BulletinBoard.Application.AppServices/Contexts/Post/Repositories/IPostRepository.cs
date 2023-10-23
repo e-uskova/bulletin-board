@@ -13,7 +13,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// Получение всех элементов. 
         /// </summary>
         /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
-        Task<IEnumerable<PostDto>> GetAllAsync();
+        Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex);
 
         /// <summary>
         /// Получение элемента по идентификатору.

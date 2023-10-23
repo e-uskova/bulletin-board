@@ -6,8 +6,6 @@ using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Net.Http;
-using System.Security.Claims;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
@@ -18,16 +16,19 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<User> _userRepository;
 
-        public PostRepository(IRepository<Post> postRepository, IRepository<Category> categoryRepository, IRepository<User> userRepository)
+        public PostRepository(
+            IRepository<Post> postRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<User> userRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
         }
 
-        public Task<IEnumerable<PostDto>> GetAllAsync()
+        public Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex)
         {
-            var posts = _postRepository.GetAllAsync().ToListAsync().Result;
+            var posts = _postRepository.GetAllAsync().Skip(pageIndex * pageSize).Take(pageSize).ToListAsync().Result;
             if (posts == null)
             {
                 return Task.FromResult<IEnumerable<PostDto>?>(null);

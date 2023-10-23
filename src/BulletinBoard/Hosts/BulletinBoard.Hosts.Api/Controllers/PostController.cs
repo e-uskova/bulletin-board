@@ -62,9 +62,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция объявлений <see cref="PostDto"/></returns>
         [HttpGet]
-        public async Task<ActionResult<PostDto>> GetPostsAsync()
+        public async Task<ActionResult<PostDto>> GetPostsAsync(CancellationToken cancellationToken, int pageSize = 10, int pageIndex = 0)
         {
-            var posts = await _postService.GetAllAsync();
+            var posts = await _postService.GetAllAsync(cancellationToken, pageSize, pageIndex);
             return Ok(posts);
         }
 

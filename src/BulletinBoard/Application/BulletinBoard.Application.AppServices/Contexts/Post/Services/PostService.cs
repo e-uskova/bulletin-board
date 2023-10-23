@@ -20,9 +20,9 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             _postRepository = postRepository;
         }
 
-        public Task<IEnumerable<PostDto>> GetAllAsync()
+        public Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex)
         {
-            return _postRepository.GetAllAsync();
+            return _postRepository.GetAllAsync(cancellationToken, pageSize, pageIndex);
         }
 
         public Task<PostDto?> GetByIdAsync(Guid id)

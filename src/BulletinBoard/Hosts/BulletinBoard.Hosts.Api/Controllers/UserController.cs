@@ -67,6 +67,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user)
         {
+            var existedUser = await _userService.GetFirstWhere(u => u.Email == user.Email);
+            if (existedUser != null)
+            {
+                return BadRequest("Пользователь с такой почтой уже зарегистрирован.");
+            }
+
             var id = await _userService.AddAsync(user);
             return CreatedAtAction(nameof(GetUserAsync), new { id }, id);
         }
