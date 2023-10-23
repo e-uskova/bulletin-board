@@ -26,14 +26,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Получение пользователей постранично.
+        /// Получение всех пользователей.
         /// </summary>
         /// <param name="cancellationToken">Отмена операции.</param>
-        /// <param name="pageSize">Размер страницы.</param>
-        /// <param name="pageIndex">Номер страницы.</param>
         /// <returns>Коллекция пользователей <see cref="UserDto"/></returns>
         [HttpGet]
-        public async Task<ActionResult<UserDto>> GetUsersAsync()
+        public async Task<ActionResult<UserDto>> GetUsersAsync(CancellationToken cancellationToken)
         {
             var users = await _userService.GetAllAsync();
             return Ok(users);
@@ -43,13 +41,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// Получение пользователя по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор пользователя.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Модель пользователя <see cref="UserDto"/></returns>
         [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ActionName(nameof(GetUserAsync))]
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<UserDto>> GetUserAsync(Guid id)
+        public async Task<ActionResult<UserDto>> GetUserAsync(Guid id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
@@ -60,12 +59,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Создание пользователя.
+        /// Регистрация.
         /// </summary>
         /// <param name="user">Модель для создания пользователя.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Идентификатор созданной сущности./></returns>
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user)
+        public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
             var existedUser = await _userService.GetFirstWhere(u => u.Email == user.Email);
             if (existedUser != null)
@@ -82,10 +83,21 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="user">Модель для редактирования пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [Authorize]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, CreateUserDto user)
+        public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
         {
-            await _userService.UpdateAsync(id, user);
+            var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
+            if (idFromClaims == null)
+            {
+                return Unauthorized();
+            }
+            if (Guid.Parse(idFromClaims) != id)
+            {
+                return BadRequest("Нельзя редактировать чужой профиль.");
+            }
+
+            await _userService.UpdateAsync(Guid.Parse(idFromClaims), user);
             return NoContent();
         }
 
@@ -95,9 +107,19 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="id">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<UserDto>> DeleteUserAsync(Guid id)
-        { 
-            var result = await _userService.DeleteAsync(id);
+        public async Task<ActionResult<UserDto>> DeleteUserAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
+            if (idFromClaims == null)
+            {
+                return Unauthorized();
+            }
+            if (Guid.Parse(idFromClaims) != id)
+            {
+                return BadRequest("Нельзя удалять чужой профиль.");
+            }
+
+            var result = await _userService.DeleteAsync(Guid.Parse(idFromClaims));
             if (result) 
             {
                 return NotFound();
@@ -134,15 +156,15 @@ namespace BulletinBoard.Hosts.Api.Controllers
 
         [Authorize]
         [HttpPost("get-user-info")]
-        public async Task<UserDto> GetCurrentUserInfo()
+        public async Task<UserDto> GetCurrentUserInfo(CancellationToken cancellationToken)
         {
-            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
-            if (emailFromClaims == null)
+            var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
+            if (idFromClaims == null)
             {
                 return new UserDto();
             }
 
-            return await _userService.GetFirstWhere(u => u.Email == emailFromClaims);
+            return await _userService.GetByIdAsync(Guid.Parse(idFromClaims));
         }
     }
 }

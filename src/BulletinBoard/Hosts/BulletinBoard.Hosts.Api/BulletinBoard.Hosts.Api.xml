@@ -161,37 +161,37 @@
             </summary>
             <param name="postService">Сервис работы с пользователями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUsersAsync">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUsersAsync(System.Threading.CancellationToken)">
             <summary>
-            Получение пользователей постранично.
+            Получение всех пользователей.
             </summary>
             <param name="cancellationToken">Отмена операции.</param>
-            <param name="pageSize">Размер страницы.</param>
-            <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция пользователей <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUserAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUserAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Получение пользователя по идентификатору.
             </summary>
             <param name="id">Идентификатор пользователя.</param>
+            <param name="cancellationToken"></param>
             <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Contracts.Users.CreateUserDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Contracts.Users.CreateUserDto,System.Threading.CancellationToken)">
             <summary>
-            Создание пользователя.
+            Регистрация.
             </summary>
             <param name="user">Модель для создания пользователя.</param>
+            <param name="cancellationToken"></param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.CreateUserDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.CreateUserDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование пользователя.
             </summary>
             <param name="user">Модель для редактирования пользователя.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.DeleteUserAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.DeleteUserAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаление пользователя по идентификатору.
             </summary>

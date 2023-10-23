@@ -45,6 +45,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             {
                 new Claim(ClaimTypes.Role, "User"),
                 new Claim(ClaimTypes.Email, dto.Login),
+                new Claim("Id", user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

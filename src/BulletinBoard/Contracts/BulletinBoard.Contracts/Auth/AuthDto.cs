@@ -11,6 +11,7 @@ namespace BulletinBoard.Contracts.Auth
         /// Логин (email).
         /// </summary>
         [Required]
+        [EmailAddress]
         public string Login { get; set; }
 
         /// <summary>
