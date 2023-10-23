@@ -131,6 +131,20 @@
             <param name="dto">Модель для редактирования объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.AttachFileAsync(System.Guid,System.Guid)">
+            <summary>
+            Прикрепление файла к объявлению.
+            </summary>
+            <param name="postId">Идентификатор объявления</param>
+            <param name="fileId">Идентификатор файла</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.DetachFileAsync(System.Guid,System.Guid)">
+            <summary>
+            Открепление файла от объявления.
+            </summary>
+            <param name="postId">Идентификатор объявления</param>
+            <param name="fileId">Идентификатор файла</param>
+        </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.DeletePostAsync(System.Guid)">
             <summary>
             Удаление объявления по идентификатору.

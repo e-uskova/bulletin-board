@@ -26,5 +26,10 @@ namespace BulletinBoard.Contracts.Attachment
         /// Время создания.
         /// </summary>
         public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Идентификатор объявления, к которому прикреплен файл.
+        /// </summary>
+        public Guid PostId { get; set; }
     }
 }

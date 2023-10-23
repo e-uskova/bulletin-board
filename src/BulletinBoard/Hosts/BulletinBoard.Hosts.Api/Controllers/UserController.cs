@@ -30,6 +30,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Коллекция пользователей <see cref="UserDto"/></returns>
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetUsersAsync(CancellationToken cancellationToken)
         {
@@ -46,6 +47,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [Authorize]
         [ActionName(nameof(GetUserAsync))]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<UserDto>> GetUserAsync(Guid id, CancellationToken cancellationToken)

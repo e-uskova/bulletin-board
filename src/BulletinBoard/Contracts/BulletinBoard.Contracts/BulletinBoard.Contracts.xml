@@ -24,6 +24,11 @@
             Тип контента.
             </summary>
         </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentDto.PostId">
+            <summary>
+            Идентификатор объявления, к которому прикреплен файл.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Attachment.AttachmentInfoDto">
             <summary>
             Информация о вложении без данных.
@@ -47,6 +52,11 @@
         <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.Created">
             <summary>
             Время создания.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Attachment.AttachmentInfoDto.PostId">
+            <summary>
+            Идентификатор объявления, к которому прикреплен файл.
             </summary>
         </member>
         <member name="T:BulletinBoard.Contracts.Attributes.PasswordAttribute">

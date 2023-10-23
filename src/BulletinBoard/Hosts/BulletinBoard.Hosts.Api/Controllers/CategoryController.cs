@@ -1,5 +1,6 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Category.Services;
 using BulletinBoard.Contracts.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -75,6 +76,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="category">Модель для создания категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<CategoryDto>> CreateCategoryAsync(CreateCategoryDto category)
         {
@@ -87,6 +89,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="category">Модель для редактирования категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, CreateCategoryDto category)
         {
@@ -99,6 +102,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор категории.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<CategoryDto>> DeleteCategoryAsync(Guid id)
         {

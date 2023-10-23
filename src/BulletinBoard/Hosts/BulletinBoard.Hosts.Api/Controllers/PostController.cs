@@ -2,8 +2,10 @@
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
@@ -74,6 +76,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="dto">Модель для создания объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Идентификатор созданной сущности./></returns>
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post)
         {
@@ -93,6 +96,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="dto">Модель для редактирования объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, CreatePostDto post)
         {
@@ -100,6 +104,33 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Прикрепление файла к объявлению.
+        /// </summary>
+        /// <param name="postId">Идентификатор объявления</param>
+        /// <param name="fileId">Идентификатор файла</param>
+        [Authorize]
+        [HttpPut("attach/{postId:guid}")]
+        public async Task<ActionResult<PostDto>> AttachFileAsync(Guid postId, Guid fileId)
+        {
+            await _postService.AttachFileAsync(postId, fileId);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Открепление файла от объявления.
+        /// </summary>
+        /// <param name="postId">Идентификатор объявления</param>
+        /// <param name="fileId">Идентификатор файла</param>
+        [Authorize]
+        [HttpPut("detach/{postId:guid}")]
+        public async Task<ActionResult<PostDto>> DetachFileAsync(Guid postId, Guid fileId)
+        {
+            await _postService.DetachFileAsync(postId, fileId);
+            return NoContent();
+        }
+
+        [Authorize]
         [HttpPut("close/{id:guid}")]
         public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id)
         {
@@ -107,6 +138,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("reopen/{id:guid}")]
         public async Task<ActionResult<PostDto>> ReOpenAsync(Guid id)
         {
@@ -119,6 +151,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор объявления.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id)
         {

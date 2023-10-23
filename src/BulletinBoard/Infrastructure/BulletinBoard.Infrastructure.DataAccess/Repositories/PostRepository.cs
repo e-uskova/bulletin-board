@@ -15,15 +15,18 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         private readonly IRepository<Post> _postRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Attachment> _attachmentRepository;
 
         public PostRepository(
             IRepository<Post> postRepository,
             IRepository<Category> categoryRepository,
-            IRepository<User> userRepository)
+            IRepository<User> userRepository,
+            IRepository<Attachment> attachmentRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
+            _attachmentRepository = attachmentRepository;
         }
 
         public Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex)
@@ -116,6 +119,55 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             entity.Price = post.Price;
             entity.Category = _categoryRepository.GetByIdAsync(post.CategoryId).Result;
             entity.Modified = DateTime.UtcNow;
+
+            _postRepository.UpdateAsync(entity);
+            return Task.Run(() => false);
+        }
+
+        public Task AttachFileAsync(Guid postId, Guid fileId)
+        {
+            var existedPost = _postRepository.GetByIdAsync(postId);
+            if (existedPost == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            var existedFile = _attachmentRepository.GetByIdAsync(fileId);
+            if (existedFile == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            var entity = existedPost.Result;
+            if (entity == null)
+            {
+                entity.Attachments = (IReadOnlyCollection<Attachment>)entity.Attachments.Append(existedFile.Result);
+            }
+            else
+            {
+                entity.Attachments = new List<Attachment>() { existedFile.Result };
+            }
+
+            _postRepository.UpdateAsync(entity);
+            return Task.Run(() => false);
+        }
+
+        public Task DetachFileAsync(Guid postId, Guid fileId)
+        {
+            var existedPost = _postRepository.GetByIdAsync(postId);
+            if (existedPost == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            var existedFile = _attachmentRepository.GetByIdAsync(fileId);
+            if (existedFile == null)
+            {
+                return Task.Run(() => true);
+            }
+
+            var entity = existedPost.Result;
+            entity.Attachments = new List<Attachment>(entity.Attachments.Where(f => f.Id != fileId));
 
             _postRepository.UpdateAsync(entity);
             return Task.Run(() => false);

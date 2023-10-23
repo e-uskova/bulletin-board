@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Contracts.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace BulletinBoard.Contracts.Attachment
 {
@@ -21,5 +22,11 @@ namespace BulletinBoard.Contracts.Attachment
         /// Тип контента.
         /// </summary>
         public string ContentType { get; set; }
+
+        /// <summary>
+        /// Идентификатор объявления, к которому прикреплен файл.
+        /// </summary>
+        [Required]
+        public Guid PostId { get; set; }
     }
 }

@@ -31,8 +31,8 @@
         public DateTime Created { get; set; }
 
         /// <summary>
-        /// Автор.
+        /// Объявление, к которому прикреплен файл.
         /// </summary>
-        public User Author { get; set; }
+        public Post Post { get; set; }
     }
 }

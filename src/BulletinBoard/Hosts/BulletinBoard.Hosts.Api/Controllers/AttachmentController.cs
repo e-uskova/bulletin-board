@@ -2,6 +2,7 @@
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
@@ -38,6 +39,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="attachment">Файл.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile attachment, CancellationToken cancellationToken)
         {

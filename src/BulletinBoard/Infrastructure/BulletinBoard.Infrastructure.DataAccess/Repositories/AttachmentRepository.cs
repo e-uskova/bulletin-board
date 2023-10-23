@@ -27,6 +27,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 ContentType = a.ContentType,
                 Length = a.Length,
                 Created = a.Created,
+                PostId = a.Post.Id,
             }).FirstOrDefault());
         }
 
@@ -40,6 +41,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 ContentType = a.ContentType,
                 Length = a.Length,
                 Created = a.Created,
+                PostId = a.Post.Id,
             }).AsEnumerable());
         }
 
@@ -70,6 +72,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 Content = s.Content,
                 ContentType = s.ContentType,
                 Name = s.Name,
+                PostId = s.Post.Id,
             }).FirstOrDefaultAsync(cancellationToken);
 
             /*var attachment = _attachmentRepository.GetByIdAsync(id).Result;
