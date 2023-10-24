@@ -53,7 +53,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.Category", b =>
@@ -73,7 +73,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.Post", b =>
@@ -113,7 +113,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.User", b =>
@@ -140,7 +140,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.Attachment", b =>

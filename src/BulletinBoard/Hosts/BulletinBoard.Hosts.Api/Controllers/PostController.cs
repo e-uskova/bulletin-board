@@ -104,32 +104,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Прикрепление файла к объявлению.
-        /// </summary>
-        /// <param name="postId">Идентификатор объявления</param>
-        /// <param name="fileId">Идентификатор файла</param>
-        [Authorize]
-        [HttpPut("attach/{postId:guid}")]
-        public async Task<ActionResult<PostDto>> AttachFileAsync(Guid postId, Guid fileId)
-        {
-            await _postService.AttachFileAsync(postId, fileId);
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Открепление файла от объявления.
-        /// </summary>
-        /// <param name="postId">Идентификатор объявления</param>
-        /// <param name="fileId">Идентификатор файла</param>
-        [Authorize]
-        [HttpPut("detach/{postId:guid}")]
-        public async Task<ActionResult<PostDto>> DetachFileAsync(Guid postId, Guid fileId)
-        {
-            await _postService.DetachFileAsync(postId, fileId);
-            return NoContent();
-        }
-
         [Authorize]
         [HttpPut("close/{id:guid}")]
         public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id)

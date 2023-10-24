@@ -43,13 +43,21 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Created = post.Created,
                 Modified = post.Modified,
                 IsActive = post.IsActive,
-                // TODO Attachments
             };
             if (post.Author != null)
             {
                 result.Author = ToUserDto(post.Author);
-
             }
+            if (post.Attachments != null)
+            {
+                var attachments = new List<AttachmentInfoDto>();
+                foreach(var attachment in post.Attachments)
+                {
+                    attachments.Add(ToAttachmentInfoDto(attachment));
+                }
+                result.Attachments = attachments;
+            }
+
             return result;
         }
 
@@ -71,6 +79,19 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Name = attachment.Name,
                 Content = attachment.Content,
                 ContentType = attachment.ContentType,
+            };
+        }
+
+        public static AttachmentInfoDto ToAttachmentInfoDto(Attachment attachment)
+        {
+            return new AttachmentInfoDto()
+            {
+                Id = attachment.Id,
+                Name = attachment.Name,
+                ContentType = attachment.ContentType,
+                Length = attachment.Length,
+                Created = attachment.Created,
+                PostId = attachment.Post.Id
             };
         }
     }

@@ -39,25 +39,9 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
 
         /// <inheritdoc/>
-        public Task<Guid> UploadAsync(AttachmentDto attachment, CancellationToken cancellationToken)
+        public Task<Guid> UploadAsync(AttachmentDto attachment, Guid postId, CancellationToken cancellationToken)
         {
-            /*var curUser = _userRepository.GetCurrentUserAsync().Result;
-            if (curUser == null)
-            {
-                return Task.FromResult(Guid.Empty);
-            }*/
-
-            var entity = new Domain.Attachment
-            {
-                Name = attachment.Name,
-                Content = attachment.Content,
-                ContentType = attachment.ContentType,
-                Created = DateTime.UtcNow,
-                Length = attachment.Content.Length,
-                //Author = curUser,
-            };
-
-            return _attachmentRepository.UploadAsync(entity, cancellationToken);
+             return _attachmentRepository.UploadAsync(attachment, postId, cancellationToken);
         }
 
         /// <inheritdoc/>

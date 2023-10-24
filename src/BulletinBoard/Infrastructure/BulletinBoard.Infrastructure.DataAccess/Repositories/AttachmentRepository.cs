@@ -12,10 +12,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
     public class AttachmentRepository : IAttachmentRepository
     {
         private readonly IRepository<Attachment> _attachmentRepository;
+        private readonly IRepository<Post> _postRepository;
 
-        public AttachmentRepository(IRepository<Attachment> attachmentRepository )
+        public AttachmentRepository(IRepository<Attachment> attachmentRepository, IRepository<Post> postRepository)
         {
             _attachmentRepository = attachmentRepository;
+            _postRepository = postRepository;
         }
 
         ///<inheritdoc/>
@@ -58,10 +60,26 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         }
 
         ///<inheritdoc/>
-        public async Task<Guid> UploadAsync(Attachment attachment, CancellationToken cancellationToken)
+        public async Task<Guid> UploadAsync(AttachmentDto attachment, Guid postId, CancellationToken cancellationToken)
         {
-            await _attachmentRepository.AddAsync( attachment );
-            return attachment.Id;
+            var entity = new Attachment
+            {
+                Name = attachment.Name,
+                Content = attachment.Content,
+                ContentType = attachment.ContentType,
+                Created = DateTime.UtcNow,
+                Length = attachment.Content.Length,
+            };
+
+            var post = _postRepository.GetByIdAsync(postId).Result;
+            if (post == null)
+            {
+                return Guid.Empty;
+            }
+            entity.Post = post;
+
+            await _attachmentRepository.AddAsync(entity);
+            return entity.Id;
         }
 
         ///<inheritdoc/>

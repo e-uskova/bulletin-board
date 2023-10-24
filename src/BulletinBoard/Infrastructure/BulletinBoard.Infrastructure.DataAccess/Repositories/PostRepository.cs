@@ -5,6 +5,7 @@ using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
@@ -119,55 +120,6 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             entity.Price = post.Price;
             entity.Category = _categoryRepository.GetByIdAsync(post.CategoryId).Result;
             entity.Modified = DateTime.UtcNow;
-
-            _postRepository.UpdateAsync(entity);
-            return Task.Run(() => false);
-        }
-
-        public Task AttachFileAsync(Guid postId, Guid fileId)
-        {
-            var existedPost = _postRepository.GetByIdAsync(postId);
-            if (existedPost == null)
-            {
-                return Task.Run(() => true);
-            }
-
-            var existedFile = _attachmentRepository.GetByIdAsync(fileId);
-            if (existedFile == null)
-            {
-                return Task.Run(() => true);
-            }
-
-            var entity = existedPost.Result;
-            if (entity == null)
-            {
-                entity.Attachments = (IReadOnlyCollection<Attachment>)entity.Attachments.Append(existedFile.Result);
-            }
-            else
-            {
-                entity.Attachments = new List<Attachment>() { existedFile.Result };
-            }
-
-            _postRepository.UpdateAsync(entity);
-            return Task.Run(() => false);
-        }
-
-        public Task DetachFileAsync(Guid postId, Guid fileId)
-        {
-            var existedPost = _postRepository.GetByIdAsync(postId);
-            if (existedPost == null)
-            {
-                return Task.Run(() => true);
-            }
-
-            var existedFile = _attachmentRepository.GetByIdAsync(fileId);
-            if (existedFile == null)
-            {
-                return Task.Run(() => true);
-            }
-
-            var entity = existedPost.Result;
-            entity.Attachments = new List<Attachment>(entity.Attachments.Where(f => f.Id != fileId));
 
             _postRepository.UpdateAsync(entity);
             return Task.Run(() => false);

@@ -55,16 +55,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.UpdateAsync(id, post);
         }
 
-        public Task AttachFileAsync(Guid postId, Guid fileId)
-        {
-            return _postRepository.AttachFileAsync(postId, fileId);
-        }
-
-        public Task DetachFileAsync(Guid postId, Guid fileId)
-        {
-            return _postRepository.DetachFileAsync(postId, fileId);
-        }
-
         public Task CloseAsync(Guid id)
         {
             return _postRepository.CloseAsync(id);

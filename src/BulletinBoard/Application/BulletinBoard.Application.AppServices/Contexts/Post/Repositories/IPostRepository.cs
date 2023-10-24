@@ -57,10 +57,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// <returns></returns>
         Task<bool> UpdateAsync(Guid id, CreatePostDto entity);
 
-        public Task AttachFileAsync(Guid postId, Guid fileId);
-
-        public Task DetachFileAsync(Guid postId, Guid fileId);
-
         public Task CloseAsync(Guid id);
 
         public Task ReOpenAsync(Guid id);

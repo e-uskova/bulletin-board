@@ -41,7 +41,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Токен отмены.</param>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile attachment, CancellationToken cancellationToken)
+        public async Task<IActionResult> Upload(IFormFile attachment, Guid postId, CancellationToken cancellationToken)
         {
             /*var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
             if (emailFromClaims == null)
@@ -59,7 +59,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
                 Name = attachment.FileName,
             };
 
-            var result = await _attachmentService.UploadAsync(attachmentDto, cancellationToken);
+            var result = await _attachmentService.UploadAsync(attachmentDto, postId, cancellationToken);
+
+            if (result == Guid.Empty)
+            {
+                return BadRequest("Объявление не найдено.");
+            }
 
             return StatusCode((int)HttpStatusCode.Created, (result));
         }

@@ -25,6 +25,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Base
             //modelBuilder.Entity<Post>().Navigation(p => p.Author).AutoInclude();
             //modelBuilder.Entity<Post>().Navigation(p => p.Category).AutoInclude();
 
+            modelBuilder.Entity<Attachment>().HasOne(a => a.Post).WithMany(p => p.Attachments);
+            modelBuilder.Entity<Post>().Navigation(p => p.Attachments).AutoInclude();
+
             //modelBuilder.Entity<Category>().Navigation(c => c.ParentCategory).AutoInclude();            
             //modelBuilder.Entity<Category>();
 

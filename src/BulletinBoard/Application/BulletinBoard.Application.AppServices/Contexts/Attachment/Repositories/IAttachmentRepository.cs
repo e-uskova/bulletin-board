@@ -35,7 +35,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories
         /// <param name="attachment">Файл.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор файла.</returns>
-        Task<Guid> UploadAsync(Domain.Attachment attachment, CancellationToken cancellationToken);
+        Task<Guid> UploadAsync(AttachmentDto attachment, Guid postId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Скачивание файла.
