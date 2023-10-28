@@ -1,11 +1,9 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
@@ -46,9 +44,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ActionName(nameof(GetPostAsync))]
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<PostDto>> GetPostAsync(Guid id)
+        public async Task<ActionResult<PostDto>> GetPostAsync(Guid id, CancellationToken cancellationToken)
         {
-            var post = await _postService.GetByIdAsync(id);
+            var post = await _postService.GetByIdAsync(id, cancellationToken);
             if (post == null)
             {
                 return BadRequest();
@@ -78,16 +76,20 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <returns>Идентификатор созданной сущности./></returns>
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post)
+        public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post, CancellationToken cancellationToken)
         {
             var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
             if (emailFromClaims == null)
             {
                 return Unauthorized();
             }
-            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims);
+            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
 
-            var id = await _postService.AddAsync(post, curUser);
+            var id = await _postService.AddAsync(post, curUser, cancellationToken);
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
             return CreatedAtAction(nameof(GetPostAsync), new { id }, id);
         }
 
@@ -98,25 +100,25 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, CreatePostDto post)
+        public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, CreatePostDto post, CancellationToken cancellationToken)
         {
-            await _postService.UpdateAsync(id, post);
+            await _postService.UpdateAsync(id, post, cancellationToken);
             return NoContent();
         }
 
         [Authorize]
         [HttpPut("close/{id:guid}")]
-        public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id)
+        public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id, CancellationToken cancellationToken)
         {
-            await _postService.CloseAsync(id);
+            await _postService.CloseAsync(id, cancellationToken);
             return NoContent();
         }
 
         [Authorize]
         [HttpPut("reopen/{id:guid}")]
-        public async Task<ActionResult<PostDto>> ReOpenAsync(Guid id)
+        public async Task<ActionResult<PostDto>> ReOpenAsync(Guid id, CancellationToken cancellationToken)
         {
-            await _postService.ReOpenAsync(id);
+            await _postService.ReOpenAsync(id, cancellationToken);
             return NoContent();
         }
 
@@ -127,9 +129,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize]
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id)
+        public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id, CancellationToken cancellationToken)
         {
-            var result = await _postService.DeleteAsync(id);
+            var result = await _postService.DeleteAsync(id, cancellationToken);
             if (result)
             {
                 return NotFound();

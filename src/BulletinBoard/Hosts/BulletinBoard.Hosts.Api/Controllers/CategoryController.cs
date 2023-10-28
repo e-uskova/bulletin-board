@@ -3,6 +3,7 @@ using BulletinBoard.Contracts.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -39,9 +40,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ActionName(nameof(GetCategoryAsync))]
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id)
+        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id, CancellationToken cancellationToken)
         {
-            var category = await _categoryService.GetByIdAsync(id);
+            var category = await _categoryService.GetByIdAsync(id, cancellationToken);
             if (category == null)
             {
                 return BadRequest();
@@ -50,9 +51,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         [HttpGet("get-with-children")]
-        public async Task<ActionResult<ICollection<CategoryDto>>> GetWithChildrenByIdAsync(Guid id)
+        public async Task<ActionResult<ICollection<CategoryDto>>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var categories = await _categoryService.GetWithChildrenByIdAsync(id);
+            var categories = await _categoryService.GetWithChildrenByIdAsync(id, cancellationToken);
             return Ok(categories);
         }
 
@@ -78,9 +79,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <returns>Идентификатор созданной сущности./></returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<CategoryDto>> CreateCategoryAsync(CreateCategoryDto category)
+        public async Task<ActionResult<CategoryDto>> CreateCategoryAsync(CreateCategoryDto category, CancellationToken cancellationToken)
         {
-            var id = await _categoryService.AddAsync(category);
+            var id = await _categoryService.AddAsync(category, cancellationToken);
             return CreatedAtAction(nameof(GetCategoryAsync), new { id }, id);
         }
 
@@ -91,9 +92,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, CreateCategoryDto category)
+        public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
         {
-            await _categoryService.UpdateAsync(id, category);
+            await _categoryService.UpdateAsync(id, category, cancellationToken);
             return NoContent();
         }
 
@@ -104,9 +105,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> DeleteCategoryAsync(Guid id)
+        public async Task<ActionResult<CategoryDto>> DeleteCategoryAsync(Guid id, CancellationToken cancellationToken)
         {
-            var result = await _categoryService.DeleteAsync(id);
+            var result = await _categoryService.DeleteAsync(id, cancellationToken);
             if (result)
             {
                 return NotFound();

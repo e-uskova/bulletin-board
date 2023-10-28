@@ -1,8 +1,8 @@
-﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
-using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Domain;
+using BulletinBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -20,7 +20,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         public Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            var categorys = _categoryRepository.GetAllAsync().ToListAsync().Result;
+            var categorys = _categoryRepository.GetAll().ToListAsync().Result;
             if (categorys == null)
             {
                 return Task.FromResult<IEnumerable<CategoryDto>?>(null);
@@ -30,9 +30,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => result);
         }
 
-        public Task<CategoryDto?> GetByIdAsync(Guid id)
+        public Task<CategoryDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var category = _categoryRepository.GetByIdAsync(id).Result;
+            var category = _categoryRepository.GetByIdAsync(id, cancellationToken).Result;
             if (category == null)
             {
                 return Task.FromResult<CategoryDto?>(null);
@@ -40,12 +40,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => Mapper.ToCategoryDto(category));
         }
 
-        public Task<IEnumerable<CategoryDto>> GetWithChildrenByIdAsync(Guid id)
+        public Task<IEnumerable<CategoryDto>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var ids = new List<Guid>() { id };
             ids.AddRange(GetAllChildrenId(id));
 
-            var categories = _categoryRepository.GetRangeByIDAsync(ids).Result;
+            var categories = _categoryRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
             var result = new List<CategoryDto>();
             foreach (var category in categories)
             {
@@ -73,13 +73,13 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         private List<Guid> GetChildrenId(Guid parentGuid)
         {
-            var ids = _categoryRepository.GetAllAsync().Where(c => c.ParentCategory != null && c.ParentCategory.Id == parentGuid).Select(c => c.Id).ToList();
+            var ids = _categoryRepository.GetAll().Where(c => c.ParentCategory != null && c.ParentCategory.Id == parentGuid).Select(c => c.Id).ToList();
             return ids;
         }
 
-        public Task<CategoryDto> GetFirstWhere(Expression<Func<Category, bool>> predicate)
+        public Task<CategoryDto> GetFirstWhere(Expression<Func<Category, bool>> predicate, CancellationToken cancellationToken)
         {
-            var category = _categoryRepository.GetFirstWhere(predicate).Result;
+            var category = _categoryRepository.GetFirstWhere(predicate, cancellationToken).Result;
             if (category == null)
             {
                 return Task.FromResult<CategoryDto?>(null);
@@ -87,9 +87,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => Mapper.ToCategoryDto(category));
         }
 
-        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids)
+        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            var categorys = _categoryRepository.GetRangeByIDAsync(ids).Result;
+            var categorys = _categoryRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
             IEnumerable<CategoryDto> result = new List<CategoryDto>();
             foreach (var category in categorys)
             {
@@ -109,7 +109,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => result);
         }
 
-        public Task<Guid> AddAsync(CreateCategoryDto category)
+        public Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
         {
             Category entity = new()
             {
@@ -118,14 +118,14 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             };
             if (category.ParentCategoryId != null) 
             {
-                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId).Result;
+                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
             }
-            return _categoryRepository.AddAsync(entity);
+            return _categoryRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category)
+        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
         {
-            var existedCategory = _categoryRepository.GetByIdAsync(id);
+            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken);
             if (existedCategory == null)
             {
                 return Task.Run(() => true);
@@ -135,22 +135,22 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             entity.Name = category.Name;
             if (category.ParentCategoryId != null)
             {
-                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId).Result;
+                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
             }
 
-            _categoryRepository.UpdateAsync(entity);
+            _categoryRepository.UpdateAsync(entity, cancellationToken);
             return Task.Run(() => false);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existedCategory = _categoryRepository.GetByIdAsync(id);
+            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken);
             if (existedCategory == null)
             {
                 return Task.Run(() => true);
             }
 
-            _categoryRepository.DeleteAsync(existedCategory.Result);
+            _categoryRepository.DeleteAsync(existedCategory.Result, cancellationToken);
             return Task.Run(() => false);
         }
     }

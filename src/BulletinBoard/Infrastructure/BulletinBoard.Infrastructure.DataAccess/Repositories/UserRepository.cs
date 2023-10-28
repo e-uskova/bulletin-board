@@ -1,11 +1,10 @@
-﻿using BulletinBoard.Application.AppServices.Abstractions.Repositories;
-using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
+using BulletinBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Claims;
 
 namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 {
@@ -21,7 +20,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         public Task<IEnumerable<UserDto>> GetAllAsync()
         {
-            var users = _userRepository.GetAllAsync().ToListAsync().Result;
+            var users = _userRepository.GetAll().ToListAsync().Result;
             if (users == null)
             {
                 return Task.FromResult<IEnumerable<UserDto>?>(null);
@@ -31,9 +30,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => result);
         }
 
-        public Task<UserDto?> GetByIdAsync(Guid id)
+        public Task<UserDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetByIdAsync(id).Result;
+            var user = _userRepository.GetByIdAsync(id, cancellationToken).Result;
             if (user == null)
             {
                 return Task.FromResult<UserDto?>(null);
@@ -43,13 +42,13 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         /*public Task<User?> GetCurrentUserAsync()
         {
-            var curUser = _userRepository.GetAllAsync().Where(u => u.Email == ClaimTypes.Email?.Value).FirstOrDefault();
+            var curUser = _userRepository.GetAll().Where(u => u.Email == ClaimTypes.Email?.Value).FirstOrDefault();
             return Task.Run(() => curUser);
         }*/
 
-        public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate)
+        public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetFirstWhere(predicate).Result;
+            var user = _userRepository.GetFirstWhere(predicate, cancellationToken).Result;
             if (user == null)
             {
                 return Task.FromResult<UserDto?>(null);
@@ -57,9 +56,9 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => Mapper.ToUserDto(user));
         }
 
-        public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids)
+        public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetRangeByIDAsync(ids).Result;
+            var users = _userRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
             IEnumerable<UserDto> result = new List<UserDto>();
             foreach (var user in users)
             {
@@ -79,7 +78,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return Task.Run(() => result);
         }
 
-        public Task<Guid> AddAsync(CreateUserDto user)
+        public Task<Guid> AddAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
             Domain.User entity = new()
             {
@@ -89,12 +88,12 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 Password = user.Password,
                 Telephone = user.Telephone,
             };
-            return _userRepository.AddAsync(entity);
+            return _userRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateUserDto user)
+        public Task<bool> UpdateAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
         {
-            var existedUser = _userRepository.GetByIdAsync(id);
+            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken);
             if (existedUser == null)
             {
                 return Task.Run(() => true);
@@ -106,19 +105,19 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             entity.Password = user.Password;
             entity.Telephone = user.Telephone;
 
-            _userRepository.UpdateAsync(entity);
+            _userRepository.UpdateAsync(entity, cancellationToken);
             return Task.Run(() => false);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existedUser = _userRepository.GetByIdAsync(id);
+            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken);
             if (existedUser == null)
             {
                 return Task.Run(() => true);
             }
 
-            _userRepository.DeleteAsync(existedUser.Result);
+            _userRepository.DeleteAsync(existedUser.Result, cancellationToken);
             return Task.Run(() => false);
         }
     }

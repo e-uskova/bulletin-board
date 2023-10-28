@@ -1,6 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Contracts.Categories;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
 {
@@ -23,24 +24,24 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
             return _categoryRepository.GetAllAsync();
         }
 
-        public Task<CategoryDto?> GetByIdAsync(Guid id)
+        public Task<CategoryDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetByIdAsync(id);
+            return _categoryRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public Task<IEnumerable<CategoryDto?>> GetWithChildrenByIdAsync(Guid id)
+        public Task<IEnumerable<CategoryDto?>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetWithChildrenByIdAsync(id);
+            return _categoryRepository.GetWithChildrenByIdAsync(id, cancellationToken);
         }
 
-        public Task<CategoryDto> GetFirstWhere(Expression<Func<Domain.Category, bool>> predicate)
+        public Task<CategoryDto> GetFirstWhere(Expression<Func<Domain.Category, bool>> predicate, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetFirstWhere(predicate);
+            return _categoryRepository.GetFirstWhere(predicate, cancellationToken);
         }
 
-        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids)
+        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetRangeByIDAsync(ids);
+            return _categoryRepository.GetRangeByIDAsync(ids, cancellationToken);
         }
 
         public Task<IEnumerable<CategoryDto>> GetWhere(Expression<Func<Domain.Category, bool>> predicate)
@@ -48,19 +49,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
             return _categoryRepository.GetWhere(predicate);
         }
 
-        public Task<Guid> AddAsync(CreateCategoryDto category)
+        public Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
         {
-            return _categoryRepository.AddAsync(category);
+            return _categoryRepository.AddAsync(category, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category)
+        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
         {
-            return _categoryRepository.UpdateAsync(id, category);
+            return _categoryRepository.UpdateAsync(id, category, cancellationToken);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _categoryRepository.DeleteAsync(id);
+            return _categoryRepository.DeleteAsync(id, cancellationToken);
         }
 
     }

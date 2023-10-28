@@ -1,6 +1,4 @@
-﻿using BulletinBoard.Infrastructure.DataAccess.Base;
-
-namespace BulletinBoard.Infrastructure.DataAccess.Data
+﻿namespace BulletinBoard.Infrastructure.DataAccess.Data
 {
     public class EFDbInitializer : IDbInitializer
     {

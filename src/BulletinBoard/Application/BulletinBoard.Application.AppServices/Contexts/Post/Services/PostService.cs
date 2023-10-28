@@ -3,6 +3,7 @@ using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
 {
@@ -25,19 +26,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.GetAllAsync(cancellationToken, pageSize, pageIndex);
         }
 
-        public Task<PostDto?> GetByIdAsync(Guid id)
+        public Task<PostDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.GetByIdAsync(id);
+            return _postRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public Task<PostDto> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate)
+        public Task<PostDto> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken)
         {
-            return _postRepository.GetFirstWhere(predicate);
+            return _postRepository.GetFirstWhere(predicate, cancellationToken);
         }
 
-        public Task<IEnumerable<PostDto>> GetRangeByIDAsync(List<Guid> ids)
+        public Task<IEnumerable<PostDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            return _postRepository.GetRangeByIDAsync(ids);
+            return _postRepository.GetRangeByIDAsync(ids, cancellationToken);
         }
 
         public Task<IEnumerable<PostDto>> GetWhere(Expression<Func<Domain.Post, bool>> predicate)
@@ -45,29 +46,29 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.GetWhere(predicate);
         }
 
-        public Task<Guid> AddAsync(CreatePostDto post, UserDto curUser)
+        public Task<Guid> AddAsync(CreatePostDto post, UserDto curUser, CancellationToken cancellationToken)
         {
-            return _postRepository.AddAsync(post, curUser);
+            return _postRepository.AddAsync(post, curUser, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreatePostDto post)
+        public Task<bool> UpdateAsync(Guid id, CreatePostDto post, CancellationToken cancellationToken)
         {
-            return _postRepository.UpdateAsync(id, post);
+            return _postRepository.UpdateAsync(id, post, cancellationToken);
         }
 
-        public Task CloseAsync(Guid id)
+        public Task CloseAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.CloseAsync(id);
+            return _postRepository.CloseAsync(id, cancellationToken);
         }
 
-        public Task ReOpenAsync(Guid id)
+        public Task ReOpenAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.ReOpenAsync(id);
+            return _postRepository.ReOpenAsync(id, cancellationToken);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.DeleteAsync(id);
+            return _postRepository.DeleteAsync(id, cancellationToken);
         }
     }
 }

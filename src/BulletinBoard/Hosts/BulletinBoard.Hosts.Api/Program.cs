@@ -1,4 +1,3 @@
-using BulletinBoard.Application.AppServices.Abstractions.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
 using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
@@ -13,9 +12,10 @@ using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Hosts.Api.Controllers;
-using BulletinBoard.Infrastructure.DataAccess.Base;
+using BulletinBoard.Infrastructure.DataAccess;
 using BulletinBoard.Infrastructure.DataAccess.Data;
 using BulletinBoard.Infrastructure.DataAccess.Repositories;
+using BulletinBoard.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -109,6 +109,7 @@ namespace BulletinBoard.Hosts.Api
             #region DB
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            builder.Services.AddScoped(typeof(DbContext), typeof(DataContext));
             builder.Services.AddScoped<IDbInitializer, EFDbInitializer>();
 
             builder.Services.AddDbContext<DataContext>(x =>
