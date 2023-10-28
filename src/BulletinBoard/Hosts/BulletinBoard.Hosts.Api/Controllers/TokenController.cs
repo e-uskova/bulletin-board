@@ -32,10 +32,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="dto">Модель данных для аутентификации/></param>
         /// <returns>Токен.</returns>
         [HttpPost]
-        public async Task<IActionResult> Login(AuthDto dto)
+        public async Task<IActionResult> Login(AuthDto dto, CancellationToken cancellationToken)
         {
             // Check user credentials id DB
-            var user = await _userService.GetFirstWhere(u => u.Email == dto.Login && u.Password == dto.Password);
+            var user = await _userService.GetFirstWhere(u => u.Email == dto.Login && u.Password == dto.Password, cancellationToken);
             if (user == null)
             {
                 return BadRequest("Неверное имя пользователя или пароль");

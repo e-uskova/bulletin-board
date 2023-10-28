@@ -24,19 +24,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             return _userRepository.GetAllAsync();
         }
 
-        public Task<UserDto?> GetByIdAsync(Guid id)
+        public Task<UserDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _userRepository.GetByIdAsync(id);
+            return _userRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate)
+        public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
         {
-            return _userRepository.GetFirstWhere(predicate);
+            return _userRepository.GetFirstWhere(predicate, cancellationToken);
         }
 
-        public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids)
+        public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            return _userRepository.GetRangeByIDAsync(ids);
+            return _userRepository.GetRangeByIDAsync(ids, cancellationToken);
         }
 
         public Task<IEnumerable<UserDto>> GetWhere(Expression<Func<Domain.User, bool>> predicate)
@@ -44,19 +44,19 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             return _userRepository.GetWhere(predicate);
         }
 
-        public Task<Guid> AddAsync(CreateUserDto user)
+        public Task<Guid> AddAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
-            return _userRepository.AddAsync(user);
+            return _userRepository.AddAsync(user, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateUserDto user)
+        public Task<bool> UpdateAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
         {
-            return _userRepository.UpdateAsync(id, user);
+            return _userRepository.UpdateAsync(id, user, cancellationToken);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _userRepository.DeleteAsync(id);
+            return _userRepository.DeleteAsync(id, cancellationToken);
         }
     }
 }

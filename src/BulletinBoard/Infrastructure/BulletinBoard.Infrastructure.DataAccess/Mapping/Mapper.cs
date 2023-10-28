@@ -1,5 +1,4 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
-using BulletinBoard.Contracts.Attachment;
+﻿using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;

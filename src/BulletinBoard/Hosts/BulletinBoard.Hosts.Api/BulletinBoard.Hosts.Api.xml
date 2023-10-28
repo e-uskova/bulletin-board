@@ -40,7 +40,7 @@
             </summary>
             <param name="categoryService">Сервис работы с категориями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoryAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoryAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Получение категории по идентификатору.
             </summary>
@@ -61,7 +61,7 @@
             <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
             <summary>
             Создание категории.
             </summary>
@@ -69,14 +69,14 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.CreateCategoryDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование категории.
             </summary>
             <param name="category">Модель для редактирования категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.DeleteCategoryAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.DeleteCategoryAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаление категории по идентификатору.
             </summary>
@@ -95,7 +95,7 @@
             <param name="postService">Сервис работы с объявлениями.</param>
             <param name="userService">Сервис работы с пользователями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Получение объявления по идентификатору.
             </summary>
@@ -116,7 +116,7 @@
             <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция объявлений <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreatePostAsync(BulletinBoard.Contracts.Post.CreatePostDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreatePostAsync(BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
             <summary>
             Создание объявления.
             </summary>
@@ -124,14 +124,14 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.EditPostAsync(System.Guid,BulletinBoard.Contracts.Post.CreatePostDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.EditPostAsync(System.Guid,BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование объявления.
             </summary>
             <param name="dto">Модель для редактирования объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.DeletePostAsync(System.Guid)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.DeletePostAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаление объявления по идентификатору.
             </summary>
@@ -143,7 +143,7 @@
             Контроллер для аутентификации.
             </summary>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.TokenController.Login(BulletinBoard.Contracts.Auth.AuthDto)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.TokenController.Login(BulletinBoard.Contracts.Auth.AuthDto,System.Threading.CancellationToken)">
             <summary>
             Вход в систему.
             </summary>

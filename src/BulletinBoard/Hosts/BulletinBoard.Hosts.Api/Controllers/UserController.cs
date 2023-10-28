@@ -3,7 +3,6 @@ using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -52,7 +51,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<UserDto>> GetUserAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetByIdAsync(id);
+            var user = await _userService.GetByIdAsync(id, cancellationToken);
             if (user == null)
             {
                 return BadRequest();
@@ -70,13 +69,13 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
-            var existedUser = await _userService.GetFirstWhere(u => u.Email == user.Email);
+            var existedUser = await _userService.GetFirstWhere(u => u.Email == user.Email, cancellationToken);
             if (existedUser != null)
             {
                 return BadRequest("Пользователь с такой почтой уже зарегистрирован.");
             }
 
-            var id = await _userService.AddAsync(user);
+            var id = await _userService.AddAsync(user, cancellationToken);
             return CreatedAtAction(nameof(GetUserAsync), new { id }, id);
         }
 
@@ -99,7 +98,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
                 return BadRequest("Нельзя редактировать чужой профиль.");
             }
 
-            await _userService.UpdateAsync(Guid.Parse(idFromClaims), user);
+            await _userService.UpdateAsync(Guid.Parse(idFromClaims), user, cancellationToken);
             return NoContent();
         }
 
@@ -121,7 +120,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
                 return BadRequest("Нельзя удалять чужой профиль.");
             }
 
-            var result = await _userService.DeleteAsync(Guid.Parse(idFromClaims));
+            var result = await _userService.DeleteAsync(Guid.Parse(idFromClaims), cancellationToken);
             if (result) 
             {
                 return NotFound();
@@ -166,7 +165,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
                 return new UserDto();
             }
 
-            return await _userService.GetByIdAsync(Guid.Parse(idFromClaims));
+            return await _userService.GetByIdAsync(Guid.Parse(idFromClaims), cancellationToken);
         }
     }
 }
