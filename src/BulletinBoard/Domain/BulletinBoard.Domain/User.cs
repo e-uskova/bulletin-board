@@ -23,7 +23,7 @@
         /// <summary>
         /// Объявления.
         /// </summary>
-        public IReadOnlyCollection<Post> Posts { get; set; }
+        public virtual IReadOnlyCollection<Post> Posts { get; set; }
 
         /// <summary>
         /// Номер телефона.

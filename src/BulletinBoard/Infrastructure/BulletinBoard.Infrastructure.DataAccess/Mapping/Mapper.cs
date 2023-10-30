@@ -45,7 +45,7 @@ namespace BulletinBoard.Application.AppServices.Mapping
             };
             if (post.Author != null)
             {
-                result.Author = ToUserDto(post.Author);
+                result.AuthorName = post.Author.Name;
             }
             if (post.Attachments != null)
             {

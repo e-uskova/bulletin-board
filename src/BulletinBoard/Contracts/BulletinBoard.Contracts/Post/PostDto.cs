@@ -37,7 +37,7 @@ namespace BulletinBoard.Contracts.Post
         /// <summary>
         /// Автор объявления.
         /// </summary>
-        public UserDto Author { get; set; }
+        public string AuthorName { get; set; }
 
         /// <summary>
         /// Время создания.

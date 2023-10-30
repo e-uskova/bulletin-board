@@ -18,7 +18,7 @@
         /// <summary>
         /// Категория.
         /// </summary>
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         /// <summary>
         /// Цена.
@@ -28,12 +28,12 @@
         /// <summary>
         /// Вложения.
         /// </summary>
-        public IReadOnlyCollection<Attachment> Attachments { get; set; }
+        public virtual IReadOnlyCollection<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// Автор объявления.
         /// </summary>
-        public User Author { get; set; }
+        public virtual User Author { get; set; }
 
         /// <summary>
         /// Время создания.

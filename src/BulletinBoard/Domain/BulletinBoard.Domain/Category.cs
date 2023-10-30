@@ -13,6 +13,6 @@
         /// <summary>
         /// Идентификатор родительской категории.
         /// </summary>
-        public Category? ParentCategory { get; set; }
+        public virtual Category? ParentCategory { get; set; }
     }
 }

@@ -33,6 +33,6 @@
         /// <summary>
         /// Объявление, к которому прикреплен файл.
         /// </summary>
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
     }
 }
