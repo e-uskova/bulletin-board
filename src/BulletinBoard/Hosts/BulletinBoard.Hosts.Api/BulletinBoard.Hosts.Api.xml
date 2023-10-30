@@ -69,7 +69,7 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.EditCategoryDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование категории.
             </summary>
@@ -124,7 +124,7 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.EditPostAsync(System.Guid,BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.EditPostAsync(System.Guid,BulletinBoard.Contracts.Post.EditPostDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование объявления.
             </summary>
@@ -184,7 +184,7 @@
             <param name="cancellationToken"></param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.Users.CreateUserDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.User.EditUserDto,System.Threading.CancellationToken)">
             <summary>
             Редактирование пользователя.
             </summary>

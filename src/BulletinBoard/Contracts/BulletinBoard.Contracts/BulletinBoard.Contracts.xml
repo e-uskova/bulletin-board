@@ -148,6 +148,21 @@
             Идентификатор родительской категории.
             </summary>
         </member>
+        <member name="T:BulletinBoard.Contracts.Categories.EditCategoryDto">
+            <summary>
+            Изменение категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.EditCategoryDto.Name">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Categories.EditCategoryDto.ParentCategoryId">
+            <summary>
+            Идентификатор родительской категории.
+            </summary>
+        </member>
         <member name="T:BulletinBoard.Contracts.Post.CreatePostDto">
             <summary>
             Добавление объявления.
@@ -169,6 +184,31 @@
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Post.CreatePostDto.Price">
+            <summary>
+            Цена.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.Post.EditPostDto">
+            <summary>
+            Изменение объявления.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.EditPostDto.Title">
+            <summary>
+            Заголовок.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.EditPostDto.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.EditPostDto.CategoryId">
+            <summary>
+            Идентификатор категории.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.Post.EditPostDto.Price">
             <summary>
             Цена.
             </summary>
@@ -279,6 +319,31 @@
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.Users.UserDto.Telephone">
+            <summary>
+            Номер телефона.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.User.EditUserDto">
+            <summary>
+            Изменение пользователя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.EditUserDto.Name">
+            <summary>
+            Имя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.EditUserDto.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.EditUserDto.PasswordConfirm">
+            <summary>
+            Подтверждение пароля.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.EditUserDto.Telephone">
             <summary>
             Номер телефона.
             </summary>

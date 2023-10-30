@@ -106,19 +106,35 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return _postRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreatePostDto post, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
         {
-            var existedPost = _postRepository.GetByIdAsync(id, cancellationToken);
+            var existedPost = _postRepository.GetByIdAsync(id, cancellationToken).Result;
             if (existedPost == null)
             {
                 return Task.Run(() => true);
             }
 
-            Post entity = existedPost.Result;
-            entity.Title = post.Title;
-            entity.Description = post.Description;
-            entity.Price = post.Price;
-            entity.Category = _categoryRepository.GetByIdAsync(post.CategoryId, cancellationToken).Result;
+            Post entity = existedPost;
+            if (post.Title != null)
+            {
+                entity.Title = post.Title;
+            }
+            if (post.Description != null)
+            {
+                entity.Description = post.Description;
+            }
+            if (post.Price != null)
+            {
+                entity.Price = (decimal)post.Price;    
+            }
+            if (post.CategoryId != null)
+            {
+                var category = _categoryRepository.GetByIdAsync((Guid)post.CategoryId, cancellationToken).Result;
+                if (category != null)
+                {
+                    entity.Category = category;
+                }
+            }
             entity.Modified = DateTime.UtcNow;
 
             _postRepository.UpdateAsync(entity, cancellationToken);

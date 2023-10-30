@@ -1,40 +1,30 @@
 ﻿using BulletinBoard.Contracts.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace BulletinBoard.Contracts.Users
+namespace BulletinBoard.Contracts.User
 {
     /// <summary>
-    /// Создание пользователя.
+    /// Изменение пользователя.
     /// </summary>
-    public class CreateUserDto
+    public class EditUserDto
     {
         /// <summary>
         /// Имя.
         /// </summary>
-        [Required]
         [StringLength(50, MinimumLength = 2)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Электронная почта.
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Пароль.
         /// </summary>
-        [Required]
         [Password(20, 3)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// Подтверждение пароля.
         /// </summary>
-        [Required]
         [Compare("Password")]
-        public string PasswordConfirm { get; set; }
+        public string? PasswordConfirm { get; set; }
 
         /// <summary>
         /// Номер телефона.

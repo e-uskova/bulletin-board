@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -86,7 +87,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
+        public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
         {
             var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
             if (idFromClaims == null)

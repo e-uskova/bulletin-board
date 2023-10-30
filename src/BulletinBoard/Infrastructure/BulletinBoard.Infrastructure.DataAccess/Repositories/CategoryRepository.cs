@@ -123,19 +123,26 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return _categoryRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
         {
-            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken);
+            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken).Result;
             if (existedCategory == null)
             {
                 return Task.Run(() => true);
             }
 
-            Category entity = existedCategory.Result;
-            entity.Name = category.Name;
+            Category entity = existedCategory;
+            if (category.Name != null)
+            {
+                entity.Name = category.Name;
+            }
             if (category.ParentCategoryId != null)
             {
-                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
+                var parentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
+                if (parentCategory != null)
+                {
+                    entity.ParentCategory = parentCategory;
+                }
             }
 
             _categoryRepository.UpdateAsync(entity, cancellationToken);

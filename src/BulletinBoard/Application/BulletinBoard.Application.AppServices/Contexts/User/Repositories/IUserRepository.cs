@@ -1,4 +1,5 @@
-﻿using BulletinBoard.Contracts.Users;
+﻿using BulletinBoard.Contracts.User;
+using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.User.Repositories
@@ -60,7 +61,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(Guid id, CreateUserDto entity, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(Guid id, EditUserDto entity, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаление элемента.

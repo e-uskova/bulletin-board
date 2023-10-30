@@ -51,7 +51,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.AddAsync(post, curUser, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreatePostDto post, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
         {
             return _postRepository.UpdateAsync(id, post, cancellationToken);
         }

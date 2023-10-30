@@ -100,7 +100,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, CreatePostDto post, CancellationToken cancellationToken)
+        public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
         {
             await _postService.UpdateAsync(id, post, cancellationToken);
             return NoContent();

@@ -56,7 +56,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(Guid id, CreateCategoryDto entity, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(Guid id, EditCategoryDto entity, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаление элемента.

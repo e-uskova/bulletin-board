@@ -1,5 +1,6 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Contracts.Users;
 using BulletinBoard.Domain;
 using BulletinBoard.Infrastructure.Repository;
@@ -82,28 +83,38 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         {
             Domain.User entity = new()
             {
-                Id = Guid.NewGuid(),
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                Telephone = user.Telephone,
             };
+            if (user.Telephone != null)
+            {
+                entity.Telephone = user.Telephone;
+            }
             return _userRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
         {
-            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken);
+            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken).Result;
             if (existedUser == null)
             {
                 return Task.Run(() => true);
             }
 
-            Domain.User entity = existedUser.Result;
-            entity.Name = user.Name;
-            entity.Email = user.Email;
-            entity.Password = user.Password;
-            entity.Telephone = user.Telephone;
+            Domain.User entity = existedUser;
+            if (user.Name != null)
+            {
+                entity.Name = user.Name;
+            }
+            if (user.Password != null)
+            {
+                entity.Password = user.Password;
+            }
+            if (user.Telephone != null)
+            {
+                entity.Telephone = user.Telephone;
+            }
 
             _userRepository.UpdateAsync(entity, cancellationToken);
             return Task.Run(() => false);

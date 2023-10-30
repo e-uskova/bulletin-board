@@ -92,7 +92,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken">Отмена операции.</param>
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> EditCategoryAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
         {
             await _categoryService.UpdateAsync(id, category, cancellationToken);
             return NoContent();

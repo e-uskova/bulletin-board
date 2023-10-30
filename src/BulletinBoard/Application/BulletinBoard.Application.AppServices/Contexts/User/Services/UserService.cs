@@ -1,4 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
 
@@ -49,7 +50,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.User.Services
             return _userRepository.AddAsync(user, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateUserDto user, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
         {
             return _userRepository.UpdateAsync(id, user, cancellationToken);
         }

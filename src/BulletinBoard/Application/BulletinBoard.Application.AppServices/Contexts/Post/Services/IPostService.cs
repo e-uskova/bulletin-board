@@ -56,7 +56,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(Guid id, CreatePostDto entity, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(Guid id, EditPostDto entity, CancellationToken cancellationToken);
 
         public Task CloseAsync(Guid id, CancellationToken cancellationToken);
 

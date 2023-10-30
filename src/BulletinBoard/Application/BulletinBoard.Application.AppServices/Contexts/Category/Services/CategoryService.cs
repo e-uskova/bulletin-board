@@ -54,7 +54,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
             return _categoryRepository.AddAsync(category, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, CreateCategoryDto category, CancellationToken cancellationToken)
+        public Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
         {
             return _categoryRepository.UpdateAsync(id, category, cancellationToken);
         }
