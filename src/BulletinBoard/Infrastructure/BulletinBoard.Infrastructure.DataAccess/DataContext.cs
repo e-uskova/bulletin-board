@@ -36,6 +36,7 @@ namespace BulletinBoard.Infrastructure.DataAccess
             modelBuilder.Entity<Category>();*/
 
             modelBuilder.ApplyConfiguration(new PostConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,6 @@
-﻿namespace BulletinBoard.Infrastructure.DataAccess.Data
+﻿using System.Reflection.Metadata;
+
+namespace BulletinBoard.Infrastructure.DataAccess.Data
 {
     public class EFDbInitializer : IDbInitializer
     {
@@ -13,8 +15,6 @@
         {
             _dataContext.Database.EnsureDeleted();
             _dataContext.Database.EnsureCreated();
-
-            // TODO
         }
     }
 }

@@ -43,10 +43,17 @@ namespace BulletinBoard.Hosts.Api.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Role, "User"),
                 new Claim(ClaimTypes.Email, dto.Login),
                 new Claim("Id", user.Id.ToString()),
             };
+            if (dto.Login == "admin@admin.com")
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
