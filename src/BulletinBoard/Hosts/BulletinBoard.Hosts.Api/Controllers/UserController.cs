@@ -19,7 +19,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <summary>
         /// Инициализация экземпляра <see cref="PostController"/>
         /// </summary>
-        /// <param name="postService">Сервис работы с пользователями.</param>
+        /// <param name="userService">Сервис работы с пользователями.</param>
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -30,12 +30,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="cancellationToken">Отмена операции.</param>
         /// <returns>Коллекция пользователей <see cref="UserDto"/></returns>
+        [ProducesResponseType(typeof(List<UserDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetUsersAsync(CancellationToken cancellationToken)
         {
-            var users = await _userService.GetAllAsync();
-            return Ok(users);
+            var users = await _userService.GetAllAsync(cancellationToken);
+            return users == null ? BadRequest() : Ok(users);
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Модель пользователя <see cref="UserDto"/></returns>
         [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [Authorize]
         [ActionName(nameof(GetUserAsync))]
@@ -53,11 +55,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         public async Task<ActionResult<UserDto>> GetUserAsync(Guid id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetByIdAsync(id, cancellationToken);
-            if (user == null)
-            {
-                return BadRequest();
-            }
-            return Ok(user);
+            return user == null ? BadRequest() : Ok(user);
         }
 
         /// <summary>
@@ -66,18 +64,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="user">Модель для создания пользователя.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Идентификатор созданной сущности./></returns>
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
-            var existedUser = await _userService.GetFirstWhere(u => u.Email == user.Email, cancellationToken);
-            if (existedUser != null)
-            {
-                return BadRequest("Пользователь с такой почтой уже зарегистрирован.");
-            }
-
             var id = await _userService.AddAsync(user, cancellationToken);
-            return CreatedAtAction(nameof(GetUserAsync), new { id }, id);
+            return id == Guid.Empty ? BadRequest() : CreatedAtAction(nameof(GetUserAsync), new { id }, id);
         }
 
         /// <summary>
@@ -85,6 +79,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="user">Модель для редактирования пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<UserDto>> EditUserAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
@@ -99,8 +96,8 @@ namespace BulletinBoard.Hosts.Api.Controllers
                 return BadRequest("Нельзя редактировать чужой профиль.");
             }
 
-            await _userService.UpdateAsync(Guid.Parse(idFromClaims), user, cancellationToken);
-            return NoContent();
+            var result = await _userService.UpdateAsync(Guid.Parse(idFromClaims), user, cancellationToken);
+            return result ? BadRequest() : Ok();
         }
 
         /// <summary>
@@ -108,6 +105,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">Отмена операции.</param>
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<UserDto>> DeleteUserAsync(Guid id, CancellationToken cancellationToken)
         {
@@ -118,17 +119,18 @@ namespace BulletinBoard.Hosts.Api.Controllers
             }
             if (Guid.Parse(idFromClaims) != id)
             {
-                return BadRequest("Нельзя удалять чужой профиль.");
+                return BadRequest("Нельзя удалить чужой профиль.");
             }
 
             var result = await _userService.DeleteAsync(Guid.Parse(idFromClaims), cancellationToken);
             if (result) 
             {
-                return NotFound();
+                return BadRequest();
             }
             else
             {
-                return NoContent();
+                // TODO Logout : deactivate / remove token
+                return Ok();
             }
         }
 
@@ -141,8 +143,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
 
         [Authorize]
         [HttpPost("requiring-auth")]
-        //[Authorize(Roles = "User")]
-        //[Authorize(Policy = "CustomPolicy")]
         public JsonResult requiringAuth()
         {
             return new JsonResult("Success!");

@@ -19,90 +19,75 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             _userRepository = userRepository;
         }
 
-        public Task<IEnumerable<UserDto>> GetAllAsync()
+        public async Task<IEnumerable<UserDto>?> GetAllAsync(CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetAll().ToListAsync().Result;
+            var users = await _userRepository.GetAll().ToListAsync(cancellationToken);
             if (users == null)
             {
-                return Task.FromResult<IEnumerable<UserDto>?>(null);
+                return null;
             }
             var result = (from user in users
                           select Mapper.ToUserDto(user)).AsEnumerable();
-            return Task.Run(() => result);
+            return result;
         }
 
-        public Task<UserDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<UserDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetByIdAsync(id, cancellationToken).Result;
-            if (user == null)
-            {
-                return Task.FromResult<UserDto?>(null);
-            }
-            return Task.Run(() => Mapper.ToUserDto(user));
+            var user = await _userRepository.GetByIdAsync(id, cancellationToken);
+            return Mapper.ToUserDto(user);
         }
 
-        /*public Task<User?> GetCurrentUserAsync()
+        public async Task<UserDto?> GetFirstWhere(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken)
         {
-            var curUser = _userRepository.GetAll().Where(u => u.Email == ClaimTypes.Email?.Value).FirstOrDefault();
-            return Task.Run(() => curUser);
-        }*/
-
-        public Task<UserDto> GetFirstWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
-        {
-            var user = _userRepository.GetFirstWhere(predicate, cancellationToken).Result;
-            if (user == null)
-            {
-                return Task.FromResult<UserDto?>(null);
-            }
-            return Task.Run(() => Mapper.ToUserDto(user));
+            var user = await _userRepository.GetFirstWhere(predicate, cancellationToken);
+            return Mapper.ToUserDto(user);
         }
 
-        public Task<IEnumerable<UserDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserDto>?> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
-            IEnumerable<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
+            var users = await _userRepository.GetRangeByIDAsync(ids, cancellationToken);
+            if (users == null)
             {
-                result = result.Append(Mapper.ToUserDto(user));
+                return null;
             }
-            return Task.Run(() => result);
+            var result = (from user in users
+                          select Mapper.ToUserDto(user)).AsEnumerable();
+            return result;
         }
 
-        public Task<IEnumerable<UserDto>> GetWhere(Expression<Func<Domain.User, bool>> predicate)
+        public async Task<IEnumerable<UserDto>?> GetWhere(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetWhere(predicate).AsEnumerable();
-            IEnumerable<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
+            var users = await _userRepository.GetWhere(predicate).ToListAsync(cancellationToken);
+            if (users == null)
             {
-                result = result.Append(Mapper.ToUserDto(user));
+                return null;
             }
-            return Task.Run(() => result);
+            var result = (from user in users
+                          select Mapper.ToUserDto(user)).AsEnumerable();
+            return result;
         }
 
         public Task<Guid> AddAsync(CreateUserDto user, CancellationToken cancellationToken)
         {
-            Domain.User entity = new()
+            User entity = new()
             {
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
+                Telephone = user.Telephone
             };
-            if (user.Telephone != null)
-            {
-                entity.Telephone = user.Telephone;
-            }
             return _userRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAsync(Guid id, EditUserDto user, CancellationToken cancellationToken)
         {
-            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken).Result;
+            var existedUser = await _userRepository.GetByIdAsync(id, cancellationToken);
             if (existedUser == null)
             {
-                return Task.Run(() => true);
+                return true;
             }
 
-            Domain.User entity = existedUser;
+            User entity = existedUser;
             if (user.Name != null)
             {
                 entity.Name = user.Name;
@@ -116,20 +101,20 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 entity.Telephone = user.Telephone;
             }
 
-            _userRepository.UpdateAsync(entity, cancellationToken);
-            return Task.Run(() => false);
+            await _userRepository.UpdateAsync(entity, cancellationToken);
+            return false;
         }
 
-        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existedUser = _userRepository.GetByIdAsync(id, cancellationToken);
+            var existedUser = await _userRepository.GetByIdAsync(id, cancellationToken);
             if (existedUser == null)
             {
-                return Task.Run(() => true);
+                return true;
             }
 
-            _userRepository.DeleteAsync(existedUser.Result, cancellationToken);
-            return Task.Run(() => false);
+            await _userRepository.DeleteAsync(existedUser, cancellationToken);
+            return false;
         }
     }
 }

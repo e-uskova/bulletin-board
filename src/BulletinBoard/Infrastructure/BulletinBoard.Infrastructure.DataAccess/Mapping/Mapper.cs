@@ -8,8 +8,13 @@ namespace BulletinBoard.Application.AppServices.Mapping
 {
     public static class Mapper
     {
-        public static UserDto ToUserDto(User user)
+        public static UserDto? ToUserDto(User? user)
         {
+            if (user == null)
+            {
+                return null;
+            }
+
             var posts = new List<PostDto>();
             if (user.Posts != null)
             {

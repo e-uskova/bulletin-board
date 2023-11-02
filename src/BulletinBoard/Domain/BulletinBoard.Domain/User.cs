@@ -28,6 +28,6 @@
         /// <summary>
         /// Номер телефона.
         /// </summary>
-        public string Telephone { get; set; }
+        public string? Telephone { get; set; }
     }
 }

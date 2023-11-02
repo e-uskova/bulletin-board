@@ -162,7 +162,7 @@
             <summary>
             Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.PostController"/>
             </summary>
-            <param name="postService">Сервис работы с пользователями.</param>
+            <param name="userService">Сервис работы с пользователями.</param>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUsersAsync(System.Threading.CancellationToken)">
             <summary>

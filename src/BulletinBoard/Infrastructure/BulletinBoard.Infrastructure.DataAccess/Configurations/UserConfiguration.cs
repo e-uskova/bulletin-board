@@ -19,7 +19,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Configurations
             builder.HasData(
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("4552d9cf-4f24-4246-b559-d0a11606ee69"),
                     Name = "Администратор",
                     Email = "admin@admin.com",
                     Password = "admin",
