@@ -33,7 +33,7 @@ namespace BulletinBoard.Infrastructure.Repository
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
         /// <returns>Элемент типа <see cref="T"/></returns>
-        Task<T> GetFirstWhere(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+        Task<T?> GetFirstWhere(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение всех элементов, удовлетворяющих условию.

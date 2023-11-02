@@ -15,48 +15,47 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
         public CategoryRepository(IRepository<Category> categoryRepository)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository; 
         }
 
-        public Task<IEnumerable<CategoryDto>> GetAllAsync()
+        public async Task<IEnumerable<CategoryDto>?> GetAllAsync(CancellationToken cancellationToken)
         {
-            var categorys = _categoryRepository.GetAll().ToListAsync().Result;
-            if (categorys == null)
+            var categories = await _categoryRepository.GetAll().ToListAsync(cancellationToken);
+            if (categories == null)
             {
-                return Task.FromResult<IEnumerable<CategoryDto>?>(null);
+                return null;
             }
-            var result = (from category in categorys
+            var result = (from category in categories
                           select Mapper.ToCategoryDto(category)).AsEnumerable();
-            return Task.Run(() => result);
+            return result;
         }
 
-        public Task<CategoryDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<CategoryDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var category = _categoryRepository.GetByIdAsync(id, cancellationToken).Result;
-            if (category == null)
-            {
-                return Task.FromResult<CategoryDto?>(null);
-            }
-            return Task.Run(() => Mapper.ToCategoryDto(category));
+            var category = await _categoryRepository.GetByIdAsync(id, cancellationToken);
+            return Mapper.ToCategoryDto(category);
         }
 
-        public Task<IEnumerable<CategoryDto>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryDto>?> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var ids = new List<Guid>() { id };
-            ids.AddRange(GetAllChildrenId(id));
+            ids.AddRange(await GetAllChildrenIdAsync(id, cancellationToken));
 
-            var categories = _categoryRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
-            var result = new List<CategoryDto>();
-            foreach (var category in categories)
+            var categories = await _categoryRepository.GetRangeByIDAsync(ids, cancellationToken);
+
+            if (categories == null)
             {
-                result.Add(Mapper.ToCategoryDto(category));
+                return null;
             }
-            return Task.Run(() => result.AsEnumerable());
+            var result = (from category in categories
+                          select Mapper.ToCategoryDto(category)).AsEnumerable();
+
+            return result;
         }
 
-        private List<Guid> GetAllChildrenId(Guid parentId)
+        public async Task<List<Guid>> GetAllChildrenIdAsync(Guid parentId, CancellationToken cancellationToken)
         {
-            var children = GetChildrenId(parentId);
+            var children = await GetChildrenIdAsync(parentId, cancellationToken);
             if (children.Count == 0)
             {
                 return new List<Guid>();
@@ -65,100 +64,83 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
 
             foreach (var child in children)
             {
-                result.AddRange(GetAllChildrenId(child));
+                result.AddRange(await GetAllChildrenIdAsync(child, cancellationToken));
             }
 
             return result;
         }
 
-        private List<Guid> GetChildrenId(Guid parentGuid)
+        public async Task<List<Guid>> GetChildrenIdAsync(Guid parentGuid, CancellationToken cancellationToken)
         {
-            var ids = _categoryRepository.GetAll().Where(c => c.ParentCategory != null && c.ParentCategory.Id == parentGuid).Select(c => c.Id).ToList();
+            var ids = await _categoryRepository.GetAll().Where(c => c.ParentCategory != null && c.ParentCategory.Id == parentGuid).Select(c => c.Id).ToListAsync(cancellationToken);
             return ids;
         }
 
-        public Task<CategoryDto> GetFirstWhere(Expression<Func<Category, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<CategoryDto?> GetFirstWhere(Expression<Func<Category, bool>> predicate, CancellationToken cancellationToken)
         {
-            var category = _categoryRepository.GetFirstWhere(predicate, cancellationToken).Result;
-            if (category == null)
-            {
-                return Task.FromResult<CategoryDto?>(null);
-            }
-            return Task.Run(() => Mapper.ToCategoryDto(category));
+            var category = await _categoryRepository.GetFirstWhere(predicate, cancellationToken);
+            return Mapper.ToCategoryDto(category);
         }
 
-        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryDto>?> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
-            var categorys = _categoryRepository.GetRangeByIDAsync(ids, cancellationToken).Result;
-            IEnumerable<CategoryDto> result = new List<CategoryDto>();
-            foreach (var category in categorys)
+            var categories = await _categoryRepository.GetRangeByIDAsync(ids, cancellationToken);
+            if (categories == null)
             {
-                result = result.Append(Mapper.ToCategoryDto(category));
+                return null;
             }
-            return Task.Run(() => result);
+            var result = (from category in categories
+                          select Mapper.ToCategoryDto(category)).AsEnumerable();
+            return result;
         }
 
-        public Task<IEnumerable<CategoryDto>> GetWhere(Expression<Func<Category, bool>> predicate)
+        public async Task<IEnumerable<CategoryDto>?> GetWhere(Expression<Func<Category, bool>> predicate, CancellationToken cancellationToken)
         {
-            var categorys = _categoryRepository.GetWhere(predicate).AsEnumerable();
-            IEnumerable<CategoryDto> result = new List<CategoryDto>();
-            foreach (var category in categorys)
+            var categories = await _categoryRepository.GetWhere(predicate).ToListAsync(cancellationToken);
+            if (categories == null)
             {
-                result = result.Append(Mapper.ToCategoryDto(category));
+                return null;
             }
-            return Task.Run(() => result);
+            var result = (from category in categories
+                          select Mapper.ToCategoryDto(category)).AsEnumerable();
+            return result;
         }
 
-        public Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
+        public async Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
         {
             Category entity = new()
             {
-                Id = Guid.NewGuid(),
                 Name = category.Name,
             };
             if (category.ParentCategoryId != null) 
             {
-                entity.ParentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
+                entity.ParentCategory = await _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken);
             }
-            return _categoryRepository.AddAsync(entity, cancellationToken);
+            return await _categoryRepository.AddAsync(entity, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
         {
-            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken).Result;
-            if (existedCategory == null)
-            {
-                return Task.Run(() => true);
-            }
-
-            Category entity = existedCategory;
+            var entity = await _categoryRepository.GetByIdAsync(id, cancellationToken);
             if (category.Name != null)
-            {
+            {   
                 entity.Name = category.Name;
             }
             if (category.ParentCategoryId != null)
             {
-                var parentCategory = _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken).Result;
-                if (parentCategory != null)
-                {
-                    entity.ParentCategory = parentCategory;
-                }
+                entity.ParentCategory = await _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken);                
             }
 
-            _categoryRepository.UpdateAsync(entity, cancellationToken);
-            return Task.Run(() => false);
+            await _categoryRepository.UpdateAsync(entity, cancellationToken);
+            return false;
         }
 
-        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existedCategory = _categoryRepository.GetByIdAsync(id, cancellationToken);
-            if (existedCategory == null)
-            {
-                return Task.Run(() => true);
-            }
+            var existedCategory = await _categoryRepository.GetByIdAsync(id, cancellationToken);
 
-            _categoryRepository.DeleteAsync(existedCategory.Result, cancellationToken);
-            return Task.Run(() => false);
+            await _categoryRepository.DeleteAsync(existedCategory, cancellationToken);
+            return false;
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
 using BulletinBoard.Contracts.Categories;
-using System.Linq.Expressions;
-using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
 {
@@ -19,49 +17,84 @@ namespace BulletinBoard.Application.AppServices.Contexts.Category.Services
             _categoryRepository = categoryRepository;
         }
 
-        public Task<IEnumerable<CategoryDto>> GetAllAsync()
+        /// <inheritdoc/>
+        public Task<IEnumerable<CategoryDto>?> GetAllAsync(CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetAllAsync();
+            return _categoryRepository.GetAllAsync(cancellationToken);
         }
 
+        /// <inheritdoc/>
         public Task<CategoryDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _categoryRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public Task<IEnumerable<CategoryDto?>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
+        /// <inheritdoc/>
+        public Task<IEnumerable<CategoryDto>?> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _categoryRepository.GetWithChildrenByIdAsync(id, cancellationToken);
+        }        
+
+        /// <inheritdoc/>
+        public async Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
+        {
+            if (category.ParentCategoryId != null)
+            {
+                var parentCategory = await _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken);
+                if (parentCategory == null)
+                {
+                    return Guid.Empty;
+                }
+            }
+
+            return await _categoryRepository.AddAsync(category, cancellationToken);
         }
 
-        public Task<CategoryDto> GetFirstWhere(Expression<Func<Domain.Category, bool>> predicate, CancellationToken cancellationToken)
+        /// <inheritdoc/>
+        public async Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetFirstWhere(predicate, cancellationToken);
+            var existedCategory = await _categoryRepository.GetByIdAsync(id, cancellationToken);
+            if (existedCategory == null)
+            {
+                return true;
+            }
+
+            if (category.ParentCategoryId != null)
+            {
+                if (category.ParentCategoryId == id)
+                {
+                    return true;
+                }
+                var parentCategory = await _categoryRepository.GetByIdAsync((Guid)category.ParentCategoryId, cancellationToken);
+                if (parentCategory == null)
+                {
+                    return true;
+                }
+                var childrenIds = await _categoryRepository.GetChildrenIdAsync(id, cancellationToken);
+                if (childrenIds.Count > 0 && childrenIds.Contains((Guid)category.ParentCategoryId)) // новая родительская категория является дочерней
+                {
+                    return true;
+                }
+            }
+
+            return await _categoryRepository.UpdateAsync(id, category, cancellationToken);
         }
 
-        public Task<IEnumerable<CategoryDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _categoryRepository.GetRangeByIDAsync(ids, cancellationToken);
-        }
+            var existedCategory = await _categoryRepository.GetByIdAsync(id, cancellationToken);
+            if (existedCategory == null)
+            {
+                return true;
+            }
+            var childrenIds = await _categoryRepository.GetChildrenIdAsync(id, cancellationToken);
+            foreach (var childId in childrenIds) // изменение родительской категории дочерних записей на родительскую удаляемой
+            {
+                await _categoryRepository.UpdateAsync(childId, new EditCategoryDto() { ParentCategoryId = existedCategory.ParentCategoryId }, cancellationToken);
+            }
 
-        public Task<IEnumerable<CategoryDto>> GetWhere(Expression<Func<Domain.Category, bool>> predicate)
-        {
-            return _categoryRepository.GetWhere(predicate);
-        }
-
-        public Task<Guid> AddAsync(CreateCategoryDto category, CancellationToken cancellationToken)
-        {
-            return _categoryRepository.AddAsync(category, cancellationToken);
-        }
-
-        public Task<bool> UpdateAsync(Guid id, EditCategoryDto category, CancellationToken cancellationToken)
-        {
-            return _categoryRepository.UpdateAsync(id, category, cancellationToken);
-        }
-
-        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
-        {
-            return _categoryRepository.DeleteAsync(id, cancellationToken);
+            return await _categoryRepository.DeleteAsync(id, cancellationToken);
         }
 
     }

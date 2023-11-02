@@ -24,19 +24,27 @@ namespace BulletinBoard.Infrastructure.Repository
         {
             if (_dbSet.Any())
             {
-                return await _dbSet.FirstAsync(x => x.Id == id, cancellationToken);
+                return await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             }
             return null;
         }
 
         public async Task<IEnumerable<T>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
+            if (ids == null)
+            {
+                throw new ArgumentNullException(nameof(ids));
+            }
             var entities = await _dbSet.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
             return entities;
         }
 
-        public async Task<T> GetFirstWhere(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<T?> GetFirstWhere(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
             var entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
             return entity;
         }
@@ -77,7 +85,6 @@ namespace BulletinBoard.Infrastructure.Repository
             {
                 throw new ArgumentNullException(nameof(entity));
             }
-            //_dataContext.Entry(entity).State = EntityState.Detached;
             _dbSet.Remove(entity);
             await _dataContext.SaveChangesAsync(cancellationToken);
         }

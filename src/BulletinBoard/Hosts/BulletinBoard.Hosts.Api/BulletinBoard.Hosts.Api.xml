@@ -44,21 +44,23 @@
             <summary>
             Получение категории по идентификатору.
             </summary>
-            <remarks>
-            Пример:
-            curl -XGET http://host:port/post/get-by-id
-            </remarks>
             <param name="id">Идентификатор категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Модель категории <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoriessAsync">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetWithChildrenByIdAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            Получение категорий постранично.
+            Получение категории со всеми потомками по идентификатору.
+            </summary>
+            <param name="id">Идентификатор категории</param>
+            <param name="cancellationToken">Отмена операции.</param>
+            <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoriesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Получение всех категорий.
             </summary>
             <param name="cancellationToken">Отмена операции.</param>
-            <param name="pageSize">Размер страницы.</param>
-            <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
@@ -73,6 +75,7 @@
             <summary>
             Редактирование категории.
             </summary>
+            <param name="id">Идентификатор категории.</param>
             <param name="category">Модель для редактирования категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
         </member>

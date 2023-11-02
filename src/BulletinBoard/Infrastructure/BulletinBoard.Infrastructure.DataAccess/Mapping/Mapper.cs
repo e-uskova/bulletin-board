@@ -60,8 +60,12 @@ namespace BulletinBoard.Application.AppServices.Mapping
             return result;
         }
 
-        public static CategoryDto ToCategoryDto(Category category)
+        public static CategoryDto? ToCategoryDto(Category? category)
         {
+            if (category == null) 
+            { 
+                return null;
+            }
             return new CategoryDto()
             {
                 Id = category.Id,
