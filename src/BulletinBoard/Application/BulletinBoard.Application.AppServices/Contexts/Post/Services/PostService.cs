@@ -1,9 +1,9 @@
-﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
+﻿using BulletinBoard.Application.AppServices.Contexts.Category.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
+using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Post;
 using BulletinBoard.Contracts.Users;
-using BulletinBoard.Domain;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
 {
@@ -11,17 +11,25 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="PostService"/>
+        /// Инициализация экземпляра <see cref="PostService"
         /// </summary>
         /// <param name="postRepository">Репозиторий для работы с объявлениями.</param>
-        public PostService(IPostRepository postRepository)
+        /// <param name="userRepository">Репозиторий для работы с пользователями.</param>
+        /// <param name="categoryRepository">Репозиторий для работы с категориями.</param>
+        public PostService(IPostRepository postRepository,
+                           IUserRepository userRepository,
+                           ICategoryRepository categoryRepository)
         {
             _postRepository = postRepository;
+            _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex)
+        public Task<IEnumerable<PostDto>?> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex)
         {
             return _postRepository.GetAllAsync(cancellationToken, pageSize, pageIndex);
         }
@@ -31,44 +39,88 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
             return _postRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public Task<PostDto> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken)
+        public Task<PostDto?> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken)
         {
             return _postRepository.GetFirstWhere(predicate, cancellationToken);
         }
 
-        public Task<IEnumerable<PostDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
+        public Task<IEnumerable<PostDto>?> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken)
         {
             return _postRepository.GetRangeByIDAsync(ids, cancellationToken);
         }
 
-        public Task<IEnumerable<PostDto>> GetWhere(Expression<Func<Domain.Post, bool>> predicate)
+        public Task<IEnumerable<PostDto>?> GetWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken)
         {
-            return _postRepository.GetWhere(predicate);
+            return _postRepository.GetWhere(predicate, cancellationToken);
         }
 
-        public Task<Guid> AddAsync(CreatePostDto post, UserDto curUser, CancellationToken cancellationToken)
+        public async Task<Guid> AddAsync(CreatePostDto post, UserDto curUser, CancellationToken cancellationToken)
         {
-            return _postRepository.AddAsync(post, curUser, cancellationToken);
+            var author = await _userRepository.GetByIdAsync(curUser.Id, cancellationToken);
+            if (author == null)
+            {
+                return Guid.Empty;
+            }
+
+            var category = await _categoryRepository.GetByIdAsync(post.CategoryId, cancellationToken);
+            if (category == null)
+            {
+                return Guid.Empty;
+            }
+
+            return await _postRepository.AddAsync(post, curUser, cancellationToken);
         }
 
-        public Task<bool> UpdateAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
         {
-            return _postRepository.UpdateAsync(id, post, cancellationToken);
+            var existedPost = await _postRepository.GetByIdAsync(id, cancellationToken);
+            if (existedPost == null)
+            {
+                return true;
+            }
+            if (post.CategoryId != null)
+            {
+                var category = await _categoryRepository.GetByIdAsync((Guid)post.CategoryId, cancellationToken);
+                if (category == null)
+                {
+                    return true;
+                }
+            }
+
+            return await _postRepository.UpdateAsync(id, post, cancellationToken);
         }
 
-        public Task CloseAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> CloseAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.CloseAsync(id, cancellationToken);
+            var existedPost = await _postRepository.GetByIdAsync(id, cancellationToken);
+            if (existedPost == null)
+            {
+                return true;
+            }
+
+            return await _postRepository.CloseAsync(id, cancellationToken);
         }
 
-        public Task ReOpenAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> ReOpenAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.ReOpenAsync(id, cancellationToken);
+            var existedPost = await _postRepository.GetByIdAsync(id, cancellationToken);
+            if (existedPost == null)
+            {
+                return true;
+            }
+
+            return await _postRepository.ReOpenAsync(id, cancellationToken);
         }
 
-        public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            return _postRepository.DeleteAsync(id, cancellationToken);
+            var existedPost = await _postRepository.GetByIdAsync(id, cancellationToken);
+            if (existedPost == null)
+            {
+                return true;
+            }
+
+            return await _postRepository.DeleteAsync(id, cancellationToken);
         }
     }
 }

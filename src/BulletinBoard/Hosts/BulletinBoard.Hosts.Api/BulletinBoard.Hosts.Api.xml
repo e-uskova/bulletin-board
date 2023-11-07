@@ -102,10 +102,6 @@
             <summary>
             Получение объявления по идентификатору.
             </summary>
-            <remarks>
-            Пример:
-            curl -XGET http://host:port/post/get-by-id
-            </remarks>
             <param name="id">Идентификатор объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
@@ -123,7 +119,7 @@
             <summary>
             Создание объявления.
             </summary>
-            <param name="dto">Модель для создания объявления.</param>
+            <param name="post">Модель для создания объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Идентификатор созданной сущности./></returns>
         </member>
@@ -131,8 +127,25 @@
             <summary>
             Редактирование объявления.
             </summary>
-            <param name="dto">Модель для редактирования объявления.</param>
+            <param name="id"></param>
+            <param name="post">Модель для редактирования объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.ClosePostAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Деактивация объявления.
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.ReOpenAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Активация объявления.
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.DeletePostAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>

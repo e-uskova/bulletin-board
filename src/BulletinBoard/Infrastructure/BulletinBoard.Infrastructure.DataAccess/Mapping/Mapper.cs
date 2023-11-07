@@ -35,8 +35,13 @@ namespace BulletinBoard.Application.AppServices.Mapping
             };
         }
 
-        public static PostDto ToPostDto(Post post)
+        public static PostDto? ToPostDto(Post? post)
         {
+            if (post == null)
+            {
+                return null;
+            }
+
             var result = new PostDto()
             {
                 Id = post.Id,

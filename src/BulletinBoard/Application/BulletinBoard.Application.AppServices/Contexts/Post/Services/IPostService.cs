@@ -13,7 +13,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// Получение всех элементов. 
         /// </summary>
         /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
-        Task<IEnumerable<PostDto>> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex);
+        Task<IEnumerable<PostDto>?> GetAllAsync(CancellationToken cancellationToken, int pageSize, int pageIndex);
 
         /// <summary>
         /// Получение элемента по идентификатору.
@@ -27,21 +27,21 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// </summary>
         /// <param name="ids">Список идентификаторов.</param>
         /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
-        Task<IEnumerable<PostDto>> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken);
+        Task<IEnumerable<PostDto>?> GetRangeByIDAsync(List<Guid> ids, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение первого элемента из удовлетворяющих условию.
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
         /// <returns>Элемент типа <see cref="PostDto"/></returns>
-        Task<PostDto> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken);
+        Task<PostDto?> GetFirstWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение всех элементов, удовлетворяющих условию.
         /// </summary>
         /// <param name="predicate">Условие отбора.</param>
         /// <returns>Коллекция элементов типа <see cref="PostDto"/></returns>
-        Task<IEnumerable<PostDto>> GetWhere(Expression<Func<Domain.Post, bool>> predicate);
+        Task<IEnumerable<PostDto>?> GetWhere(Expression<Func<Domain.Post, bool>> predicate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Добавление элемента.
@@ -58,9 +58,9 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Services
         /// <returns></returns>
         Task<bool> UpdateAsync(Guid id, EditPostDto entity, CancellationToken cancellationToken);
 
-        public Task CloseAsync(Guid id, CancellationToken cancellationToken);
+        public Task<bool> CloseAsync(Guid id, CancellationToken cancellationToken);
 
-        public Task ReOpenAsync(Guid id, CancellationToken cancellationToken);
+        public Task<bool> ReOpenAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаление элемента.
