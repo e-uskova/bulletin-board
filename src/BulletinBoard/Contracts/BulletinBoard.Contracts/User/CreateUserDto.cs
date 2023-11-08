@@ -12,7 +12,7 @@ namespace BulletinBoard.Contracts.Users
         /// Имя.
         /// </summary>
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace BulletinBoard.Contracts.Users
         /// Пароль.
         /// </summary>
         [Required]
-        [Password(20, 3)]
+        [Password(20, 6)]
         public string Password { get; set; }
 
         /// <summary>

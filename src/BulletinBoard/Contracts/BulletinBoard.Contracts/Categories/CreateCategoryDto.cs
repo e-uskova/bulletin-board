@@ -11,7 +11,7 @@ namespace BulletinBoard.Contracts.Categories
         /// Название.
         /// </summary>
         [Required]
-        [StringLength(25, MinimumLength = 6)]
+        [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
 
         /// <summary>

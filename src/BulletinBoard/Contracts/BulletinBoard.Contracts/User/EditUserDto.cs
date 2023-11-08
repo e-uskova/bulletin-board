@@ -11,13 +11,13 @@ namespace BulletinBoard.Contracts.User
         /// <summary>
         /// Имя.
         /// </summary>
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(64, MinimumLength = 2)]
         public string? Name { get; set; }
 
         /// <summary>
         /// Пароль.
         /// </summary>
-        [Password(20, 3)]
+        [Password(20, 6)]
         public string? Password { get; set; }
 
         /// <summary>

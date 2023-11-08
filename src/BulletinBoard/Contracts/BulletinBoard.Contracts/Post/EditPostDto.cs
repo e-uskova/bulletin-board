@@ -10,12 +10,13 @@ namespace BulletinBoard.Contracts.Post
         /// <summary>
         /// Заголовок.
         /// </summary>
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Строка должна быть длиннее {2} и меньше {1} символов.")]
+        [StringLength(64, MinimumLength = 4, ErrorMessage = "Строка должна быть длиннее {2} и меньше {1} символов.")]
         public string? Title { get; set; }
 
         /// <summary>
         /// Описание.
         /// </summary>
+        [StringLength(1024, ErrorMessage = "Строка должна быть короче {1} символов.")]
         public string? Description { get; set; }
 
         /// <summary>
