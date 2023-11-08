@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>bulletin_board</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="src\BulletinBoard\Applications\**" />
+    <EmbeddedResource Remove="src\BulletinBoard\Applications\**" />
+    <None Remove="src\BulletinBoard\Applications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\BulletinBoard\Application\" />
+    <Folder Include="src\BulletinBoard\Hosts\" />
+    <Folder Include="src\BulletinBoard\Clients\" />
+    <Folder Include="src\BulletinBoard\Contracts\" />
+    <Folder Include="src\BulletinBoard\Domain\" />
+    <Folder Include="src\BulletinBoard\Infrastructure\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+</Project>
