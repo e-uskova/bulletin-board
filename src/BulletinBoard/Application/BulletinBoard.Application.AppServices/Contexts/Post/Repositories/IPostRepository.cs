@@ -76,8 +76,16 @@ namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories
         /// <summary>
         /// Удаление элемента.
         /// </summary>
-        /// <param name="id">Идентификатор пользователя.</param>
+        /// <param name="id">Идентификатор объявления.</param>
         /// <returns></returns>
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Отметка об изменении.
+        /// </summary>
+        /// <param name="id">Идентификатор объявления.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ModifyAsync(Guid id, CancellationToken cancellationToken);
     }
 }

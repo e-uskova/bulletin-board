@@ -2,10 +2,10 @@
 using BulletinBoard.Application.AppServices.Contexts.Post.Services;
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -57,19 +57,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile attachment, Guid postId, CancellationToken cancellationToken)
         {
-            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
-            if (emailFromClaims == null)
-            {
-                return Unauthorized();
-            }
-            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
+            var curUser = await GetCurrentUserAsync(cancellationToken);
             if (curUser == null)
             {
                 return Unauthorized();
             }
 
-            var post = await _postService.GetByIdAsync(postId, cancellationToken);
-            if (post == null || post.AuthorName != curUser.Name)
+            var postEntity = await _postService.GetByIdAsync(postId, cancellationToken);
+            if (postEntity == null || postEntity.AuthorId != curUser.Id)
             {
                 return BadRequest();
             }
@@ -114,25 +109,23 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAttachmentAsync(Guid id, CancellationToken cancellationToken)
         {
-            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
-            if (emailFromClaims == null)
-            {
-                return Unauthorized();
-            }
-            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
+            var curUser = await GetCurrentUserAsync(cancellationToken);
             if (curUser == null)
             {
                 return Unauthorized();
             }
-            var file = await _attachmentService.GetInfoByIdAsync(id, cancellationToken);
-            if (file != null && file.PostId != Guid.Empty)
+
+            var attachment = await _attachmentService.GetInfoByIdAsync(id, cancellationToken);
+            if (attachment == null)
             {
-                var post = await _postService.GetByIdAsync(file.PostId, cancellationToken);
-                if (post != null && post.AuthorName != curUser.Name)
-                {
-                    return BadRequest("Этот файл не из Вашего объявления");
-                }
+                return BadRequest();
             }
+
+            var postEntity = await _postService.GetByIdAsync(attachment.PostId, cancellationToken);
+            if (postEntity == null || postEntity.AuthorId != curUser.Id)
+            {
+                return BadRequest();
+            }        
 
             var result = await _attachmentService.DeleteAsync(id, cancellationToken);
             return result ? BadRequest() : Ok();
@@ -144,6 +137,23 @@ namespace BulletinBoard.Hosts.Api.Controllers
             var ms = new MemoryStream();
             await attachment.CopyToAsync(ms, cancellationToken);
             return ms.ToArray();
+        }
+
+        /// <summary>
+        /// Получение текущего пользователя.
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Модель пользователя.</returns>
+        private async Task<UserDto?> GetCurrentUserAsync(CancellationToken cancellationToken)
+        {
+            var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
+            if (idFromClaims == null)
+            {
+                return null;
+            }
+
+            var curUser = await _userService.GetByIdAsync(Guid.Parse(idFromClaims), cancellationToken);
+            return curUser;
         }
     }
 }

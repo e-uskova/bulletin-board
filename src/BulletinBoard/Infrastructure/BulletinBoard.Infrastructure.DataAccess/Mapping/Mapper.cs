@@ -56,6 +56,7 @@ namespace BulletinBoard.Application.AppServices.Mapping
             if (post.Author != null)
             {
                 result.AuthorName = post.Author.Name;
+                result.AuthorId = post.Author.Id;
             }
             if (post.Attachments != null)
             {

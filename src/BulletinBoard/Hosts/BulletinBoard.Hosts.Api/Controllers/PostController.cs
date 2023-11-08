@@ -1,10 +1,10 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Services;
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Post;
+using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -76,12 +76,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post, CancellationToken cancellationToken)
         {
-            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
-            if (emailFromClaims == null)
-            {
-                return Unauthorized();
-            }
-            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
+            var curUser = await GetCurrentUserAsync(cancellationToken);
             if (curUser == null)
             {
                 return Unauthorized();
@@ -103,6 +98,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<PostDto>> EditPostAsync(Guid id, EditPostDto post, CancellationToken cancellationToken)
         {
+            var authResult = await AuthorizeUserAsync(id, cancellationToken);
+            if (authResult != StatusCodes.Status200OK)
+            {
+                return new StatusCodeResult(authResult);
+            }
+
             var result = await _postService.UpdateAsync(id, post, cancellationToken);
             return result ? BadRequest() : Ok();
         }
@@ -118,6 +119,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPut("close/{id:guid}")]
         public async Task<ActionResult<PostDto>> ClosePostAsync(Guid id, CancellationToken cancellationToken)
         {
+            var authResult = await AuthorizeUserAsync(id, cancellationToken);
+            if (authResult != StatusCodes.Status200OK)
+            {
+                return new StatusCodeResult(authResult);
+            }
+
             var result = await _postService.CloseAsync(id, cancellationToken);
             return result ? BadRequest() : Ok();
         }
@@ -133,6 +140,12 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpPut("reopen/{id:guid}")]
         public async Task<ActionResult<PostDto>> ReOpenAsync(Guid id, CancellationToken cancellationToken)
         {
+            var authResult = await AuthorizeUserAsync(id, cancellationToken);
+            if (authResult != StatusCodes.Status200OK)
+            {
+                return new StatusCodeResult(authResult);
+            }
+
             var result = await _postService.ReOpenAsync(id, cancellationToken);
             return result ? BadRequest() : Ok();
         }
@@ -149,8 +162,53 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id, CancellationToken cancellationToken)
         {
+            var authResult = await AuthorizeUserAsync(id, cancellationToken);
+            if (authResult != StatusCodes.Status200OK)
+            {
+                return new StatusCodeResult(authResult);
+            }
+
             var result = await _postService.DeleteAsync(id, cancellationToken);
             return result ? BadRequest() : Ok();
+        }
+
+        /// <summary>
+        /// Получение текущего пользователя.
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Модель пользователя.</returns>
+        private async Task<UserDto?> GetCurrentUserAsync(CancellationToken cancellationToken)
+        {
+            var idFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == "Id")?.Value;
+            if (idFromClaims == null)
+            {
+                return null;
+            }
+
+            var curUser = await _userService.GetByIdAsync(Guid.Parse(idFromClaims), cancellationToken);
+            return curUser;
+        }
+
+        /// <summary> 
+        /// Проверка, что текущий пользователь является автором объявления.
+        /// </summary>
+        /// <param name="postId">Идентификатор объявления.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Код статуса.</returns>
+        private async Task<int> AuthorizeUserAsync(Guid postId, CancellationToken cancellationToken)
+        {
+            var curUser = await GetCurrentUserAsync(cancellationToken);
+            if (curUser == null)
+            {
+                return StatusCodes.Status401Unauthorized;
+            }
+            
+            var postEntity = await _postService.GetByIdAsync(postId, cancellationToken);
+            if (postEntity != null && postEntity.AuthorId != curUser.Id)
+            {
+                return StatusCodes.Status400BadRequest;
+            }
+            return StatusCodes.Status200OK;
         }
     }
 }

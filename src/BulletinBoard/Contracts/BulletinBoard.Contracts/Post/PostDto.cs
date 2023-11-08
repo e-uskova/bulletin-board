@@ -1,6 +1,5 @@
 ﻿using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Base;
-using BulletinBoard.Contracts.Users;
 
 namespace BulletinBoard.Contracts.Post
 {
@@ -38,6 +37,11 @@ namespace BulletinBoard.Contracts.Post
         /// Автор объявления.
         /// </summary>
         public string AuthorName { get; set; }
+
+        /// <summary>
+        /// Идентификатор автора объявления.
+        /// </summary>
+        public Guid AuthorId { get; set; }
 
         /// <summary>
         /// Время создания.

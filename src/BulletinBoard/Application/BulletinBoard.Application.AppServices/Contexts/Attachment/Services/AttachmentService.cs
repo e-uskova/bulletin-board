@@ -1,6 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Contracts.Attachment;
+using BulletinBoard.Domain;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
 {
@@ -42,6 +43,13 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
             }
 
             await _attachmentRepository.DeleteAsync(id, cancellationToken);
+
+            var post = await _postRepository.GetByIdAsync(existedEntity.PostId, cancellationToken);
+            if (post != null)
+            {
+                await _postRepository.ModifyAsync(post.Id, cancellationToken);
+            }
+
             return false;
         }
 
@@ -59,7 +67,10 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
                 return Guid.Empty;
             }
 
-            return await _attachmentRepository.UploadAsync(attachment, postId, cancellationToken);
+            var result = await _attachmentRepository.UploadAsync(attachment, postId, cancellationToken);
+            await _postRepository.ModifyAsync(post.Id, cancellationToken);
+
+            return result;
         }
 
         /// <inheritdoc/>

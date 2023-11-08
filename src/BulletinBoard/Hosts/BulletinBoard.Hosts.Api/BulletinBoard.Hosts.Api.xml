@@ -47,6 +47,13 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.GetCurrentUserAsync(System.Threading.CancellationToken)">
+            <summary>
+            Получение текущего пользователя.
+            </summary>
+            <param name="cancellationToken">Токен отмены.</param>
+            <returns>Модель пользователя.</returns>
+        </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.CategoryController">
             <summary>
             Контроллер для работы с категориями.
@@ -171,6 +178,21 @@
             </summary>
             <param name="id">Идентификатор объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetCurrentUserAsync(System.Threading.CancellationToken)">
+            <summary>
+            Получение текущего пользователя.
+            </summary>
+            <param name="cancellationToken">Токен отмены.</param>
+            <returns>Модель пользователя.</returns>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.AuthorizeUserAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary> 
+            Проверка, что текущий пользователь является автором объявления.
+            </summary>
+            <param name="postId">Идентификатор объявления.</param>
+            <param name="cancellationToken">Токен отмены.</param>
+            <returns>Код статуса.</returns>
         </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.TokenController">
             <summary>

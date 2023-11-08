@@ -124,6 +124,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             var entity = await _postRepository.GetByIdAsync(id, cancellationToken);
 
             entity.IsActive = false;
+            entity.Modified = DateTime.UtcNow;
 
             await _postRepository.UpdateAsync(entity, cancellationToken);
             return false;
@@ -134,6 +135,7 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             var entity = await _postRepository.GetByIdAsync(id, cancellationToken);
 
             entity.IsActive = true;
+            entity.Modified = DateTime.UtcNow;
 
             await _postRepository.UpdateAsync(entity, cancellationToken);
             return false;
@@ -147,5 +149,13 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
             return false;
         }
 
+        public async Task ModifyAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var entity = await _postRepository.GetByIdAsync(id, cancellationToken);
+
+            entity.Modified = DateTime.UtcNow;
+
+            await _postRepository.UpdateAsync(entity, cancellationToken);
+        }
     }
 }

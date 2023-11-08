@@ -248,6 +248,11 @@
             Автор объявления.
             </summary>
         </member>
+        <member name="P:BulletinBoard.Contracts.Post.PostDto.AuthorId">
+            <summary>
+            Идентификатор автора объявления.
+            </summary>
+        </member>
         <member name="P:BulletinBoard.Contracts.Post.PostDto.Created">
             <summary>
             Время создания.
