@@ -32,26 +32,6 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         }
 
         ///<inheritdoc/>
-        public async Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
-        {
-            return await _attachmentRepository.GetAll().Select(a => new AttachmentInfoDto
-            {
-                Id = a.Id,
-                Name = a.Name,
-                ContentType = a.ContentType,
-                Length = a.Length,
-                Created = a.Created,
-                PostId = a.Post.Id,
-            }).ToListAsync(cancellationToken);
-        }
-
-        /*///<inheritdoc/>
-        public async Task<IEnumerable<Guid>> GetIdsByPostIdAsync(Guid postId, CancellationToken cancellationToken)
-        {
-            return await _attachmentRepository.GetAll().Where(a => a.Post.Id == postId).Select(a => a.Id).ToListAsync(cancellationToken);
-        }*/
-
-        ///<inheritdoc/>
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _attachmentRepository.GetByIdAsync(id, cancellationToken);

@@ -1,5 +1,4 @@
 ﻿using BulletinBoard.Contracts.User;
-using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.User.Services

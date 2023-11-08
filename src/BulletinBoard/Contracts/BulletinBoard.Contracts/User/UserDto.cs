@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Contracts.Base;
 using BulletinBoard.Contracts.Post;
 
-namespace BulletinBoard.Contracts.Users
+namespace BulletinBoard.Contracts.User
 {
     /// <summary>
     /// Пользователь
@@ -18,10 +18,10 @@ namespace BulletinBoard.Contracts.Users
         /// </summary>
         public string Email { get; set; }
 
-        /// <summary>
+        /*/// <summary>
         /// Пароль.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; set; }*/
 
         /// <summary>
         /// Объявления.

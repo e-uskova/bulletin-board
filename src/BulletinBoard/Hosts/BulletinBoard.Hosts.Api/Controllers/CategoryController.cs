@@ -3,7 +3,6 @@ using BulletinBoard.Contracts.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -26,50 +25,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Получение категории по идентификатору.
-        /// </summary>
-        /// <param name="id">Идентификатор категории.</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Модель категории <see cref="CategoryDto"/></returns>
-        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        [ActionName(nameof(GetCategoryAsync))]
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var category = await _categoryService.GetByIdAsync(id, cancellationToken);
-            return category == null ? BadRequest() : Ok(category);
-        }
-
-        /// <summary>
-        /// Получение категории со всеми потомками по идентификатору.
-        /// </summary>
-        /// <param name="id">Идентификатор категории</param>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
-        [ProducesResponseType(typeof(List<CategoryDto>), (int)HttpStatusCode.OK)]
-        [HttpGet("get-with-children")]
-        public async Task<ActionResult<CategoryDto>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var categories = await _categoryService.GetWithChildrenByIdAsync(id, cancellationToken);
-            return Ok(categories);
-        }
-
-        /// <summary>
-        /// Получение всех категорий.
-        /// </summary>
-        /// <param name="cancellationToken">Отмена операции.</param>
-        /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
-        [ProducesResponseType(typeof(List<CategoryDto>), (int)HttpStatusCode.OK)]
-        [HttpGet]
-        public async Task<ActionResult<CategoryDto>> GetCategoriesAsync(CancellationToken cancellationToken)
-        {
-            var categories = await _categoryService.GetAllAsync(cancellationToken);
-            return Ok(categories);
-        }
-
-        /// <summary>
         /// Создание категории.
         /// </summary>
         /// <param name="category">Модель для создания категории.</param>
@@ -88,6 +43,50 @@ namespace BulletinBoard.Hosts.Api.Controllers
             }
             return CreatedAtAction(nameof(GetCategoryAsync), new { id }, id);
         }
+
+        /// <summary>
+        /// Получение всех категорий.
+        /// </summary>
+        /// <param name="cancellationToken">Отмена операции.</param>
+        /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
+        [ProducesResponseType(typeof(List<CategoryDto>), (int)HttpStatusCode.OK)]
+        [HttpGet]
+        public async Task<ActionResult<CategoryDto>> GetCategoriesAsync(CancellationToken cancellationToken)
+        {
+            var categories = await _categoryService.GetAllAsync(cancellationToken);
+            return Ok(categories);
+        }
+
+        /// <summary>
+        /// Получение категории по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор категории.</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
+        /// <returns>Модель категории <see cref="CategoryDto"/></returns>
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ActionName(nameof(GetCategoryAsync))]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var category = await _categoryService.GetByIdAsync(id, cancellationToken);
+            return category == null ? BadRequest() : Ok(category);
+        }
+
+        /*/// <summary>
+        /// Получение категории со всеми потомками по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор категории</param>
+        /// <param name="cancellationToken">Отмена операции.</param>
+        /// <returns>Коллекция категорий <see cref="CategoryDto"/></returns>
+        [ProducesResponseType(typeof(List<CategoryDto>), (int)HttpStatusCode.OK)]
+        [HttpGet("get-with-children")]
+        public async Task<ActionResult<CategoryDto>> GetWithChildrenByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var categories = await _categoryService.GetWithChildrenByIdAsync(id, cancellationToken);
+            return Ok(categories);
+        }*/
 
         /// <summary>
         /// Редактирование категории.

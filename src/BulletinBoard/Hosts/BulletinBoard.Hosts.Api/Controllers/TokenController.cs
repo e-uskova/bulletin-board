@@ -30,6 +30,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// Вход в систему.
         /// </summary>
         /// <param name="dto">Модель данных для аутентификации/></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Токен.</returns>
         [HttpPost]
         public async Task<IActionResult> Login(AuthDto dto, CancellationToken cancellationToken)

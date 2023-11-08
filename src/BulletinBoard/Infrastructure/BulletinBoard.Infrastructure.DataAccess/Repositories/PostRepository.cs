@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Application.AppServices.Mapping;
 using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Domain;
 using BulletinBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;

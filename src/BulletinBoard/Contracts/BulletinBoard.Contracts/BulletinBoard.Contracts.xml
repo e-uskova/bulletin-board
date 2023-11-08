@@ -268,62 +268,32 @@
             Флаг активности объявления.
             </summary>
         </member>
-        <member name="T:BulletinBoard.Contracts.Users.CreateUserDto">
+        <member name="T:BulletinBoard.Contracts.User.CreateUserDto">
             <summary>
             Создание пользователя.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Name">
+        <member name="P:BulletinBoard.Contracts.User.CreateUserDto.Name">
             <summary>
             Имя.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Email">
+        <member name="P:BulletinBoard.Contracts.User.CreateUserDto.Email">
             <summary>
             Электронная почта.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Password">
+        <member name="P:BulletinBoard.Contracts.User.CreateUserDto.Password">
             <summary>
             Пароль.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.PasswordConfirm">
+        <member name="P:BulletinBoard.Contracts.User.CreateUserDto.PasswordConfirm">
             <summary>
             Подтверждение пароля.
             </summary>
         </member>
-        <member name="P:BulletinBoard.Contracts.Users.CreateUserDto.Telephone">
-            <summary>
-            Номер телефона.
-            </summary>
-        </member>
-        <member name="T:BulletinBoard.Contracts.Users.UserDto">
-            <summary>
-            Пользователь
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.Name">
-            <summary>
-            Имя.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.Email">
-            <summary>
-            Электронная почта.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.Password">
-            <summary>
-            Пароль.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.Posts">
-            <summary>
-            Объявления.
-            </summary>
-        </member>
-        <member name="P:BulletinBoard.Contracts.Users.UserDto.Telephone">
+        <member name="P:BulletinBoard.Contracts.User.CreateUserDto.Telephone">
             <summary>
             Номер телефона.
             </summary>
@@ -349,6 +319,31 @@
             </summary>
         </member>
         <member name="P:BulletinBoard.Contracts.User.EditUserDto.Telephone">
+            <summary>
+            Номер телефона.
+            </summary>
+        </member>
+        <member name="T:BulletinBoard.Contracts.User.UserDto">
+            <summary>
+            Пользователь
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.UserDto.Name">
+            <summary>
+            Имя.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.UserDto.Email">
+            <summary>
+            Электронная почта.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.UserDto.Posts">
+            <summary>
+            Объявления.
+            </summary>
+        </member>
+        <member name="P:BulletinBoard.Contracts.User.UserDto.Telephone">
             <summary>
             Номер телефона.
             </summary>

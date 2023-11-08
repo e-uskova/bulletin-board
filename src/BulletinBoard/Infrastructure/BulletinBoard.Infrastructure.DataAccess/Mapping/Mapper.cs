@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Domain;
 
 namespace BulletinBoard.Application.AppServices.Mapping
@@ -29,7 +29,7 @@ namespace BulletinBoard.Application.AppServices.Mapping
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Password = user.Password,
+                //Password = user.Password,
                 Posts = posts,
                 Telephone = user.Telephone,
             };

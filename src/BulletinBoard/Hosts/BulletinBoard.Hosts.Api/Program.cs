@@ -10,7 +10,7 @@ using BulletinBoard.Contracts.Attachment;
 using BulletinBoard.Contracts.Auth;
 using BulletinBoard.Contracts.Categories;
 using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.User;
 using BulletinBoard.Hosts.Api.Controllers;
 using BulletinBoard.Infrastructure.DataAccess;
 using BulletinBoard.Infrastructure.DataAccess.Data;
@@ -44,17 +44,25 @@ namespace BulletinBoard.Hosts.Api
                 {
                     typeof(PostDto),
                     typeof(CreatePostDto),
+                    typeof(EditPostDto),
                     typeof(PostController),
+
                     typeof(AttachmentDto),
+                    typeof(AttachmentInfoDto),
                     typeof(AttachmentController),
+
                     typeof(UserDto),
                     typeof(CreateUserDto),
+                    typeof(EditUserDto),
                     typeof(UserController),
+
                     typeof(CategoryDto),
                     typeof(CreateCategoryDto),
+                    typeof(EditCategoryDto),
                     typeof(CategoryController),
-                    typeof(TokenDto),
+
                     typeof(AuthDto),
+                    typeof(TokenDto),
                     typeof(TokenController)
                 };
 
@@ -99,10 +107,13 @@ namespace BulletinBoard.Hosts.Api
 
             builder.Services.AddTransient<IPostService, PostService>();
             builder.Services.AddTransient<IPostRepository, PostRepository>();
+
             builder.Services.AddTransient<IAttachmentService, AttachmentService>();
             builder.Services.AddTransient<IAttachmentRepository, AttachmentRepository>();
+
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+
             builder.Services.AddTransient<ICategoryService, CategoryService>();
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
@@ -159,11 +170,11 @@ namespace BulletinBoard.Hosts.Api
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            /*if (app.Environment.IsDevelopment())
-            {*/
+            if (app.Environment.IsDevelopment())
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            /*}*/
+            }
 
             app.UseHttpsRedirection();
 

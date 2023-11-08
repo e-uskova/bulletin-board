@@ -1,8 +1,6 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.User;
-using BulletinBoard.Contracts.Users;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace BulletinBoard.Application.AppServices.Contexts.User.Services
 {

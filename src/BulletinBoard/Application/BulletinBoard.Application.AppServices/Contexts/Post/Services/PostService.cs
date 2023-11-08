@@ -2,7 +2,7 @@
 using BulletinBoard.Application.AppServices.Contexts.Post.Repositories;
 using BulletinBoard.Application.AppServices.Contexts.User.Repositories;
 using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.User;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Services

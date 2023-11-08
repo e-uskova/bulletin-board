@@ -1,6 +1,5 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.User;
-using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -23,6 +22,22 @@ namespace BulletinBoard.Hosts.Api.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        /// <summary>
+        /// Регистрация.
+        /// </summary>
+        /// <param name="user">Модель для создания пользователя.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Идентификатор созданной сущности./></returns>
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user, CancellationToken cancellationToken)
+        {
+            var id = await _userService.AddAsync(user, cancellationToken);
+            return id == Guid.Empty ? BadRequest() : CreatedAtAction(nameof(GetUserAsync), new { id }, id);
         }
 
         /// <summary>
@@ -56,22 +71,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
         {
             var user = await _userService.GetByIdAsync(id, cancellationToken);
             return user == null ? BadRequest() : Ok(user);
-        }
-
-        /// <summary>
-        /// Регистрация.
-        /// </summary>
-        /// <param name="user">Модель для создания пользователя.</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Идентификатор созданной сущности./></returns>
-        [ProducesResponseType((int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto user, CancellationToken cancellationToken)
-        {
-            var id = await _userService.AddAsync(user, cancellationToken);
-            return id == Guid.Empty ? BadRequest() : CreatedAtAction(nameof(GetUserAsync), new { id }, id);
         }
 
         /// <summary>
@@ -134,7 +133,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             }
         }
 
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpPost("public")]
         public JsonResult Public()
         {
@@ -167,6 +166,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
             }
 
             return await _userService.GetByIdAsync(Guid.Parse(idFromClaims), cancellationToken);
-        }
+        }*/
     }
 }

@@ -1,5 +1,5 @@
 ﻿using BulletinBoard.Contracts.Post;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.User;
 using System.Linq.Expressions;
 
 namespace BulletinBoard.Application.AppServices.Contexts.Post.Repositories

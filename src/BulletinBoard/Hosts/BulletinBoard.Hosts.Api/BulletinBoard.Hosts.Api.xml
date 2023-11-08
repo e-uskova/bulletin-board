@@ -17,13 +17,6 @@
             <param name="userService">Сервис работы с пользователями.</param>
             <param name="postService">Сервис работы с объявлениями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.GetAllInfo(System.Threading.CancellationToken)">
-            <summary>
-            Получение инфо обо всех файлах.
-            </summary>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Upload(Microsoft.AspNetCore.Http.IFormFile,System.Guid,System.Threading.CancellationToken)">
             <summary>
             Загрузка файла в систему.
@@ -65,21 +58,13 @@
             </summary>
             <param name="categoryService">Сервис работы с категориями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoryAsync(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
             <summary>
-            Получение категории по идентификатору.
+            Создание категории.
             </summary>
-            <param name="id">Идентификатор категории.</param>
+            <param name="category">Модель для создания категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
-            <returns>Модель категории <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetWithChildrenByIdAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Получение категории со всеми потомками по идентификатору.
-            </summary>
-            <param name="id">Идентификатор категории</param>
-            <param name="cancellationToken">Отмена операции.</param>
-            <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
+            <returns>Идентификатор созданной сущности./></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoriesAsync(System.Threading.CancellationToken)">
             <summary>
@@ -88,13 +73,13 @@
             <param name="cancellationToken">Отмена операции.</param>
             <returns>Коллекция категорий <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.CreateCategoryAsync(BulletinBoard.Contracts.Categories.CreateCategoryDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.GetCategoryAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            Создание категории.
+            Получение категории по идентификатору.
             </summary>
-            <param name="category">Модель для создания категории.</param>
+            <param name="id">Идентификатор категории.</param>
             <param name="cancellationToken">Отмена операции.</param>
-            <returns>Идентификатор созданной сущности./></returns>
+            <returns>Модель категории <see cref="T:BulletinBoard.Contracts.Categories.CategoryDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.CategoryController.EditCategoryAsync(System.Guid,BulletinBoard.Contracts.Categories.EditCategoryDto,System.Threading.CancellationToken)">
             <summary>
@@ -123,13 +108,13 @@
             <param name="postService">Сервис работы с объявлениями.</param>
             <param name="userService">Сервис работы с пользователями.</param>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostAsync(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreatePostAsync(BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
             <summary>
-            Получение объявления по идентификатору.
+            Создание объявления.
             </summary>
-            <param name="id">Идентификатор объявления.</param>
+            <param name="post">Модель для создания объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
-            <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
+            <returns>Идентификатор созданной сущности./></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostsAsync(System.Threading.CancellationToken,System.Int32,System.Int32)">
             <summary>
@@ -140,13 +125,13 @@
             <param name="pageIndex">Номер страницы.</param>
             <returns>Коллекция объявлений <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.CreatePostAsync(BulletinBoard.Contracts.Post.CreatePostDto,System.Threading.CancellationToken)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.GetPostAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            Создание объявления.
+            Получение объявления по идентификатору.
             </summary>
-            <param name="post">Модель для создания объявления.</param>
+            <param name="id">Идентификатор объявления.</param>
             <param name="cancellationToken">Отмена операции.</param>
-            <returns>Идентификатор созданной сущности./></returns>
+            <returns>Модель объявления <see cref="T:BulletinBoard.Contracts.Post.PostDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.PostController.EditPostAsync(System.Guid,BulletinBoard.Contracts.Post.EditPostDto,System.Threading.CancellationToken)">
             <summary>
@@ -204,6 +189,7 @@
             Вход в систему.
             </summary>
             <param name="dto">Модель данных для аутентификации/></param>
+            <param name="cancellationToken"></param>
             <returns>Токен.</returns>
         </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.UserController">
@@ -217,12 +203,20 @@
             </summary>
             <param name="userService">Сервис работы с пользователями.</param>
         </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Contracts.User.CreateUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Регистрация.
+            </summary>
+            <param name="user">Модель для создания пользователя.</param>
+            <param name="cancellationToken"></param>
+            <returns>Идентификатор созданной сущности./></returns>
+        </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUsersAsync(System.Threading.CancellationToken)">
             <summary>
             Получение всех пользователей.
             </summary>
             <param name="cancellationToken">Отмена операции.</param>
-            <returns>Коллекция пользователей <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
+            <returns>Коллекция пользователей <see cref="T:BulletinBoard.Contracts.User.UserDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.GetUserAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
@@ -230,15 +224,7 @@
             </summary>
             <param name="id">Идентификатор пользователя.</param>
             <param name="cancellationToken"></param>
-            <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.Users.UserDto"/></returns>
-        </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.CreateUserAsync(BulletinBoard.Contracts.Users.CreateUserDto,System.Threading.CancellationToken)">
-            <summary>
-            Регистрация.
-            </summary>
-            <param name="user">Модель для создания пользователя.</param>
-            <param name="cancellationToken"></param>
-            <returns>Идентификатор созданной сущности./></returns>
+            <returns>Модель пользователя <see cref="T:BulletinBoard.Contracts.User.UserDto"/></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.UserController.EditUserAsync(System.Guid,BulletinBoard.Contracts.User.EditUserDto,System.Threading.CancellationToken)">
             <summary>

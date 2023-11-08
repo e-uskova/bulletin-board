@@ -56,7 +56,7 @@ namespace BulletinBoard.Hosts.DbMigrator.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.Category", b =>
@@ -76,7 +76,7 @@ namespace BulletinBoard.Hosts.DbMigrator.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("BulletinBoard.Domain.Post", b =>

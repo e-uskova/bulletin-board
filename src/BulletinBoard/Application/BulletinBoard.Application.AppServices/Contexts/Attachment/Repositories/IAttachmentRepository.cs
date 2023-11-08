@@ -16,21 +16,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Repositories
         Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Получение информации о всех вложениях.
-        /// </summary>
-        /// <param name="cancellationToken">Токен отмены</param>
-        /// <returns>Массив информации о файлах.</returns>
-        Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken);
-
-        /*/// <summary>
-        /// Получение идентификаторов файлов, прикрепленных к объявлению, по его идентификатору.
-        /// </summary>
-        /// <param name="postId">Идентификатор объявления.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Идентификаторы файлов.</returns>
-        Task<IEnumerable<Guid>> GetIdsByPostIdAsync(Guid postId, CancellationToken cancellationToken);*/
-
-        /// <summary>
         /// Удаление вложения по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор вложения</param>

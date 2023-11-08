@@ -2,7 +2,8 @@
 using BulletinBoard.Application.AppServices.Contexts.Post.Services;
 using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Attachment;
-using BulletinBoard.Contracts.Users;
+using BulletinBoard.Contracts.Categories;
+using BulletinBoard.Contracts.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -36,24 +37,16 @@ namespace BulletinBoard.Hosts.Api.Controllers
         }
 
         /// <summary>
-        /// Получение инфо обо всех файлах.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetAllInfo(CancellationToken cancellationToken)
-        {
-            var result = await _attachmentService.GetAllInfoAsync(cancellationToken);                                                     
-            return Ok(result);
-        }
-
-        /// <summary>
         /// Загрузка файла в систему.
         /// </summary>
         /// <param name="attachment">Файл.</param>
         /// <param name="postId">Идентификатор объявления.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         [Authorize]
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile attachment, Guid postId, CancellationToken cancellationToken)
         {
@@ -87,6 +80,9 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Ижентификатор файла.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Download(Guid id, CancellationToken cancellationToken)
         {
@@ -106,6 +102,10 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// <param name="id">Идентификатор файла.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        [ProducesResponseType(typeof(CategoryDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAttachmentAsync(Guid id, CancellationToken cancellationToken)
         {
@@ -130,7 +130,6 @@ namespace BulletinBoard.Hosts.Api.Controllers
             var result = await _attachmentService.DeleteAsync(id, cancellationToken);
             return result ? BadRequest() : Ok();
         }
-
 
         private async Task<byte[]> GetBytesAsync(IFormFile attachment, CancellationToken cancellationToken)
         {

@@ -28,12 +28,6 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
-        {
-            return _attachmentRepository.GetAllInfoAsync(cancellationToken);
-        }
-
-        /// <inheritdoc/>
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var existedEntity = await _attachmentRepository.GetInfoByIdAsync(id, cancellationToken);

@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Contracts.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace BulletinBoard.Contracts.Users
+namespace BulletinBoard.Contracts.User
 {
     /// <summary>
     /// Создание пользователя.
