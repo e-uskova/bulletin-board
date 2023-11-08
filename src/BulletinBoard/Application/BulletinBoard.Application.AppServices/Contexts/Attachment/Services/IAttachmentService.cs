@@ -27,7 +27,7 @@ namespace BulletinBoard.Application.AppServices.Contexts.Attachment.Services
         /// </summary>
         /// <param name="id">Идентификатор вложения</param>
         /// <param name="cancellationToken">Токен отмены</param>
-        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Загрузка файла.

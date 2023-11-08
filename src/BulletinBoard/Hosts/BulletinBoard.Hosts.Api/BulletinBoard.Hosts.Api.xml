@@ -9,17 +9,27 @@
             Контроллер для работы с вложениями.
             </summary>
         </member>
-        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.#ctor(BulletinBoard.Application.AppServices.Contexts.Attachment.Services.IAttachmentService)">
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.#ctor(BulletinBoard.Application.AppServices.Contexts.Attachment.Services.IAttachmentService,BulletinBoard.Application.AppServices.Contexts.User.Services.IUserService,BulletinBoard.Application.AppServices.Contexts.Post.Services.IPostService)">
             <summary>
             Инициализация экземпляра <see cref="T:BulletinBoard.Hosts.Api.Controllers.AttachmentController"/>.
             </summary>
             <param name="attachmentService">Сервис работы с вложениями.</param>
+            <param name="userService">Сервис работы с пользователями.</param>
+            <param name="postService">Сервис работы с объявлениями.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.GetAllInfo(System.Threading.CancellationToken)">
+            <summary>
+            Получение инфо обо всех файлах.
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Upload(Microsoft.AspNetCore.Http.IFormFile,System.Guid,System.Threading.CancellationToken)">
             <summary>
             Загрузка файла в систему.
             </summary>
             <param name="attachment">Файл.</param>
+            <param name="postId">Идентификатор объявления.</param>
             <param name="cancellationToken">Токен отмены.</param>
         </member>
         <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.Download(System.Guid,System.Threading.CancellationToken)">
@@ -28,6 +38,14 @@
             </summary>
             <param name="id">Ижентификатор файла.</param>
             <param name="cancellationToken">Токен отмены.</param>
+        </member>
+        <member name="M:BulletinBoard.Hosts.Api.Controllers.AttachmentController.DeleteAttachmentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление файла.
+            </summary>
+            <param name="id">Идентификатор файла.</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:BulletinBoard.Hosts.Api.Controllers.CategoryController">
             <summary>

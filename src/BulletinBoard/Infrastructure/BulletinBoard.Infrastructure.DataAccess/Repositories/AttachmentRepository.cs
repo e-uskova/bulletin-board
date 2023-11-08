@@ -19,22 +19,22 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
         }
 
         ///<inheritdoc/>
-        public Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<AttachmentInfoDto?> GetInfoByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return Task.Run(() => _attachmentRepository.GetAll().Where(a => a.Id == id).Select(a => new AttachmentInfoDto { 
+            return await _attachmentRepository.GetAll().Where(a => a.Id == id).Select(a => new AttachmentInfoDto { 
                 Id = a.Id,
                 Name = a.Name,
                 ContentType = a.ContentType,
                 Length = a.Length,
                 Created = a.Created,
                 PostId = a.Post.Id,
-            }).FirstOrDefault(), cancellationToken);
+            }).FirstOrDefaultAsync(cancellationToken);
         }
 
         ///<inheritdoc/>
-        public Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<AttachmentInfoDto>> GetAllInfoAsync(CancellationToken cancellationToken)
         {
-            return Task.Run(() => _attachmentRepository.GetAll().Select(a => new AttachmentInfoDto
+            return await _attachmentRepository.GetAll().Select(a => new AttachmentInfoDto
             {
                 Id = a.Id,
                 Name = a.Name,
@@ -42,17 +42,19 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 Length = a.Length,
                 Created = a.Created,
                 PostId = a.Post.Id,
-            }).AsEnumerable(), cancellationToken);
+            }).ToListAsync(cancellationToken);
         }
+
+        /*///<inheritdoc/>
+        public async Task<IEnumerable<Guid>> GetIdsByPostIdAsync(Guid postId, CancellationToken cancellationToken)
+        {
+            return await _attachmentRepository.GetAll().Where(a => a.Post.Id == postId).Select(a => a.Id).ToListAsync(cancellationToken);
+        }*/
 
         ///<inheritdoc/>
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _attachmentRepository.GetByIdAsync(id, cancellationToken);
-            if (entity == null)
-            {
-                return;
-            }
 
             await _attachmentRepository.DeleteAsync(entity, cancellationToken);
         }
@@ -67,14 +69,8 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 ContentType = attachment.ContentType,
                 Created = DateTime.UtcNow,
                 Length = attachment.Content.Length,
+                Post = await _postRepository.GetByIdAsync(postId, cancellationToken)
             };
-
-            var post = _postRepository.GetByIdAsync(postId, cancellationToken).Result;
-            if (post == null)
-            {
-                return Guid.Empty;
-            }
-            entity.Post = post;
 
             await _attachmentRepository.AddAsync(entity, cancellationToken);
             return entity.Id;
@@ -90,14 +86,6 @@ namespace BulletinBoard.Infrastructure.DataAccess.Repositories
                 Name = s.Name,
                 PostId = s.Post.Id,
             }).FirstOrDefaultAsync(cancellationToken);
-
-            /*var attachment = _attachmentRepository.GetByIdAsync(id).Result;
-            return Task.Run(() =>  new AttachmentDto
-            {
-                Content = attachment.Content,
-                ContentType = attachment.ContentType,
-                Name = attachment.Name,
-            });*/
         }
     }
 }

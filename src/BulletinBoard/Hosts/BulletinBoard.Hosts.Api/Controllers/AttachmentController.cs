@@ -1,7 +1,7 @@
 ﻿using BulletinBoard.Application.AppServices.Contexts.Attachment.Services;
-using BulletinBoard.Application.AppServices.Mapping;
+using BulletinBoard.Application.AppServices.Contexts.Post.Services;
+using BulletinBoard.Application.AppServices.Contexts.User.Services;
 using BulletinBoard.Contracts.Attachment;
-using BulletinBoard.Contracts.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -17,20 +17,33 @@ namespace BulletinBoard.Hosts.Api.Controllers
     public class AttachmentController : ControllerBase
     {
         private readonly IAttachmentService _attachmentService;
+        private readonly IUserService _userService;
+        private readonly IPostService _postService;
 
         /// <summary>
         /// Инициализация экземпляра <see cref="AttachmentController"/>.
         /// </summary>
         /// <param name="attachmentService">Сервис работы с вложениями.</param>
-        public AttachmentController(IAttachmentService attachmentService)
+        /// <param name="userService">Сервис работы с пользователями.</param>
+        /// <param name="postService">Сервис работы с объявлениями.</param>
+        public AttachmentController(IAttachmentService attachmentService,
+                                    IUserService userService,
+                                    IPostService postService)
         {
             _attachmentService = attachmentService;
+            _userService = userService;
+            _postService = postService;
         }
 
+        /// <summary>
+        /// Получение инфо обо всех файлах.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllInfo(CancellationToken cancellationToken)
         {
-            var result = await _attachmentService.GetAllInfoAsync(cancellationToken);
+            var result = await _attachmentService.GetAllInfoAsync(cancellationToken);                                                     
             return Ok(result);
         }
 
@@ -38,18 +51,28 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// Загрузка файла в систему.
         /// </summary>
         /// <param name="attachment">Файл.</param>
+        /// <param name="postId">Идентификатор объявления.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile attachment, Guid postId, CancellationToken cancellationToken)
         {
-            /*var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
             if (emailFromClaims == null)
             {
-                return StatusCode(401);
+                return Unauthorized();
+            }
+            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
+            if (curUser == null)
+            {
+                return Unauthorized();
             }
 
-            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims);*/
+            var post = await _postService.GetByIdAsync(postId, cancellationToken);
+            if (post == null || post.AuthorName != curUser.Name)
+            {
+                return BadRequest();
+            }
 
             var bytes = await GetBytesAsync(attachment, cancellationToken);
             var attachmentDto = new AttachmentDto
@@ -61,12 +84,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
 
             var result = await _attachmentService.UploadAsync(attachmentDto, postId, cancellationToken);
 
-            if (result == Guid.Empty)
-            {
-                return BadRequest("Объявление не найдено.");
-            }
-
-            return StatusCode((int)HttpStatusCode.Created, (result));
+            return result == Guid.Empty ? BadRequest() : StatusCode((int)HttpStatusCode.Created, result);
         }
 
         /// <summary>
@@ -74,7 +92,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         /// </summary>
         /// <param name="id">Ижентификатор файла.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> Download(Guid id, CancellationToken cancellationToken)
         {
             var result = await _attachmentService.DownloadAsync(id, cancellationToken);
@@ -86,6 +104,40 @@ namespace BulletinBoard.Hosts.Api.Controllers
             Response.ContentLength = result.Content.Length;
             return File(result.Content, result.ContentType, result.Name);
         }
+
+        /// <summary>
+        /// Удаление файла.
+        /// </summary>
+        /// <param name="id">Идентификатор файла.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteAttachmentAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var emailFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+            if (emailFromClaims == null)
+            {
+                return Unauthorized();
+            }
+            var curUser = await _userService.GetFirstWhere(u => u.Email == emailFromClaims, cancellationToken);
+            if (curUser == null)
+            {
+                return Unauthorized();
+            }
+            var file = await _attachmentService.GetInfoByIdAsync(id, cancellationToken);
+            if (file != null && file.PostId != Guid.Empty)
+            {
+                var post = await _postService.GetByIdAsync(file.PostId, cancellationToken);
+                if (post != null && post.AuthorName != curUser.Name)
+                {
+                    return BadRequest("Этот файл не из Вашего объявления");
+                }
+            }
+
+            var result = await _attachmentService.DeleteAsync(id, cancellationToken);
+            return result ? BadRequest() : Ok();
+        }
+
 
         private async Task<byte[]> GetBytesAsync(IFormFile attachment, CancellationToken cancellationToken)
         {
