@@ -5,6 +5,7 @@ using BulletinBoard.Contracts.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Claims;
 
 namespace BulletinBoard.Hosts.Api.Controllers
 {
@@ -38,7 +39,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [ProducesResponseType(typeof(PostDto), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePostAsync(CreatePostDto post, CancellationToken cancellationToken)
         {
@@ -162,10 +163,14 @@ namespace BulletinBoard.Hosts.Api.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PostDto>> DeletePostAsync(Guid id, CancellationToken cancellationToken)
         {
-            var authResult = await AuthorizeUserAsync(id, cancellationToken);
-            if (authResult != StatusCodes.Status200OK)
+            var roleFromClaims = HttpContext?.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Role)?.Value;
+            if (roleFromClaims != "Admin")
             {
-                return new StatusCodeResult(authResult);
+                var authResult = await AuthorizeUserAsync(id, cancellationToken);
+                if (authResult != StatusCodes.Status200OK)
+                {
+                    return new StatusCodeResult(authResult);
+                }
             }
 
             var result = await _postService.DeleteAsync(id, cancellationToken);
@@ -202,7 +207,7 @@ namespace BulletinBoard.Hosts.Api.Controllers
             {
                 return StatusCodes.Status401Unauthorized;
             }
-            
+
             var postEntity = await _postService.GetByIdAsync(postId, cancellationToken);
             if (postEntity != null && postEntity.AuthorId != curUser.Id)
             {
